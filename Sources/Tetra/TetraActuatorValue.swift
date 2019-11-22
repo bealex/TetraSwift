@@ -9,23 +9,23 @@
 import Foundation
 
 enum TetraActuatorValue {
-    case motor4(Int) // ???
-    case motor7(Int) // ???
-    case motor8(Int) // ???
+    case motor4(UInt) // ???
+    case motor7(UInt) // ???
+    case motor8(UInt) // ???
 
-    case pwm9(Int) // Led?
+    case pwm9(UInt) // Led?
 
-    case ledAnalog5(Int) // ???
-    case ledAnalog6(Int) // ???
+    case ledAnalog5(UInt) // ???
+    case ledAnalog6(UInt) // ???
 
     case ledDigital10(Bool) // ???
     case ledDigital11(Bool) // ???
     case ledDigital12(Bool) // ???
     case ledDigital13(Bool) // ???
 
-    var bytes: [UInt8] {
+    var data: (sensorId: UInt8, value: UInt) {
         let sensorId: UInt8
-        let newValue: Int
+        let newValue: UInt
         switch self {
             case .motor4(let value):
                 sensorId = 4
@@ -58,11 +58,6 @@ enum TetraActuatorValue {
                 sensorId = 13
                 newValue = value ? 1023 : 0
         }
-
-        // This is PicoBoard protocol, essentially all of it :-)
-        return [
-            UInt8(truncatingIfNeeded: 0b10000000 | (UInt(sensorId & 0b1111) << 3) | (UInt(newValue >> 7) & 0b111)),
-            UInt8(truncatingIfNeeded: newValue & 0b1111111)
-        ]
+        return (sensorId: sensorId, value: newValue)
     }
 }

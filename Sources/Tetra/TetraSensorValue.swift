@@ -8,60 +8,101 @@
 
 import Foundation
 
-enum TetraSensorValue: CustomDebugStringConvertible {
-    case unknown(id: UInt8, value: UInt) // Looks like unknown is motor current position ???
+extension Tetra {
+    struct Sensor: Equatable, CustomDebugStringConvertible {
+        enum Kind: Hashable {
+            case unknown(id: UInt8)
 
-    case lightSensor(UInt)
-    case potentiometer(UInt)
-    case magneticSensor(UInt)
-    case temperatureSensor(UInt)
+            case light
+            case potentiometer
+            case magnetic
+            case temperature
 
-    case infraredSensor(UInt) // Bool ???
+            case infrared
 
-    case button2(Bool)
-    case button3(Bool)
+            case motor // ???
 
-    init(bytes: [UInt8]) {
-        guard bytes.count == 2 else {
-            self = .unknown(id: 255, value: 0)
-            return
+            case button2
+            case button3
         }
 
-        // This is PicoBoard protocol, essentially all of it :-)
-        let id = (bytes[0] >> 3) & 0b1111
-        let value = (UInt((bytes[0] & 0b111)) << 7) | (UInt(bytes[1]) & 0b1111111)
+        var kind: Kind
+        var id: UInt8
 
-        switch id {
-            case 0:  self = .lightSensor(value)
-            case 1:  self = .potentiometer(value)
-            case 2:  self = .magneticSensor(value)
-            case 3:  self = .temperatureSensor(value)
-            case 4:  self = .infraredSensor(value)
-            case 5:  self = .unknown(id: id, value: value)
-            case 6:  self = .button2(value < 512)
-            case 7:  self = .button3(value < 512)
-            default: self = .unknown(id: id, value: value)
+        var debugDescription: String {
+            switch kind {
+                case .light:
+                    return "Light Sensor"
+                case .magnetic:
+                    return "Magnetic Sensor"
+                case .temperature:
+                    return "Temperature Sensor"
+                case .infrared:
+                    return "Infrared Sensor"
+                case .potentiometer:
+                    return "Potentiometer"
+                case .motor:
+                    return "Motor"
+                case .button2:
+                    return "Button 2"
+                case .button3:
+                    return "Button 3"
+                case .unknown(let id):
+                    return "Unknown Sensor / id \(id)"
+            }
         }
     }
 
-    var debugDescription: String {
-        switch self {
-            case .lightSensor(let value):
-                return "Light Sensor: \(value)"
-            case .magneticSensor(let value):
-                return "Magnetic Sensor: \(value)"
-            case .temperatureSensor(let value):
-                return "Temperature Sensor: \(value)"
-            case .infraredSensor(let value):
-                return "Infrared Sensor: \(value)"
-            case .potentiometer(let value):
-                return "Potentiometer: \(value)"
-            case .button2(let value):
-                return "Button 2: \(value ? "pressed" : "not pressed")"
-            case .button3(let value):
-                return "Button 3: \(value ? "pressed" : "not pressed")"
-            case .unknown(let id, let value):
-                return "Unknown Sensor / id \(id): \(value)"
+    static var sensorsById: [UInt8: Sensor] = [
+        0: Sensor(kind: .light, id: 0),
+        1: Sensor(kind: .potentiometer, id: 1),
+        2: Sensor(kind: .magnetic, id: 2),
+        3: Sensor(kind: .temperature, id: 3),
+        4: Sensor(kind: .infrared, id: 4),
+        5: Sensor(kind: .motor, id: 5),
+        6: Sensor(kind: .button2, id: 6),
+        7: Sensor(kind: .button3, id: 7),
+    ]
+
+    static var sensorsByKind: [Sensor.Kind: Sensor] = [
+        .light: Sensor(kind: .light, id: 0),
+        .potentiometer: Sensor(kind: .potentiometer, id: 1),
+        .magnetic: Sensor(kind: .magnetic, id: 2),
+        .temperature: Sensor(kind: .temperature, id: 3),
+        .infrared: Sensor(kind: .infrared, id: 4),
+        .motor: Sensor(kind: .motor, id: 5),
+        .button2: Sensor(kind: .button2, id: 6),
+        .button3: Sensor(kind: .button3, id: 7),
+    ]
+}
+
+extension Tetra.Sensor {
+    struct Value: Equatable {
+        var sensor: Tetra.Sensor
+        var rawValue: UInt
+
+        init(sensor: Tetra.Sensor, rawValue: UInt) {
+            self.sensor = sensor
+            self.rawValue = rawValue
+        }
+
+        var digitalValue: Bool { rawValue <= 512 }
+        var analogValue: Double { Double(rawValue) / 1023}
+
+        var debugDescription: String {
+            let valueString: String
+            switch sensor.kind {
+                case .light: valueString = "\(analogValue)"
+                case .magnetic: valueString = "\(analogValue)"
+                case .temperature: valueString = "\(analogValue)"
+                case .infrared: valueString = "\(analogValue)"
+                case .potentiometer: valueString = "\(analogValue)"
+                case .motor: valueString = "\(analogValue)"
+                case .button2: valueString = "\(digitalValue ? "pressed" : "not pressed")"
+                case .button3: valueString = "\(digitalValue ? "pressed" : "not pressed")"
+                case .unknown: valueString = "\(analogValue)"
+            }
+            return "\(sensor.kind): \(valueString)"
         }
     }
 }

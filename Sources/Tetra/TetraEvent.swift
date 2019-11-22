@@ -14,7 +14,7 @@ enum TetraEvent: CustomDebugStringConvertible {
 
     case error(String?)
 
-    case sensor(TetraSensorValue)
+    case sensor(Tetra.Sensor.Value)
 
     var debugDescription: String {
         switch self {

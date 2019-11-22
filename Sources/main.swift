@@ -8,13 +8,12 @@
 
 import Foundation
 
-let tetra = Tetra(pathToSerialPort: "/dev/tty.usbmodem14801", eventQueue: DispatchQueue.main) { event in
-    print(event)
-}
-tetra.start()
-tetra.write(actuator: .ledDigital13(true))
-Thread.sleep(forTimeInterval: 1)
-tetra.write(actuator: .ledDigital13(false))
-tetra.stop()
+let tetra = Tetra(pathToSerialPort: "/dev/tty.usbmodem14801", eventQueue: DispatchQueue.global())
 
-Thread.sleep(forTimeInterval: 0.2)
+tetra.run {
+    tetra.waitFor(.button2, is: true) {
+        tetra.write(actuator: .ledDigital13(true))
+        Thread.sleep(forTimeInterval: 1)
+        tetra.write(actuator: .ledDigital13(false))
+    }
+}

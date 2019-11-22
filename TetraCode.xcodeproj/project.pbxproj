@@ -1,0 +1,303 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		2DBA111B82F21DA0AE108627 /* Serial.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA1636C474926B8D56CB76 /* Serial.swift */; };
+		2DBA1240678C644531519DD7 /* TetraEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA1A55BFA2DED4DDBB8321 /* TetraEvent.swift */; };
+		2DBA13591F671312ECEDBDF7 /* Tetra.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA17800239C3B85673B6DD /* Tetra.swift */; };
+		2DBA15F8CC62BAC715188F7B /* TetraSensorValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA15F71B344D7A69A0EA78 /* TetraSensorValue.swift */; };
+		2DBA17A5560A3307DB0B5779 /* TetraActuatorValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA17BC87BB7669431A6B7C /* TetraActuatorValue.swift */; };
+		FACF676523872AA700A7BE34 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = FACF676423872AA700A7BE34 /* main.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		2DBA11C1357F1ED7ACB732B4 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		2DBA15AE6FFBD7980F65EA0A /* TetraCode */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = TetraCode; sourceTree = BUILT_PRODUCTS_DIR; };
+		2DBA15F71B344D7A69A0EA78 /* TetraSensorValue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TetraSensorValue.swift; sourceTree = "<group>"; };
+		2DBA1636C474926B8D56CB76 /* Serial.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Serial.swift; sourceTree = "<group>"; };
+		2DBA17800239C3B85673B6DD /* Tetra.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tetra.swift; sourceTree = "<group>"; };
+		2DBA17BC87BB7669431A6B7C /* TetraActuatorValue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TetraActuatorValue.swift; sourceTree = "<group>"; };
+		2DBA1A55BFA2DED4DDBB8321 /* TetraEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TetraEvent.swift; sourceTree = "<group>"; };
+		FACF676423872AA700A7BE34 /* main.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		2DBA16C2357A241BAEAF4054 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		2DBA16C9A486D1C28D42CFA8 = {
+			isa = PBXGroup;
+			children = (
+				FACF676323872AA700A7BE34 /* Sources */,
+				2DBA1C2940256FD56D025F26 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		2DBA184C16C2CAE23E4B7981 /* Tetra */ = {
+			isa = PBXGroup;
+			children = (
+				2DBA15F71B344D7A69A0EA78 /* TetraSensorValue.swift */,
+				2DBA17BC87BB7669431A6B7C /* TetraActuatorValue.swift */,
+				2DBA17800239C3B85673B6DD /* Tetra.swift */,
+				2DBA1A55BFA2DED4DDBB8321 /* TetraEvent.swift */,
+			);
+			path = Tetra;
+			sourceTree = "<group>";
+		};
+		2DBA1C2940256FD56D025F26 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				2DBA15AE6FFBD7980F65EA0A /* TetraCode */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		FACF676323872AA700A7BE34 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				FACF676423872AA700A7BE34 /* main.swift */,
+				2DBA1636C474926B8D56CB76 /* Serial.swift */,
+				2DBA184C16C2CAE23E4B7981 /* Tetra */,
+			);
+			path = Sources;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		2DBA12E23D8A6533DDFA42C4 /* TetraCode */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2DBA1383E6607730E792A93E /* Build configuration list for PBXNativeTarget "TetraCode" */;
+			buildPhases = (
+				2DBA11CAF5E25D77E7CCBCF9 /* Sources */,
+				2DBA16C2357A241BAEAF4054 /* Frameworks */,
+				2DBA11C1357F1ED7ACB732B4 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = TetraCode;
+			productName = TetraCode;
+			productReference = 2DBA15AE6FFBD7980F65EA0A /* TetraCode */;
+			productType = "com.apple.product-type.tool";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		2DBA130D0662D485A92083F8 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				ORGANIZATIONNAME = LonelyBytes;
+			};
+			buildConfigurationList = 2DBA1C2DE672FF23455C0DE6 /* Build configuration list for PBXProject "TetraCode" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				English,
+				en,
+			);
+			mainGroup = 2DBA16C9A486D1C28D42CFA8;
+			productRefGroup = 2DBA1C2940256FD56D025F26 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				2DBA12E23D8A6533DDFA42C4 /* TetraCode */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		2DBA11CAF5E25D77E7CCBCF9 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FACF676523872AA700A7BE34 /* main.swift in Sources */,
+				2DBA111B82F21DA0AE108627 /* Serial.swift in Sources */,
+				2DBA15F8CC62BAC715188F7B /* TetraSensorValue.swift in Sources */,
+				2DBA17A5560A3307DB0B5779 /* TetraActuatorValue.swift in Sources */,
+				2DBA13591F671312ECEDBDF7 /* Tetra.swift in Sources */,
+				2DBA1240678C644531519DD7 /* TetraEvent.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		2DBA1731B5DE69E09BA31A14 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = macosx;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+			};
+			name = Release;
+		};
+		2DBA18A94DCE44BD8D28FEB4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		2DBA1ABF42AB64D4F5B5BAA6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		2DBA1C94DF7683BE9CF783D0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		2DBA1383E6607730E792A93E /* Build configuration list for PBXNativeTarget "TetraCode" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2DBA1ABF42AB64D4F5B5BAA6 /* Debug */,
+				2DBA18A94DCE44BD8D28FEB4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		2DBA1C2DE672FF23455C0DE6 /* Build configuration list for PBXProject "TetraCode" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2DBA1C94DF7683BE9CF783D0 /* Debug */,
+				2DBA1731B5DE69E09BA31A14 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 2DBA130D0662D485A92083F8 /* Project object */;
+}

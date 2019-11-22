@@ -13,7 +13,7 @@ enum TetraActuatorValue {
     case motor7(UInt) // ???
     case motor8(UInt) // ???
 
-    case pwm9(UInt) // Led?
+    case buzzer(UInt) // Led?
 
     case ledAnalog5(UInt) // ???
     case ledAnalog6(UInt) // ???
@@ -36,8 +36,8 @@ enum TetraActuatorValue {
             case .motor8(let value):
                 sensorId = 8
                 newValue = value
-            case .pwm9(let value):
-                sensorId = 8
+            case .buzzer(let value):
+                sensorId = 9
                 newValue = value
             case .ledAnalog5(let value):
                 sensorId = 5

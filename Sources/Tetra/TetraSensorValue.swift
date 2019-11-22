@@ -28,6 +28,11 @@ extension Tetra {
 
         var kind: Kind
         var id: UInt8
+        var tolerance: Int
+
+        static func == (lhs: Sensor, rhs: Sensor) -> Bool {
+            lhs.kind == rhs.kind && lhs.id == rhs.id
+        }
 
         var debugDescription: String {
             switch kind {
@@ -53,27 +58,29 @@ extension Tetra {
         }
     }
 
-    static var sensorsById: [UInt8: Sensor] = [
-        0: Sensor(kind: .light, id: 0),
-        1: Sensor(kind: .potentiometer, id: 1),
-        2: Sensor(kind: .magnetic, id: 2),
-        3: Sensor(kind: .temperature, id: 3),
-        4: Sensor(kind: .infrared, id: 4),
-        5: Sensor(kind: .motor, id: 5),
-        6: Sensor(kind: .button2, id: 6),
-        7: Sensor(kind: .button3, id: 7),
+    static let sensorsById: [UInt8: Sensor] = [
+        0: Sensor(kind: .light, id: 0, tolerance: 0),
+        1: Sensor(kind: .potentiometer, id: 1, tolerance: 0),
+        2: Sensor(kind: .magnetic, id: 2, tolerance: 0),
+        3: Sensor(kind: .temperature, id: 3, tolerance: 0),
+        4: Sensor(kind: .infrared, id: 4, tolerance: 0),
+        5: Sensor(kind: .motor, id: 5, tolerance: 0),
+        6: Sensor(kind: .button2, id: 6, tolerance: 0),
+        7: Sensor(kind: .button3, id: 7, tolerance: 0),
     ]
 
-    static var sensorsByKind: [Sensor.Kind: Sensor] = [
-        .light: Sensor(kind: .light, id: 0),
-        .potentiometer: Sensor(kind: .potentiometer, id: 1),
-        .magnetic: Sensor(kind: .magnetic, id: 2),
-        .temperature: Sensor(kind: .temperature, id: 3),
-        .infrared: Sensor(kind: .infrared, id: 4),
-        .motor: Sensor(kind: .motor, id: 5),
-        .button2: Sensor(kind: .button2, id: 6),
-        .button3: Sensor(kind: .button3, id: 7),
+    // swiftlint:disable force_unwrapping
+    static let sensorsByKind: [Sensor.Kind: Sensor] = [
+        .light: Tetra.sensorsById[0]!,
+        .potentiometer: Tetra.sensorsById[1]!,
+        .magnetic: Tetra.sensorsById[2]!,
+        .temperature: Tetra.sensorsById[3]!,
+        .infrared: Tetra.sensorsById[4]!,
+        .motor: Tetra.sensorsById[5]!,
+        .button2: Tetra.sensorsById[6]!,
+        .button3: Tetra.sensorsById[7]!,
     ]
+    // swiftlint:enable force_unwrapping
 }
 
 extension Tetra.Sensor {
@@ -103,6 +110,10 @@ extension Tetra.Sensor {
                 case .unknown: valueString = "\(analogValue)"
             }
             return "\(sensor.kind): \(valueString)"
+        }
+
+        static func == (lhs: Value, rhs: Value) -> Bool {
+            lhs.sensor == rhs.sensor && abs(Int(lhs.rawValue) - Int(rhs.rawValue)) <= lhs.sensor.tolerance
         }
     }
 }

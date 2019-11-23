@@ -8,11 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		2DBA111B82F21DA0AE108627 /* Serial.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA1636C474926B8D56CB76 /* Serial.swift */; };
-		2DBA1240678C644531519DD7 /* TetraEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA1A55BFA2DED4DDBB8321 /* TetraEvent.swift */; };
 		2DBA13591F671312ECEDBDF7 /* Tetra.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA17800239C3B85673B6DD /* Tetra.swift */; };
-		2DBA15F8CC62BAC715188F7B /* TetraSensorValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA15F71B344D7A69A0EA78 /* TetraSensorValue.swift */; };
+		2DBA15F8CC62BAC715188F7B /* TetraSensor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA15F71B344D7A69A0EA78 /* TetraSensor.swift */; };
 		2DBA17A5560A3307DB0B5779 /* TetraActuatorValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA17BC87BB7669431A6B7C /* TetraActuatorValue.swift */; };
 		2DBA194DD3DD550955C3BB42 /* PicoBoardProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA13C931ED5C0590DC0D4B /* PicoBoardProtocol.swift */; };
+		2DBA1BEECBE7FB6E32771704 /* TetraSensorValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA17EF083A0F31FD87E026 /* TetraSensorValue.swift */; };
 		FACF676523872AA700A7BE34 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = FACF676423872AA700A7BE34 /* main.swift */; };
 /* End PBXBuildFile section */
 
@@ -31,11 +31,11 @@
 /* Begin PBXFileReference section */
 		2DBA13C931ED5C0590DC0D4B /* PicoBoardProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PicoBoardProtocol.swift; sourceTree = "<group>"; };
 		2DBA15AE6FFBD7980F65EA0A /* TetraCode */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = TetraCode; sourceTree = BUILT_PRODUCTS_DIR; };
-		2DBA15F71B344D7A69A0EA78 /* TetraSensorValue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TetraSensorValue.swift; sourceTree = "<group>"; };
+		2DBA15F71B344D7A69A0EA78 /* TetraSensor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TetraSensor.swift; sourceTree = "<group>"; };
 		2DBA1636C474926B8D56CB76 /* Serial.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Serial.swift; sourceTree = "<group>"; };
 		2DBA17800239C3B85673B6DD /* Tetra.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tetra.swift; sourceTree = "<group>"; };
 		2DBA17BC87BB7669431A6B7C /* TetraActuatorValue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TetraActuatorValue.swift; sourceTree = "<group>"; };
-		2DBA1A55BFA2DED4DDBB8321 /* TetraEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TetraEvent.swift; sourceTree = "<group>"; };
+		2DBA17EF083A0F31FD87E026 /* TetraSensorValue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TetraSensorValue.swift; sourceTree = "<group>"; };
 		FACF676423872AA700A7BE34 /* main.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -61,11 +61,11 @@
 		2DBA184C16C2CAE23E4B7981 /* Tetra */ = {
 			isa = PBXGroup;
 			children = (
-				2DBA15F71B344D7A69A0EA78 /* TetraSensorValue.swift */,
+				2DBA15F71B344D7A69A0EA78 /* TetraSensor.swift */,
 				2DBA17BC87BB7669431A6B7C /* TetraActuatorValue.swift */,
 				2DBA17800239C3B85673B6DD /* Tetra.swift */,
-				2DBA1A55BFA2DED4DDBB8321 /* TetraEvent.swift */,
 				2DBA13C931ED5C0590DC0D4B /* PicoBoardProtocol.swift */,
+				2DBA17EF083A0F31FD87E026 /* TetraSensorValue.swift */,
 			);
 			path = Tetra;
 			sourceTree = "<group>";
@@ -141,11 +141,11 @@
 			files = (
 				FACF676523872AA700A7BE34 /* main.swift in Sources */,
 				2DBA111B82F21DA0AE108627 /* Serial.swift in Sources */,
-				2DBA15F8CC62BAC715188F7B /* TetraSensorValue.swift in Sources */,
+				2DBA15F8CC62BAC715188F7B /* TetraSensor.swift in Sources */,
 				2DBA17A5560A3307DB0B5779 /* TetraActuatorValue.swift in Sources */,
 				2DBA13591F671312ECEDBDF7 /* Tetra.swift in Sources */,
-				2DBA1240678C644531519DD7 /* TetraEvent.swift in Sources */,
 				2DBA194DD3DD550955C3BB42 /* PicoBoardProtocol.swift in Sources */,
+				2DBA1BEECBE7FB6E32771704 /* TetraSensorValue.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

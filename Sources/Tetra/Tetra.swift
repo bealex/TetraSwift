@@ -14,7 +14,6 @@ class Tetra {
 
     private(set) var started: Bool = false
 
-    var sendEvent: (TetraEvent) -> Void = { _ in }
     private let workQueue: DispatchQueue = DispatchQueue(label: "tetra", qos: .default)
     private let eventQueue: DispatchQueue
 
@@ -40,14 +39,12 @@ class Tetra {
         guard opened else { return }
 
         started = true
-        sendEvent(.started)
         log(message: "Started")
     }
 
     private func stop() {
         started = false
         close()
-        sendEvent(.stopped)
         log(message: "Stopped")
     }
 
@@ -136,7 +133,6 @@ class Tetra {
     }
 
     private func processError(_ message: String) {
-        sendEvent(.error(message))
         log(message: message)
     }
 

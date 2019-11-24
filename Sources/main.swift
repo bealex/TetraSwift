@@ -31,6 +31,7 @@ tetra.installActuators(
     ],
     digital: [
         DigitalActuator(kind: .digitalLED(.green), port: .digital10),
+        DigitalActuator(kind: .digitalLED(.yellow), port: .digital11),
         DigitalActuator(kind: .digitalLED(.yellow), port: .digital12),
         DigitalActuator(kind: .digitalLED(.red), port: .digital13),
     ],
@@ -49,16 +50,24 @@ tetra.run {
             tetra.analogLEDs[.analog6].value = 0
         }
 
-        tetra.quadDisplay.value = "\(tetra.potentiometer.value * 100)"
+        var toDisplay = "\(Int(tetra.potentiometer.value * 100))"
+        if toDisplay == "0" {
+            toDisplay = "OOPS"
+        } else if toDisplay == "100" {
+            toDisplay = "FULL"
+        }
+        tetra.quadDisplay.value = toDisplay
     }
     tetra.whenOn(tetra.buttons[.digital2]) {
         tetra.digitalLEDs[.digital13].on()
         tetra.digitalLEDs[.digital12].on()
+        tetra.digitalLEDs[.digital11].on()
         tetra.digitalLEDs[.digital10].on()
     }
     tetra.whenOn(tetra.buttons[.digital3]) {
         tetra.digitalLEDs[.digital13].off()
         tetra.digitalLEDs[.digital12].off()
+        tetra.digitalLEDs[.digital11].off()
         tetra.digitalLEDs[.digital10].off()
     }
 
@@ -69,5 +78,5 @@ tetra.run {
 //        tetra.buzzer.value = 0
 //    }
 
-    tetra.quadDisplay.value = "Alya"
+    tetra.quadDisplay.value = "HoHo"
 }

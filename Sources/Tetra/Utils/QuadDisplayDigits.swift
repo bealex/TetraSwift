@@ -43,7 +43,7 @@ struct QuadDisplayDigits {
     private static let digit_l: UInt8 = 0b11100011
     private static let digit_N: UInt8 = 0b11010101
     private static let digit_n: UInt8 = 0b11010101
-    private static let digit_O: UInt8 = 0b11000101
+    private static let digit_O: UInt8 = 0b00000011
     private static let digit_o: UInt8 = 0b11000101
     private static let digit_P: UInt8 = 0b00110001
     private static let digit_p: UInt8 = 0b00110001

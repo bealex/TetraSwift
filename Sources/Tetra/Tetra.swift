@@ -93,7 +93,7 @@ class Tetra {
         analog.forEach { actuator in
             actuators[actuator.port] = actuator
             analogActuators[actuator.port] = actuator
-            actuator.changedListener = { id, rawValue in self.write(id: id, rawValue: rawValue, silent: false) }
+            actuator.changedListener = { self.write(id: actuator.port, rawValue: actuator.rawValue, silent: false) }
             switch actuator.kind {
                 case .buzzer: buzzers[actuator.port] = actuator
                 case .motor: motors[actuator.port] = actuator
@@ -104,7 +104,7 @@ class Tetra {
         digital.forEach { actuator in
             actuators[actuator.port] = actuator
             digitalActuators[actuator.port] = actuator
-            actuator.changedListener = { id, rawValue in self.write(id: id, rawValue: rawValue, silent: false) }
+            actuator.changedListener = { self.write(id: actuator.port, rawValue: actuator.rawValue, silent: false) }
             switch actuator.kind {
                 case .digitalLED: digitalLEDs[actuator.port] = actuator
                 case .buzzer, .motor, .analogLED, .quadDisplay: break
@@ -113,7 +113,7 @@ class Tetra {
         displays.forEach { actuator in
             actuators[actuator.port] = actuator
             displayActuators[actuator.port] = actuator
-            actuator.changedListener = { id, rawValue in self.writeToQuadDisplay(id: id, rawValue: rawValue, silent: false) }
+            actuator.changedListener = { self.writeToQuadDisplay(id: actuator.port, string: actuator.value, silent: false) }
             switch actuator.kind {
                 case .quadDisplay: quadDisplays[actuator.port] = actuator
                 case .buzzer, .motor, .analogLED, .digitalLED: break
@@ -208,31 +208,53 @@ class Tetra {
         }
     }
 
-    private func writeToQuadDisplay(id: IOPort, rawValue: UInt, silent: Bool = true) {
+    /**
+        This sends 4 digits to the Arduino Quad Display, and then sends command "show".
+        Sequence:
+        1000 (meaning start of a program)
+        1001
+        [segments of digit 1]
+        1002
+        [segments of digit 2]
+        1003
+        [segments of digit 3]
+        1004
+        [segments of digit 4]
+        1023
+
+        Pin is "virtual pin", Quad Display itself must be connected to 5 specific pins (please look into Arduino Sketch).
+     */
+    private func writeToQuadDisplay(id: IOPort, string: String, silent: Bool = true) {
         guard opened && started else { return }
+        guard string.count <= 4 else {
+            log(message: "Can't write more than 4 symbols on quad display")
+            return
+        }
 
         workQueue.async {
             do {
-                let digit1 = rawValue / 1000
-                let digit2 = (rawValue - digit1 * 1000) / 100
-                let digit3 = (rawValue - digit1 * 1000 - digit2 * 100) / 10
-                let digit4 = rawValue % 10
+                var bytes: [UInt8] = self.picoBoardProtocol.bytes(id: id.tetraId, value: 1023)
+                var displayDigitCommand: UInt = 1004
+                var value = string
+                while !value.isEmpty {
+                    if let character = value.last, let encoded = QuadDisplayDigits.encode(character: character) {
+                        bytes.insert(contentsOf: self.picoBoardProtocol.bytes(id: id.tetraId, value: UInt(encoded)), at: 0)
+                        bytes.insert(contentsOf: self.picoBoardProtocol.bytes(id: id.tetraId, value: displayDigitCommand), at: 0)
+                    }
+                    value = String(value.prefix(value.count - 1))
+                    displayDigitCommand -= 1
+                }
+                bytes.insert(contentsOf: self.picoBoardProtocol.bytes(id: id.tetraId, value: 1000), at: 0)
 
-                let bytes1 = self.picoBoardProtocol.bytes(id: id.tetraId, value: digit1)
-                let bytes2 = self.picoBoardProtocol.bytes(id: id.tetraId, value: digit2 + 10)
-                let bytes3 = self.picoBoardProtocol.bytes(id: id.tetraId, value: digit3 + 20)
-                let bytes4 = self.picoBoardProtocol.bytes(id: id.tetraId, value: digit4 + 30)
-                let bytes5 = self.picoBoardProtocol.bytes(id: id.tetraId, value: 100)
-                var bytes = bytes1 + bytes2 + bytes3 + bytes4 + bytes5
                 while !bytes.isEmpty {
                     let sent = try self.serialPort.writeBytes(from: bytes, size: bytes.count)
                     bytes = Array(bytes.dropFirst(sent))
                 }
                 if !silent {
-                    self.log(message: " \(id) <- Display \"\(rawValue)\"")
+                    self.log(message: " \(id) <- Display \"\(string)\"")
                 }
             } catch {
-                self.log(message: "Error displaying \"\(rawValue)\" on \(id): \(error)")
+                self.log(message: "Error displaying \"\(string)\" on \(id): \(error)")
             }
         }
     }

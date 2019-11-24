@@ -47,14 +47,14 @@ protocol Actuator: class {
 
     var needsRefresh: Bool { get }
 
-    var changedListener: (_ id: IOPort, _ rawValue: UInt) -> Void { get set }
+    var changedListener: () -> Void { get set }
 }
 
 class AnalogActuator: Actuator, CustomDebugStringConvertible {
     let kind: ActuatorKind
     let port: IOPort
     let needsRefresh: Bool
-    var changedListener: (IOPort, UInt) -> Void = { _, _ in }
+    var changedListener: () -> Void = {}
     private(set) var rawValue: UInt = 0
     private let maxValue: UInt
     var value: Double = 0 {
@@ -62,7 +62,7 @@ class AnalogActuator: Actuator, CustomDebugStringConvertible {
             let newRawValue = UInt(Double(maxValue) * value)
             if newRawValue != rawValue {
                 rawValue = newRawValue
-                changedListener(port, rawValue)
+                changedListener()
             }
         }
     }
@@ -82,13 +82,13 @@ class DigitalActuator: Actuator, CustomDebugStringConvertible {
     let port: IOPort
     let needsRefresh: Bool
     private(set) var rawValue: UInt = 0
-    var changedListener: (IOPort, UInt) -> Void = { _, _ in }
+    var changedListener: () -> Void = {}
     var value: Bool = false {
         didSet {
             let newRawValue: UInt = value ? 1023 : 0
             if newRawValue != rawValue {
                 rawValue = newRawValue
-                changedListener(port, rawValue)
+                changedListener()
             }
         }
     }
@@ -115,13 +115,10 @@ class QuadNumericDisplayActuator: Actuator, CustomDebugStringConvertible {
     let port: IOPort
     let needsRefresh: Bool = false
     private(set) var rawValue: UInt = 0
-    var changedListener: (IOPort, UInt) -> Void = { _, _ in }
-    var value: UInt = 0 {
+    var changedListener: () -> Void = {}
+    var value: String = "" {
         didSet {
-            if value != rawValue {
-                rawValue = value
-                changedListener(port, rawValue)
-            }
+            changedListener()
         }
     }
 

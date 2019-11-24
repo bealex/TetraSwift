@@ -56,7 +56,7 @@ pin arduinoPins[14];  //Array of struct holding 0-13 pins information
 
 unsigned long lastDataReceivedTime = millis();
 
-QuadDisplay quadDisplay(11, 7, 8);
+QuadDisplay quadDisplay(4, 8, 7);
 
 void setup() {
     Serial.begin(38400);
@@ -84,7 +84,7 @@ void configurePins() {
     arduinoPins[1].type = input;
     arduinoPins[2].type = input;
     arduinoPins[3].type = input;
-    arduinoPins[4].type = servomotor;
+    arduinoPins[4].type = digital; // servomotor;
     arduinoPins[5].type = pwm;
     arduinoPins[6].type = pwm;
     arduinoPins[7].type = digital; // servomotor;
@@ -162,7 +162,7 @@ void readSerialPort() {
     static byte actuatorHighByte, actuatorLowByte;
     static byte readingSM = 0;
 
-    static byte displayCommand = 0;
+    static byte currentDisplayDigit = 0;
     static byte displayDigit1 = 0;
     static byte displayDigit2 = 0;
     static byte displayDigit3 = 0;
@@ -195,19 +195,32 @@ void readSerialPort() {
                 }
             } else {
                 if (pinIndex == 14) {
-                    if (newValue > 99) {
-                        if (newValue == 100) {
-                            quadDisplay.displayInt(displayDigit1 * 1000 + displayDigit2 * 100 + displayDigit3 * 10 + displayDigit4);
+                    if (newValue > 999) {
+                        if (newValue == 1023) {
+                            quadDisplay.displayDigits(displayDigit1, displayDigit2, displayDigit3, displayDigit4);
+                        } else if (newValue == 1000) {
+                            displayDigit1 = 255;
+                            displayDigit2 = 255;
+                            displayDigit3 = 255;
+                            displayDigit4 = 255;
+                        } else if (newValue == 1001) {
+                            currentDisplayDigit = 1;
+                        } else if (newValue == 1002) {
+                            currentDisplayDigit = 2;
+                        } else if (newValue == 1003) {
+                            currentDisplayDigit = 3;
+                        } else if (newValue == 1004) {
+                            currentDisplayDigit = 4;
                         }
                     } else {
-                        if (newValue < 10) {
-                            displayDigit1 = newValue % 10;
-                        } else if (newValue < 20) {
-                            displayDigit2 = newValue % 10;
-                        } else if (newValue < 30) {
-                            displayDigit3 = newValue % 10;
-                        } else if (newValue < 40) {
-                            displayDigit4 = newValue % 10;
+                        if (currentDisplayDigit == 1) {
+                            displayDigit1 = newValue;
+                        } else if (currentDisplayDigit == 2) {
+                            displayDigit2 = newValue;
+                        } else if (currentDisplayDigit == 3) {
+                            displayDigit3 = newValue;
+                        } else if (currentDisplayDigit == 4) {
+                            displayDigit4 = newValue;
                         }
                     }
                 }

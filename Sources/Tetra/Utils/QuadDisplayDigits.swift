@@ -63,6 +63,8 @@ struct QuadDisplayDigits {
     private static let digit_degree: UInt8 = 0b00111001
     private static let digit_under_degree: UInt8 = 0b11000101
 
+    static let digit_dot: UInt8 = 0b11111110
+
     // swiftlint:disable cyclomatic_complexity
     static func encode(character: Character) -> UInt8? {
         switch character {
@@ -114,7 +116,7 @@ struct QuadDisplayDigits {
             case "u": return QuadDisplayDigits.digit_u
             case "Y": return QuadDisplayDigits.digit_Y
             case "y": return QuadDisplayDigits.digit_y
-            case "˙": return QuadDisplayDigits.digit_degree
+            case "˚": return QuadDisplayDigits.digit_degree
             case "-": return QuadDisplayDigits.digit_minus
             case "_": return QuadDisplayDigits.digit_underscore
 

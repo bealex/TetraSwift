@@ -12,28 +12,23 @@ enum IOPort: Hashable, CustomDebugStringConvertible {
     case analog2
     case analog3
     case analog4
-
-    case unknownSensor5 // It is here, but I do not know what it is
-
-    case digital2
-    case digital3
-
     case analog5
 
-    case analog6
-    case analog9
-
-    case motor4
-    case motor7
-    case motor8
-
+    // digital0 and digital1 are somewhere in the serial usage
+    case digital2
+    case digital3
+    case digital4
+    case digital5
+    case digital6
+    case digital7
+    case digital8
+    case digital9
     case digital10
     case digital11
     case digital12
     case digital13
 
-    case digital14
-    case digital15
+    case fake14
 
     init?(sensorTetraId: UInt8) {
         switch sensorTetraId {
@@ -42,9 +37,9 @@ enum IOPort: Hashable, CustomDebugStringConvertible {
             case 2: self = .analog2
             case 3: self = .analog3
             case 4: self = .analog4
-            case 5: self = .unknownSensor5
-            case 6: self = .digital2
-            case 7: self = .digital3
+            case 5: self = .analog5
+            case 6: self = .digital6
+            case 7: self = .digital7
             default:
                 fatalError("Got unknown Tetra Sensor ID")
         }
@@ -52,55 +47,81 @@ enum IOPort: Hashable, CustomDebugStringConvertible {
 
     var tetraId: UInt8 {
         switch self {
+            case .analog0: return 0
             case .analog1: return 1
             case .analog2: return 2
             case .analog3: return 3
             case .analog4: return 4
-            case .unknownSensor5: return 5
-            case .analog0: return 0
-            case .digital2: return 6
-            case .digital3: return 7
-
             case .analog5: return 5
-            case .analog6: return 6
-            case .analog9: return 9
-            case .motor4: return 4
-            case .motor7: return 7
-            case .motor8: return 8
+
+            case .digital2: return 2
+            case .digital3: return 3
+            case .digital4: return 4
+            case .digital5: return 5
+            case .digital6: return 6
+            case .digital7: return 7
+            case .digital8: return 8
+            case .digital9: return 9
             case .digital10: return 10
             case .digital11: return 11
             case .digital12: return 12
             case .digital13: return 13
 
-            case .digital14: return 14
-            case .digital15: return 15
+            case .fake14: return 14
         }
     }
 
     var debugDescription: String {
         switch self {
+            case .analog0: return "@a0"
             case .analog1: return "@a1"
             case .analog2: return "@a2"
             case .analog3: return "@a3"
             case .analog4: return "@a4"
-            case .unknownSensor5: return "@?5"
-            case .analog0: return "@a0"
-            case .digital2: return "@d6"
-            case .digital3: return "@d7"
+            case .analog5: return "@a5"
 
-            case .analog5: return "#a5"
-            case .analog6: return "#a6"
-            case .analog9: return "#a9"
-            case .motor4: return "#m4"
-            case .motor7: return "#m7"
-            case .motor8: return "#m8"
+            case .digital6: return "@d6"
+            case .digital7: return "@d7"
+
+            case .digital5: return "#a5"
+            case .digital2: return "#a6"
+            case .digital9: return "#a9"
+            case .digital4: return "#m4"
+            case .digital3: return "#m7"
+            case .digital8: return "#m8"
             case .digital10: return "#m10"
             case .digital11: return "#m11"
             case .digital12: return "#m12"
             case .digital13: return "#m13"
 
-            case .digital14: return "#m14"
-            case .digital15: return "#m15"
+            case .fake14: return "%14"
+        }
+    }
+
+    var tetraName: String {
+        switch self {
+            case .analog0: return "Analog Sensor 5"
+            case .analog1: return "Analog Sensor 1"
+            case .analog2: return "Analog Sensor 2"
+            case .analog3: return "Analog Sensor 3"
+            case .analog4: return "Analog Sensor 4"
+            case .analog5: return "N/A"
+
+            case .digital6: return "Digital Sensor 2"
+            case .digital7: return "Digital Sensor 3"
+
+            case .digital5: return "Analog 5"
+            case .digital2: return "Analog 6"
+            case .digital9: return "Analog 9"
+            case .digital4: return "Motor 4"
+            case .digital3: return "Motor 7"
+            case .digital8: return "Motor 8"
+            case .digital10: return "Digital 10"
+            case .digital11: return "Digital 11"
+            case .digital12: return "Digital 12"
+            case .digital13: return "Digital 13"
+
+            case .fake14: return "N/A"
         }
     }
 }

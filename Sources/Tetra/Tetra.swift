@@ -227,24 +227,33 @@ class Tetra {
      */
     private func writeToQuadDisplay(id: IOPort, string: String, silent: Bool = true) {
         guard opened && started else { return }
-        guard string.count <= 4 else {
-            log(message: "Can't write more than 4 symbols on quad display")
+        guard string.replacingOccurrences(of: ".", with: "").count <= 4 else {
+            log(message: "Can't write more than 4 symbols \(string) on quad display")
             return
         }
 
         workQueue.async {
             do {
                 var bytes: [UInt8] = self.picoBoardProtocol.bytes(id: id.tetraId, value: 1023)
-                var displayDigitCommand: UInt = 1004
-                var value = string
-                while !value.isEmpty {
-                    if let character = value.last, let encoded = QuadDisplayDigits.encode(character: character) {
-                        bytes.insert(contentsOf: self.picoBoardProtocol.bytes(id: id.tetraId, value: UInt(encoded)), at: 0)
-                        bytes.insert(contentsOf: self.picoBoardProtocol.bytes(id: id.tetraId, value: displayDigitCommand), at: 0)
+                var displayDigitCommand: UInt = 1001
+                var mask: UInt8 = 0b11111111
+                string.forEach { character in
+                    if character == "." {
+                        mask = QuadDisplayDigits.digit_dot
+                    } else {
+                        if let encoded = QuadDisplayDigits.encode(character: character) {
+                            bytes.insert(contentsOf: self.picoBoardProtocol.bytes(id: id.tetraId, value: UInt(encoded & mask)), at: 0)
+                            bytes.insert(contentsOf: self.picoBoardProtocol.bytes(id: id.tetraId, value: displayDigitCommand), at: 0)
+                        }
+                        mask = 0b11111111
+                        displayDigitCommand += 1
                     }
-                    value = String(value.prefix(value.count - 1))
-                    displayDigitCommand -= 1
                 }
+                if mask != 0b11111111, let encoded = QuadDisplayDigits.encode(character: ".") {
+                    bytes.insert(contentsOf: self.picoBoardProtocol.bytes(id: id.tetraId, value: UInt(encoded)), at: 0)
+                    bytes.insert(contentsOf: self.picoBoardProtocol.bytes(id: id.tetraId, value: displayDigitCommand), at: 0)
+                }
+
                 bytes.insert(contentsOf: self.picoBoardProtocol.bytes(id: id.tetraId, value: 1000), at: 0)
 
                 while !bytes.isEmpty {

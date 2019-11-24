@@ -40,15 +40,21 @@ class AnalogSensor: Sensor, CustomDebugStringConvertible {
     let kind: SensorKind
     let port: IOPort
     private(set) var rawValue: UInt = 0
+    private(set) var rawAverage: Double = 0
     private(set) var value: Double = 0
 
+    private let tolerance: Double
     private let sampleTimes: UInt
-    private let calculate: (UInt) -> Double
+    private let calculate: (Double) -> Double
 
-    init(kind: SensorKind, port: IOPort, sampleTimes: UInt = 1, calculate: @escaping (UInt) -> Double = { Double($0) / 1023 }) {
+    init(
+        kind: SensorKind, port: IOPort,
+        sampleTimes: UInt = 1, tolerance: Double = 0.1, calculate: @escaping (Double) -> Double = { $0 / 1023 }
+    ) {
         self.kind = kind
         self.port = port
         self.sampleTimes = sampleTimes
+        self.tolerance = tolerance
         self.calculate = calculate
     }
 
@@ -61,10 +67,13 @@ class AnalogSensor: Sensor, CustomDebugStringConvertible {
             samples.remove(at: 0)
         }
 
-        let averageRawValue = samples.reduce(UInt(0), +) / sampleTimes
+        guard samples.count == sampleTimes else { return false }
 
-        let valueChanged = self.rawValue != averageRawValue
-        self.rawValue = averageRawValue
+        let averageRawValue: Double = samples.reduce(Double(0)) { $0 + Double($1) } / Double(sampleTimes)
+
+        let valueChanged = abs(rawAverage - averageRawValue) > tolerance
+        self.rawValue = UInt(averageRawValue)
+        self.rawAverage = averageRawValue
         value = calculate(averageRawValue)
 
         return valueChanged

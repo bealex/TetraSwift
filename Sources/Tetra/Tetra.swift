@@ -69,7 +69,7 @@ class Tetra {
             analogLED5, analogLED6,
             digitalLED10, digitalLED11, digitalLED12, digitalLED13
         ]
-        actuators.forEach { $0.changedListener = { id, rawValue in self.write(id: id, rawValue: rawValue) } }
+        actuators.forEach { $0.changedListener = { id, rawValue in self.write(id: id, rawValue: rawValue, silent: false) } }
     }
 
     func run(execute: @escaping () -> Void) {
@@ -83,6 +83,7 @@ class Tetra {
     }
 
     func sleep(_ time: TimeInterval) {
+        log(message: " Sleep for \(time) sec")
         Thread.sleep(forTimeInterval: time)
     }
 
@@ -101,16 +102,13 @@ class Tetra {
     }
 
     private func runLoop() {
-        guard started && opened else {
-            close()
-            return
-        }
+        guard started else { return close() }
 
-        read()
-        updateAllActuators()
         if sensorListeners.isEmpty {
             stop()
         } else {
+            read()
+            updateAllActuators()
             workQueue.async(execute: runLoop)
         }
     }
@@ -133,7 +131,9 @@ class Tetra {
 
     private let picoBoard = PicoBoardProtocol()
 
-    private func write(id: UInt8, rawValue: UInt) {
+    private func write(id: UInt8, rawValue: UInt, silent: Bool = true) {
+        guard opened && started else { return }
+
         workQueue.async {
             do {
                 var bytes = self.picoBoard.bytes(sensorId: id, value: rawValue)
@@ -141,7 +141,9 @@ class Tetra {
                     let sent = try self.serialPort.writeBytes(from: bytes, size: bytes.count)
                     bytes = Array(bytes.dropFirst(sent))
                 }
-                self.log(message: " \(id) <- \(rawValue)")
+                if !silent {
+                    self.log(message: " \(id) <- \(rawValue)")
+                }
             } catch {
                 self.processError("Error writing \(rawValue) to \(id): \(error)")
             }
@@ -151,11 +153,9 @@ class Tetra {
     private var buffer: [UInt8] = [ 0, 0 ]
     private var bytes: [UInt8] = []
 
-    func rawValue(for sensorKind: SensorKind) -> UInt {
-        sensorsByKind[sensorKind]?.rawValue ?? 0
-    }
-
     private func read() {
+        guard opened && started else { return }
+
         do {
             let readCount = try self.serialPort.readBytes(into: &buffer, size: 2 - bytes.count)
             if readCount > 0 {

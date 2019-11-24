@@ -56,7 +56,7 @@ pin arduinoPins[14];  //Array of struct holding 0-13 pins information
 
 unsigned long lastDataReceivedTime = millis();
 
-QuadDisplay quadDisplay(4, 8, 7);
+QuadDisplay quadDisplay(4, 7, 8);
 
 void setup() {
     Serial.begin(38400);

@@ -14,7 +14,15 @@ tetra.installSensors(
         AnalogSensor(kind: .light, port: .analog0),
         AnalogSensor(kind: .potentiometer, port: .analog1),
         AnalogSensor(kind: .magnetic, port: .analog2),
-        AnalogSensor(kind: .temperature, port: .analog3),
+        AnalogSensor(kind: .temperature, port: .analog3, sampleTimes: 32) { rawValue in
+            // https://github.com/amperka/TroykaThermometer/blob/master/src/TroykaThermometer.cpp ¯\_(ツ)_/¯
+            let adcBits: Double = 10
+            let adcMaxValue: Double = pow(2.0, adcBits)
+            let operatingVoltage: Double = 5.0
+            let sensorVoltage = Double(rawValue) * (operatingVoltage / adcMaxValue)
+            let temperatureCelsius = (sensorVoltage - 0.5) * 100
+            return temperatureCelsius
+        },
     ],
     digital: [
         DigitalSensor(kind: .infrared, port: .analog4),
@@ -41,6 +49,9 @@ tetra.installActuators(
 )
 
 tetra.run {
+    tetra.on(tetra.temperatureSensor) {
+        tetra.quadDisplay.value = "\(Int(tetra.temperatureSensor.value))˙"
+    }
     tetra.on(tetra.potentiometer) {
         if tetra.potentiometer.value < 0.5 {
             tetra.analogLEDs[.analog5].value = 0
@@ -50,13 +61,13 @@ tetra.run {
             tetra.analogLEDs[.analog6].value = 0
         }
 
-        var toDisplay = "\(Int(tetra.potentiometer.value * 100))"
-        if toDisplay == "0" {
-            toDisplay = "OOPS"
-        } else if toDisplay == "100" {
-            toDisplay = "FULL"
-        }
-        tetra.quadDisplay.value = toDisplay
+//        var toDisplay = "\(Int(tetra.potentiometer.value * 100))"
+//        if toDisplay == "0" {
+//            toDisplay = "OOPS"
+//        } else if toDisplay == "100" {
+//            toDisplay = "FULL"
+//        }
+//        tetra.quadDisplay.value = toDisplay
     }
     tetra.whenOn(tetra.buttons[.digital2]) {
         tetra.digitalLEDs[.digital13].on()

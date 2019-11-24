@@ -42,16 +42,30 @@ class AnalogSensor: Sensor, CustomDebugStringConvertible {
     private(set) var rawValue: UInt = 0
     private(set) var value: Double = 0
 
-    init(kind: SensorKind, port: IOPort) {
+    private let sampleTimes: UInt
+    private let calculate: (UInt) -> Double
+
+    init(kind: SensorKind, port: IOPort, sampleTimes: UInt = 1, calculate: @escaping (UInt) -> Double = { Double($0) / 1023 }) {
         self.kind = kind
         self.port = port
+        self.sampleTimes = sampleTimes
+        self.calculate = calculate
     }
+
+    private var samples: [UInt] = []
 
     /// Returns whether the value was changed.
     func update(rawValue: UInt) -> Bool {
-        let valueChanged = self.rawValue != rawValue
-        self.rawValue = rawValue
-        value = Double(rawValue) / 1023
+        samples.append(rawValue)
+        while samples.count > sampleTimes {
+            samples.remove(at: 0)
+        }
+
+        let averageRawValue = samples.reduce(UInt(0), +) / sampleTimes
+
+        let valueChanged = self.rawValue != averageRawValue
+        self.rawValue = averageRawValue
+        value = calculate(averageRawValue)
 
         return valueChanged
     }

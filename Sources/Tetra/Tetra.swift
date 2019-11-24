@@ -197,6 +197,7 @@ class Tetra {
                 var bytes = self.picoBoardProtocol.bytes(id: id.tetraId, value: rawValue)
                 while !bytes.isEmpty {
                     let sent = try self.serialPort.writeBytes(from: bytes, size: bytes.count)
+
                     bytes = Array(bytes.dropFirst(sent))
                 }
                 if !silent {

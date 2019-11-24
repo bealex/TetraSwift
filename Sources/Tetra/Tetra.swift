@@ -22,8 +22,10 @@ class Tetra {
 
     private(set) var analogSensors: Devices<AnalogSensor> = Devices(type: "Analog Sensor")
     private(set) var digitalSensors: Devices<DigitalSensor> = Devices(type: "Digital Sensor")
+
     private(set) var analogActuators: Devices<AnalogActuator> = Devices(type: "Analog Actuator")
     private(set) var digitalActuators: Devices<DigitalActuator> = Devices(type: "Digital Actuator")
+    private(set) var displayActuators: Devices<QuadNumericDisplayActuator> = Devices(type: "Quad Numeric Display Actuator")
 
     // MARK: - Typed accessors
 
@@ -39,6 +41,7 @@ class Tetra {
     private(set) var buzzers: Devices<AnalogActuator> = Devices(type: "Buzzer")
     private(set) var analogLEDs: Devices<AnalogActuator> = Devices(type: "Analog LED")
     private(set) var digitalLEDs: Devices<DigitalActuator> = Devices(type: "Digital LED")
+    private(set) var quadDisplays: Devices<QuadNumericDisplayActuator> = Devices(type: "Quad Display")
 
     // MARK: - Single device accessors
 
@@ -53,6 +56,7 @@ class Tetra {
     var buzzer: AnalogActuator { buzzers.single }
     var analogLED: AnalogActuator { analogLEDs.single }
     var digitalLED: DigitalActuator { digitalLEDs.single }
+    var quadDisplay: QuadNumericDisplayActuator { quadDisplays.single }
 
     init(pathToSerialPort: String, eventQueue: DispatchQueue) {
         self.eventQueue = eventQueue
@@ -85,7 +89,7 @@ class Tetra {
         }
     }
 
-    func installActuators(analog: [AnalogActuator], digital: [DigitalActuator]) {
+    func installActuators(analog: [AnalogActuator], digital: [DigitalActuator], displays: [QuadNumericDisplayActuator]) {
         analog.forEach { actuator in
             actuators[actuator.port] = actuator
             analogActuators[actuator.port] = actuator
@@ -94,7 +98,7 @@ class Tetra {
                 case .buzzer: buzzers[actuator.port] = actuator
                 case .motor: motors[actuator.port] = actuator
                 case .analogLED: analogLEDs[actuator.port] = actuator
-                case .digitalLED: break
+                case .digitalLED, .quadDisplay: break
             }
         }
         digital.forEach { actuator in
@@ -103,7 +107,16 @@ class Tetra {
             actuator.changedListener = { id, rawValue in self.write(id: id, rawValue: rawValue, silent: false) }
             switch actuator.kind {
                 case .digitalLED: digitalLEDs[actuator.port] = actuator
-                case .buzzer, .motor, .analogLED: break
+                case .buzzer, .motor, .analogLED, .quadDisplay: break
+            }
+        }
+        displays.forEach { actuator in
+            actuators[actuator.port] = actuator
+            displayActuators[actuator.port] = actuator
+            actuator.changedListener = { id, rawValue in self.writeToQuadDisplay(id: id, rawValue: rawValue, silent: false) }
+            switch actuator.kind {
+                case .quadDisplay: quadDisplays[actuator.port] = actuator
+                case .buzzer, .motor, .analogLED, .digitalLED: break
             }
         }
     }
@@ -195,6 +208,35 @@ class Tetra {
         }
     }
 
+    private func writeToQuadDisplay(id: IOPort, rawValue: UInt, silent: Bool = true) {
+        guard opened && started else { return }
+
+        workQueue.async {
+            do {
+                let digit1 = rawValue / 1000
+                let digit2 = (rawValue - digit1 * 1000) / 100
+                let digit3 = (rawValue - digit1 * 1000 - digit2 * 100) / 10
+                let digit4 = rawValue % 10
+
+                let bytes1 = self.picoBoardProtocol.bytes(id: id.tetraId, value: digit1)
+                let bytes2 = self.picoBoardProtocol.bytes(id: id.tetraId, value: digit2 + 10)
+                let bytes3 = self.picoBoardProtocol.bytes(id: id.tetraId, value: digit3 + 20)
+                let bytes4 = self.picoBoardProtocol.bytes(id: id.tetraId, value: digit4 + 30)
+                let bytes5 = self.picoBoardProtocol.bytes(id: id.tetraId, value: 100)
+                var bytes = bytes1 + bytes2 + bytes3 + bytes4 + bytes5
+                while !bytes.isEmpty {
+                    let sent = try self.serialPort.writeBytes(from: bytes, size: bytes.count)
+                    bytes = Array(bytes.dropFirst(sent))
+                }
+                if !silent {
+                    self.log(message: " \(id) <- Display \"\(rawValue)\"")
+                }
+            } catch {
+                self.log(message: "Error displaying \"\(rawValue)\" on \(id): \(error)")
+            }
+        }
+    }
+
     private func read() {
         guard opened && started else { return }
 
@@ -222,7 +264,9 @@ class Tetra {
         let currentTime = Date.timeIntervalSinceReferenceDate
         if currentTime - lastActuatorsUpdateTime > 0.01 {
             lastActuatorsUpdateTime = currentTime
-            actuators.values.forEach { self.write(id: $0.port, rawValue: $0.rawValue) }
+            actuators.values
+                .filter { $0.needsRefresh }
+                .forEach { self.write(id: $0.port, rawValue: $0.rawValue) }
         }
     }
 

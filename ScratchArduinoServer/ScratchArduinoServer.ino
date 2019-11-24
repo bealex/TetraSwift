@@ -40,6 +40,8 @@
 // updateServoMotors changes its name as a global variable had the same name.
 // Some minor fixes.
 
+#include <QuadDisplay2.h>
+
 typedef enum {
     input, servomotor, pwm, digital
 } pinType;
@@ -54,11 +56,15 @@ pin arduinoPins[14];  //Array of struct holding 0-13 pins information
 
 unsigned long lastDataReceivedTime = millis();
 
+QuadDisplay quadDisplay(11, 7, 8);
+
 void setup() {
     Serial.begin(38400);
     Serial.flush();
     configurePins();
     resetPins();
+
+    quadDisplay.begin();
 }
 
 void loop() {
@@ -81,8 +87,8 @@ void configurePins() {
     arduinoPins[4].type = servomotor;
     arduinoPins[5].type = pwm;
     arduinoPins[6].type = pwm;
-    arduinoPins[7].type = servomotor;
-    arduinoPins[8].type = servomotor;
+    arduinoPins[7].type = digital; // servomotor;
+    arduinoPins[8].type = digital; // servomotor;
     arduinoPins[9].type = pwm;
     arduinoPins[10].type = digital;
     arduinoPins[11].type = digital;
@@ -103,6 +109,7 @@ void resetPins() {
             }
         }
     }
+    quadDisplay.displayClear();
 }
 
 void sendSensorValues() {
@@ -129,7 +136,7 @@ void sendSensorValues() {
 }
 
 void insertionSort(unsigned int *array, unsigned int n) {
-    for (int i = 1; i < n; i++) {
+    for (unsigned int i = 1; i < n; i++) {
         for (int j = i; (j > 0) && (array[j] < array[j - 1]); j--) {
             swap(array, j, j - 1);
         }
@@ -155,6 +162,12 @@ void readSerialPort() {
     static byte actuatorHighByte, actuatorLowByte;
     static byte readingSM = 0;
 
+    static byte displayCommand = 0;
+    static byte displayDigit1 = 0;
+    static byte displayDigit2 = 0;
+    static byte displayDigit3 = 0;
+    static byte displayDigit4 = 0;
+
     if (Serial.available()) {
         if (readingSM == 0) {
             actuatorHighByte = Serial.read();
@@ -175,9 +188,29 @@ void readSerialPort() {
             pinIndex = ((actuatorHighByte >> 3) & B1111);
             newValue = ((actuatorHighByte & B111) << 7) | (actuatorLowByte & B1111111);
 
-            if (arduinoPins[pinIndex].state != newValue) {
-                arduinoPins[pinIndex].state = newValue;
-                updateActuator(pinIndex);
+            if (pinIndex < 14) {
+                if (arduinoPins[pinIndex].state != newValue) {
+                    arduinoPins[pinIndex].state = newValue;
+                    updateActuator(pinIndex);
+                }
+            } else {
+                if (pinIndex == 14) {
+                    if (newValue > 99) {
+                        if (newValue == 100) {
+                            quadDisplay.displayInt(displayDigit1 * 1000 + displayDigit2 * 100 + displayDigit3 * 10 + displayDigit4);
+                        }
+                    } else {
+                        if (newValue < 10) {
+                            displayDigit1 = newValue % 10;
+                        } else if (newValue < 20) {
+                            displayDigit2 = newValue % 10;
+                        } else if (newValue < 30) {
+                            displayDigit3 = newValue % 10;
+                        } else if (newValue < 40) {
+                            displayDigit4 = newValue % 10;
+                        }
+                    }
+                }
             }
             readingSM = 0;
         }
@@ -192,6 +225,7 @@ void reset() {
     resetPins();        // reset pins
     sendSensorValues(); // protocol handshaking
     lastDataReceivedTime = millis();
+    quadDisplay.displayClear();
 }
 
 void updateActuator(byte pinNumber) {

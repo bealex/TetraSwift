@@ -27,6 +27,7 @@ enum ActuatorKind: Hashable, CustomDebugStringConvertible {
     case buzzer
     case analogLED(LEDColor)
     case digitalLED(LEDColor)
+    case quadDisplay
 
     var debugDescription: String {
         switch self {
@@ -34,6 +35,7 @@ enum ActuatorKind: Hashable, CustomDebugStringConvertible {
             case .buzzer: return "Buzzer"
             case .analogLED(let color): return "Analog LED, \(color)"
             case .digitalLED(let color): return "Digital LED, \(color)"
+            case .quadDisplay: return "QuadDisplay"
         }
     }
 }
@@ -43,12 +45,15 @@ protocol Actuator: class {
     var port: IOPort { get }
     var rawValue: UInt { get }
 
+    var needsRefresh: Bool { get }
+
     var changedListener: (_ id: IOPort, _ rawValue: UInt) -> Void { get set }
 }
 
 class AnalogActuator: Actuator, CustomDebugStringConvertible {
     let kind: ActuatorKind
     let port: IOPort
+    let needsRefresh: Bool
     var changedListener: (IOPort, UInt) -> Void = { _, _ in }
     private(set) var rawValue: UInt = 0
     private let maxValue: UInt
@@ -62,9 +67,10 @@ class AnalogActuator: Actuator, CustomDebugStringConvertible {
         }
     }
 
-    init(kind: ActuatorKind, port: IOPort, maxValue: UInt) {
+    init(kind: ActuatorKind, port: IOPort, maxValue: UInt, needsRefresh: Bool = true) {
         self.kind = kind
         self.port = port
+        self.needsRefresh = needsRefresh
         self.maxValue = maxValue
     }
 
@@ -74,6 +80,7 @@ class AnalogActuator: Actuator, CustomDebugStringConvertible {
 class DigitalActuator: Actuator, CustomDebugStringConvertible {
     let kind: ActuatorKind
     let port: IOPort
+    let needsRefresh: Bool
     private(set) var rawValue: UInt = 0
     var changedListener: (IOPort, UInt) -> Void = { _, _ in }
     var value: Bool = false {
@@ -94,10 +101,34 @@ class DigitalActuator: Actuator, CustomDebugStringConvertible {
         value = false
     }
 
+    init(kind: ActuatorKind, port: IOPort, needsRefresh: Bool = true) {
+        self.kind = kind
+        self.port = port
+        self.needsRefresh = needsRefresh
+    }
+
+    var debugDescription: String { "\(kind) ~> \(value) (\(rawValue))" }
+}
+
+class QuadNumericDisplayActuator: Actuator, CustomDebugStringConvertible {
+    let kind: ActuatorKind
+    let port: IOPort
+    let needsRefresh: Bool = false
+    private(set) var rawValue: UInt = 0
+    var changedListener: (IOPort, UInt) -> Void = { _, _ in }
+    var value: UInt = 0 {
+        didSet {
+            if value != rawValue {
+                rawValue = value
+                changedListener(port, rawValue)
+            }
+        }
+    }
+
     init(kind: ActuatorKind, port: IOPort) {
         self.kind = kind
         self.port = port
     }
 
-    var debugDescription: String { "\(kind) ~> \(value) (\(rawValue))" }
+    var debugDescription: String { "\(kind) ~> \(value)" }
 }

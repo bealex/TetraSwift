@@ -31,9 +31,11 @@ tetra.installActuators(
     ],
     digital: [
         DigitalActuator(kind: .digitalLED(.green), port: .digital10),
-        DigitalActuator(kind: .digitalLED(.yellow), port: .digital11),
         DigitalActuator(kind: .digitalLED(.yellow), port: .digital12),
         DigitalActuator(kind: .digitalLED(.red), port: .digital13),
+    ],
+    displays: [
+        QuadNumericDisplayActuator(kind: .quadDisplay, port: .digital14),
     ]
 )
 
@@ -46,35 +48,26 @@ tetra.run {
             tetra.analogLEDs[.analog5].value = (tetra.potentiometer.value - 0.5) * 2
             tetra.analogLEDs[.analog6].value = 0
         }
-    }
 
-    tetra.when(tetra.potentiometer, isLessThan: 0.4) {
-        tetra.buzzer.value = 0.01
+        tetra.quadDisplay.value = UInt(tetra.potentiometer.value * 100)
     }
-    tetra.when(tetra.potentiometer, isGreaterThan: 0.6) {
-        tetra.buzzer.value = 0
-    }
-
-    tetra.digitalLEDs[.digital13].on()
-    tetra.sleep(0.1)
-    tetra.digitalLEDs[.digital13].off()
-    tetra.digitalLEDs[.digital12].on()
-    tetra.sleep(0.1)
-    tetra.digitalLEDs[.digital12].off()
-    tetra.digitalLEDs[.digital10].on()
-    tetra.sleep(0.1)
-    tetra.digitalLEDs[.digital10].off()
-
     tetra.whenOn(tetra.buttons[.digitalSensor2]) {
         tetra.digitalLEDs[.digital13].on()
         tetra.digitalLEDs[.digital12].on()
         tetra.digitalLEDs[.digital10].on()
-        tetra.digitalLEDs[.digital11].on()
     }
     tetra.whenOn(tetra.buttons[.digitalSensor3]) {
         tetra.digitalLEDs[.digital13].off()
         tetra.digitalLEDs[.digital12].off()
         tetra.digitalLEDs[.digital10].off()
-        tetra.digitalLEDs[.digital11].off()
     }
+
+//    tetra.when(tetra.potentiometer, isLessThan: 0.4) {
+//        tetra.buzzer.value = 0.01
+//    }
+//    tetra.when(tetra.potentiometer, isGreaterThan: 0.6) {
+//        tetra.buzzer.value = 0
+//    }
+
+    tetra.quadDisplay.value = 239
 }

@@ -13,13 +13,8 @@ enum SensorKind: Hashable, CustomDebugStringConvertible {
     case potentiometer
     case magnetic
     case temperature
-
     case infrared
-
-    case motor // ???
-
-    case button2
-    case button3
+    case button
 
     var debugDescription: String {
         switch self {
@@ -28,16 +23,14 @@ enum SensorKind: Hashable, CustomDebugStringConvertible {
             case .temperature: return "Temperature Sensor"
             case .infrared: return "Infrared Sensor"
             case .potentiometer: return "Potentiometer"
-            case .motor: return "Motor"
-            case .button2: return "Button 2"
-            case .button3: return "Button 3"
+            case .button: return "Button"
         }
     }
 }
 
 protocol Sensor {
     var kind: SensorKind { get }
-    var id: UInt8 { get }
+    var port: IOPort { get }
     var rawValue: UInt { get }
 
     func update(rawValue: UInt) -> Bool
@@ -45,13 +38,13 @@ protocol Sensor {
 
 class AnalogSensor: Sensor, CustomDebugStringConvertible {
     let kind: SensorKind
-    let id: UInt8
+    let port: IOPort
     private(set) var rawValue: UInt = 0
     private(set) var value: Double = 0
 
-    init(kind: SensorKind, id: UInt8) {
+    init(kind: SensorKind, port: IOPort) {
         self.kind = kind
-        self.id = id
+        self.port = port
     }
 
     /// Returns whether the value was changed.
@@ -63,18 +56,18 @@ class AnalogSensor: Sensor, CustomDebugStringConvertible {
         return valueChanged
     }
 
-    var debugDescription: String { "\(kind) ~> \(value) (\(rawValue))" }
+    var debugDescription: String { "\(kind):\(port) ~> \(value) (\(rawValue))" }
 }
 
 class DigitalSensor: Sensor, CustomDebugStringConvertible {
     let kind: SensorKind
-    let id: UInt8
+    let port: IOPort
     private(set) var rawValue: UInt = 0
     private(set) var value: Bool = false
 
-    init(kind: SensorKind, id: UInt8) {
+    init(kind: SensorKind, port: IOPort) {
         self.kind = kind
-        self.id = id
+        self.port = port
     }
 
     /// Returns whether the value was changed.
@@ -86,5 +79,5 @@ class DigitalSensor: Sensor, CustomDebugStringConvertible {
         return valueChanged
     }
 
-    var debugDescription: String { "\(kind) ~> \(value) (\(rawValue))" }
+    var debugDescription: String { "\(kind):\(port) ~> \(value) (\(rawValue))" }
 }

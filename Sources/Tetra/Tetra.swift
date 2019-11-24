@@ -11,65 +11,101 @@ import Foundation
 class Tetra {
     private let serialPort: SerialPort
     private var opened = false
-
-    private(set) var started: Bool = false
+    private var started: Bool = false
 
     private let workQueue: DispatchQueue = DispatchQueue(label: "tetra", qos: .default)
     private let eventQueue: DispatchQueue
 
-    var debug: Bool = true
+    private var debug: Bool = true // TODO: Expose somehow
 
-    let lightSensor = AnalogSensor(kind: .light, id: 0)
-    let potentiometer = AnalogSensor(kind: .potentiometer, id: 1)
-    let magneticSensor = AnalogSensor(kind: .magnetic, id: 2)
-    let temperatureSensor = AnalogSensor(kind: .temperature, id: 3)
-    let motorSensor = AnalogSensor(kind: .motor, id: 5)
-    let infraredSensor = DigitalSensor(kind: .infrared, id: 4)
-    let button2 = DigitalSensor(kind: .button2, id: 6)
-    let button3 = DigitalSensor(kind: .button3, id: 7)
+    // MARK: - Common accessors
 
-    private let sensorsById: [UInt8: Sensor]
-    private let sensorsByKind: [SensorKind: Sensor]
+    private(set) var analogSensors: Devices<AnalogSensor> = Devices(type: "Analog Sensor")
+    private(set) var digitalSensors: Devices<DigitalSensor> = Devices(type: "Digital Sensor")
+    private(set) var analogActuators: Devices<AnalogActuator> = Devices(type: "Analog Actuator")
+    private(set) var digitalActuators: Devices<DigitalActuator> = Devices(type: "Digital Actuator")
 
-    let motor4 = AnalogActuator(kind: .motor4, id: 4, maxValue: 180)
-    let motor7 = AnalogActuator(kind: .motor7, id: 7, maxValue: 180)
-    let motor8 = AnalogActuator(kind: .motor8, id: 8, maxValue: 180)
+    // MARK: - Typed accessors
 
-    let buzzer = AnalogActuator(kind: .buzzer, id: 9, maxValue: 200)
+    private(set) var lightSensors: Devices<AnalogSensor> = Devices(type: "Light Sensor")
+    private(set) var magneticSensors: Devices<AnalogSensor> = Devices(type: "Magnetic Sensor")
+    private(set) var temperatureSensors: Devices<AnalogSensor> = Devices(type: "Temperature Sensor")
+    private(set) var motorSensors: Devices<AnalogSensor> = Devices(type: "Motor Sensor")
+    private(set) var infraredSensors: Devices<DigitalSensor> = Devices(type: "Infrared Sensor")
+    private(set) var potentiometers: Devices<AnalogSensor> = Devices(type: "Potentiometer")
+    private(set) var buttons: Devices<DigitalSensor> = Devices(type: "Button")
 
-    let analogLED5 = AnalogActuator(kind: .ledAnalog5, id: 5, maxValue: 255)
-    let analogLED6 = AnalogActuator(kind: .ledAnalog6, id: 6, maxValue: 255)
+    private(set) var motors: Devices<AnalogActuator> = Devices(type: "Motor")
+    private(set) var buzzers: Devices<AnalogActuator> = Devices(type: "Buzzer")
+    private(set) var analogLEDs: Devices<AnalogActuator> = Devices(type: "Analog LED")
+    private(set) var digitalLEDs: Devices<DigitalActuator> = Devices(type: "Digital LED")
 
-    let digitalLED10 = DigitalActuator(kind: .ledDigital10, id: 10)
-    let digitalLED11 = DigitalActuator(kind: .ledDigital11, id: 11)
-    let digitalLED12 = DigitalActuator(kind: .ledDigital12, id: 12)
-    let digitalLED13 = DigitalActuator(kind: .ledDigital13, id: 13)
+    // MARK: - Single device accessors
+
+    var lightSensor: AnalogSensor { lightSensors.single }
+    var magneticSensor: AnalogSensor { magneticSensors.single }
+    var temperatureSensor: AnalogSensor { temperatureSensors.single }
+    var infraredSensor: DigitalSensor { infraredSensors.single }
+    var potentiometer: AnalogSensor { potentiometers.single }
+
+    var button: DigitalSensor { buttons.single }
+    var motor: AnalogActuator { motors.single }
+    var buzzer: AnalogActuator { buzzers.single }
+    var analogLED: AnalogActuator { analogLEDs.single }
+    var digitalLED: DigitalActuator { digitalLEDs.single }
 
     init(pathToSerialPort: String, eventQueue: DispatchQueue) {
         self.eventQueue = eventQueue
         serialPort = SerialPort(path: "/dev/tty.usbmodem14801")
+    }
 
-        let sensors: [Sensor] = [
-            lightSensor, potentiometer, magneticSensor, temperatureSensor, infraredSensor,
-            motorSensor, button2, button3
-        ]
-        var sensorsById: [UInt8: Sensor] = [:]
-        var sensorsByKind: [SensorKind: Sensor] = [:]
-        sensors.forEach { sensor in
-            sensorsById[sensor.id] = sensor
-            sensorsByKind[sensor.kind] = sensor
+    private var sensors: [IOPort: Sensor] = [:]
+    private var actuators: [IOPort: Actuator] = [:]
+
+    func installSensors(analog: [AnalogSensor], digital: [DigitalSensor]) {
+        analog.forEach { sensor in
+            analogSensors[sensor.port] = sensor
+            sensors[sensor.port] = sensor
+            switch sensor.kind {
+                case .light: lightSensors[sensor.port] = sensor
+                case .potentiometer: potentiometers[sensor.port] = sensor
+                case .magnetic: magneticSensors[sensor.port] = sensor
+                case .temperature: temperatureSensors[sensor.port] = sensor
+                case .infrared, .button: break
+            }
         }
+        digital.forEach { sensor in
+            digitalSensors[sensor.port] = sensor
+            sensors[sensor.port] = sensor
+            switch sensor.kind {
+                case .infrared: infraredSensors[sensor.port] = sensor
+                case .button: buttons[sensor.port] = sensor
+                case .light, .potentiometer, .magnetic, .temperature: break
+            }
+        }
+    }
 
-        self.sensorsById = sensorsById
-        self.sensorsByKind = sensorsByKind
-
-        let actuators: [Actuator] = [
-            motor4, motor7, motor8,
-            buzzer,
-            analogLED5, analogLED6,
-            digitalLED10, digitalLED11, digitalLED12, digitalLED13
-        ]
-        actuators.forEach { $0.changedListener = { id, rawValue in self.write(id: id, rawValue: rawValue, silent: false) } }
+    func installActuators(analog: [AnalogActuator], digital: [DigitalActuator]) {
+        analog.forEach { actuator in
+            actuators[actuator.port] = actuator
+            analogActuators[actuator.port] = actuator
+            actuator.changedListener = { id, rawValue in self.write(id: id, rawValue: rawValue, silent: false) }
+            switch actuator.kind {
+                case .buzzer: buzzers[actuator.port] = actuator
+                case .motor: motors[actuator.port] = actuator
+                case .analogLED: analogLEDs[actuator.port] = actuator
+                case .digitalLED: break
+            }
+        }
+        digital.forEach { actuator in
+            actuators[actuator.port] = actuator
+            digitalActuators[actuator.port] = actuator
+            actuator.changedListener = { id, rawValue in self.write(id: id, rawValue: rawValue, silent: false) }
+            switch actuator.kind {
+                case .digitalLED: digitalLEDs[actuator.port] = actuator
+                case .buzzer, .motor, .analogLED: break
+            }
+        }
     }
 
     func run(execute: @escaping () -> Void) {
@@ -87,6 +123,11 @@ class Tetra {
         Thread.sleep(forTimeInterval: time)
     }
 
+    // MARK: - Lifecycle methods
+
+    private let picoBoardProtocol = PicoBoardProtocol()
+    private var lastActuatorsUpdateTime: TimeInterval = 0
+
     private func start() {
         open()
         guard opened else { return }
@@ -101,6 +142,23 @@ class Tetra {
         log(message: "Stopped")
     }
 
+    private func open() {
+        do {
+            try serialPort.openPort()
+            opened = true
+            serialPort.setSettings(receiveRate: .baud38400, transmitRate: .baud38400, minimumBytesToRead: 0)
+            log(message: "Port opened")
+        } catch {
+            log(message: "Error opening: \(error)")
+        }
+    }
+
+    private func close() {
+        sensorListeners = []
+        serialPort.closePort()
+        opened = false
+    }
+
     private func runLoop() {
         guard started else { return close() }
 
@@ -113,30 +171,17 @@ class Tetra {
         }
     }
 
-    private var lastActuatorsUpdateTime: TimeInterval = 0
+    // MARK: - Input and output
 
-    private func updateAllActuators() {
-        let currentTime = Date.timeIntervalSinceReferenceDate
-        if currentTime - lastActuatorsUpdateTime > 0.5 {
-            lastActuatorsUpdateTime = currentTime
-            let actuators: [Actuator] = [
-                motor4, motor7, motor8,
-                buzzer,
-                analogLED5, analogLED6,
-                digitalLED10, digitalLED11, digitalLED12, digitalLED13
-            ]
-            actuators.forEach { self.write(id: $0.id, rawValue: $0.rawValue) }
-        }
-    }
+    private var buffer: [UInt8] = [ 0, 0 ]
+    private var bytes: [UInt8] = []
 
-    private let picoBoard = PicoBoardProtocol()
-
-    private func write(id: UInt8, rawValue: UInt, silent: Bool = true) {
+    private func write(id: IOPort, rawValue: UInt, silent: Bool = true) {
         guard opened && started else { return }
 
         workQueue.async {
             do {
-                var bytes = self.picoBoard.bytes(sensorId: id, value: rawValue)
+                var bytes = self.picoBoardProtocol.bytes(id: id.tetraId, value: rawValue)
                 while !bytes.isEmpty {
                     let sent = try self.serialPort.writeBytes(from: bytes, size: bytes.count)
                     bytes = Array(bytes.dropFirst(sent))
@@ -145,13 +190,10 @@ class Tetra {
                     self.log(message: " \(id) <- \(rawValue)")
                 }
             } catch {
-                self.processError("Error writing \(rawValue) to \(id): \(error)")
+                self.log(message: "Error writing \(rawValue) to \(id): \(error)")
             }
         }
     }
-
-    private var buffer: [UInt8] = [ 0, 0 ]
-    private var bytes: [UInt8] = []
 
     private func read() {
         guard opened && started else { return }
@@ -163,39 +205,28 @@ class Tetra {
             }
 
             if bytes.count == 2 {
-                let (id, value) = self.picoBoard.data(from: bytes)
+                let (id, value) = self.picoBoardProtocol.data(from: bytes)
                 bytes = []
 
-                if let sensor = sensorsById[id], sensor.update(rawValue: value) {
-                    self.notifySensorListenersAboutUpdate(sensor: sensor)
+                if let port = IOPort(sensorTetraId: id), let sensor = sensors[port], sensor.update(rawValue: value) {
+                    self.notifySensorListenersAboutUpdate(of: sensor)
                 }
             }
         } catch {
-            self.processError("Error reading: \(error)")
+            self.log(message: "Error reading: \(error)")
             self.stop()
         }
     }
 
-    private func open() {
-        do {
-            try serialPort.openPort()
-            opened = true
-            serialPort.setSettings(receiveRate: .baud38400, transmitRate: .baud38400, minimumBytesToRead: 0)
-            log(message: "Port opened")
-        } catch {
-            processError("Error opening: \(error)")
+    private func updateAllActuators() {
+        let currentTime = Date.timeIntervalSinceReferenceDate
+        if currentTime - lastActuatorsUpdateTime > 0.01 {
+            lastActuatorsUpdateTime = currentTime
+            actuators.values.forEach { self.write(id: $0.port, rawValue: $0.rawValue) }
         }
     }
 
-    private func close() {
-        sensorListeners = []
-        serialPort.closePort()
-        opened = false
-    }
-
-    private func processError(_ message: String) {
-        log(message: message)
-    }
+    // MARK: - Utility methods
 
     private func log(message: String) {
         if self.debug {
@@ -211,7 +242,7 @@ class Tetra {
         var sensor: Sensor
         var condition: (Sensor) -> Bool
         var action: () -> Void
-        var isRepeated: Bool
+        var executeOnlyOnce: Bool
 
         var semaphore: DispatchSemaphore?
     }
@@ -219,35 +250,31 @@ class Tetra {
     private var sensorListeners: [SensorListener] = []
 
     private func addSensorListener(
-        _ sensorKind: SensorKind, condition: @escaping (Sensor) -> Bool, action: @escaping () -> Void,
-        asynchronous: Bool, isRepeated: Bool
+        _ sensor: Sensor, condition: @escaping (Sensor) -> Bool, action: @escaping () -> Void,
+        waitUntilDone: Bool, executedOnlyOnce: Bool
     ) {
-        guard let sensor = sensorsByKind[sensorKind] else {
-            processError("Error adding waitFor, can't find sensor \(sensorKind)")
-            return
-        }
+        var listener = SensorListener(sensor: sensor, condition: condition, action: action, executeOnlyOnce: executedOnlyOnce)
+        sensorListeners.append(listener)
 
-        var waiter = SensorListener(sensor: sensor, condition: condition, action: action, isRepeated: isRepeated)
-        sensorListeners.append(waiter)
-
-        if !asynchronous {
-            waiter.semaphore = DispatchSemaphore(value: 0)
-            waiter.semaphore?.wait()
+        log(message: " + Condition for \(sensor) added")
+        if waitUntilDone {
+            listener.semaphore = DispatchSemaphore(value: 0)
+            log(message: " . Waiting for \(sensor) event")
+            listener.semaphore?.wait()
         }
-        log(message: " + Condition for \(sensorKind)")
     }
 
-    private func notifySensorListenersAboutUpdate(sensor: Sensor) {
+    private func notifySensorListenersAboutUpdate(of sensor: Sensor) {
         var listenerIdsToRemove: [UUID] = []
         sensorListeners.forEach { listener in
-            if listener.sensor.id == sensor.id, listener.condition(sensor) {
+            if listener.sensor.port == sensor.port, listener.condition(sensor) {
                 eventQueue.async {
-                    self.log(message: " ! Condition for \(sensor.kind) executed")
+                    self.log(message: " ! Condition for \(sensor) executed")
                     listener.action()
                     listener.semaphore?.signal()
                 }
-                if !listener.isRepeated {
-                    self.log(message: " - Condition for \(sensor.kind) removed")
+                if listener.executeOnlyOnce {
+                    self.log(message: " - Condition for \(sensor) removed")
                     listenerIdsToRemove.append(listener.id)
                 }
             }
@@ -258,68 +285,78 @@ class Tetra {
 }
 
 extension Tetra {
-    private func digitalSensorCondition(test: Bool) -> (Sensor) -> Bool {
-        // Just to silence swiftlint :-)
+    private func eraseType<SensorType: Sensor>(on condition: @escaping (SensorType) -> Bool) -> (Sensor) -> Bool {
+        // Comment to silence SwiftLint
         { sensor in
-            if let digitalSensor = sensor as? DigitalSensor {
-                return digitalSensor.value == test
+            if let typedSensor = sensor as? SensorType {
+                return condition(typedSensor)
             } else {
                 return false
             }
         }
     }
-}
 
-extension Tetra {
-    func waitFor(_ sensorKind: SensorKind, condition: @escaping (Sensor) -> Bool, action: @escaping () -> Void) {
-        addSensorListener(sensorKind, condition: condition, action: action, asynchronous: false, isRepeated: false)
+    private func sleep<SensorType: Sensor>(
+        until sensor: SensorType,
+        matches condition: @escaping (SensorType) -> Bool,
+        andDo: @escaping () -> Void
+    ) {
+        addSensorListener(sensor, condition: eraseType(on: condition), action: andDo, waitUntilDone: true, executedOnlyOnce: true)
     }
 
-    func waitFor(_ sensorKind: SensorKind, is value: Bool, action: @escaping () -> Void) {
-        waitFor(sensorKind, condition: digitalSensorCondition(test: value), action: action)
-    }
-
-    func waitFor(_ sensorKind: SensorKind, is value: UInt, action: @escaping () -> Void) {
-        waitFor(sensorKind, condition: { $0.rawValue == value }, action: action)
-    }
-
-    func waitFor(_ sensorKind: SensorKind, isLessThan value: UInt, action: @escaping () -> Void) {
-        waitFor(sensorKind, condition: { $0.rawValue < value }, action: action)
-    }
-
-    func waitFor(_ sensorKind: SensorKind, isGreaterThan value: UInt, action: @escaping () -> Void) {
-        waitFor(sensorKind, condition: { $0.rawValue < value }, action: action)
+    func when<SensorType: Sensor>(
+        _ sensor: SensorType,
+        matches condition: @escaping (SensorType) -> Bool,
+        do action: @escaping () -> Void
+    ) {
+        addSensorListener(sensor, condition: eraseType(on: condition), action: action, waitUntilDone: false, executedOnlyOnce: false)
     }
 }
 
 extension Tetra {
-    func when(_ sensorKind: SensorKind, condition: @escaping (Sensor) -> Bool, action: @escaping () -> Void) {
-        addSensorListener(sensorKind, condition: condition, action: action, asynchronous: true, isRepeated: true)
+    func sleep(untilIsOn sensor: DigitalSensor, andDo action: @escaping () -> Void) {
+        sleep(until: sensor, matches: { _ in sensor.value }, andDo: action)
     }
 
-    func whenOn(_ sensorKind: SensorKind, action: @escaping () -> Void) {
-        when(sensorKind, condition: digitalSensorCondition(test: true), action: action)
+    func sleep(untilIsOff sensor: DigitalSensor, andDo action: @escaping () -> Void) {
+        sleep(until: sensor, matches: { _ in !sensor.value }, andDo: action)
     }
 
-    func whenOff(_ sensorKind: SensorKind, action: @escaping () -> Void) {
-        when(sensorKind, condition: digitalSensorCondition(test: false), action: action)
+    func sleep(until sensor: AnalogSensor, is value: Double, plusMinus: Double, andDo action: @escaping () -> Void) {
+        sleep(until: sensor, matches: { abs($0.value - value) < plusMinus }, andDo: action)
     }
 
-    func when(_ sensorKind: SensorKind, is value: UInt, action: @escaping () -> Void) {
-        when(sensorKind, condition: { $0.rawValue == value }, action: action)
+    func sleep(until sensor: AnalogSensor, isLessThan value: Double, andDo action: @escaping () -> Void) {
+        sleep(until: sensor, matches: { $0.value < value }, andDo: action)
     }
 
-    func when(_ sensorKind: SensorKind, isLessThan value: UInt, action: @escaping () -> Void) {
-        when(sensorKind, condition: { $0.rawValue < value }, action: action)
+    func sleep(until sensor: AnalogSensor, isGreaterThan value: Double, andDo action: @escaping () -> Void) {
+        sleep(until: sensor, matches: { $0.value > value }, andDo: action)
     }
 
-    func when(_ sensorKind: SensorKind, isGreaterThan value: UInt, action: @escaping () -> Void) {
-        when(sensorKind, condition: { $0.rawValue < value }, action: action)
+    func whenOn(_ sensor: DigitalSensor, action: @escaping () -> Void) {
+        when(sensor, matches: { _ in sensor.value }, do: action)
+    }
+
+    func whenSensorIsOff(_ sensor: DigitalSensor, action: @escaping () -> Void) {
+        when(sensor, matches: { _ in !sensor.value }, do: action)
+    }
+
+    func when(_ sensor: AnalogSensor, is value: Double, plusMinus: Double, action: @escaping () -> Void) {
+        when(sensor, matches: { abs($0.value - value) < plusMinus }, do: action)
+    }
+
+    func when(_ sensor: AnalogSensor, isLessThan value: Double, action: @escaping () -> Void) {
+        when(sensor, matches: { $0.value < value }, do: action)
+    }
+
+    func when(_ sensor: AnalogSensor, isGreaterThan value: Double, action: @escaping () -> Void) {
+        when(sensor, matches: { $0.value > value }, do: action)
     }
 }
 
 extension Tetra {
-    func on(_ sensorKind: SensorKind, action: @escaping () -> Void) {
-        addSensorListener(sensorKind, condition: { _ in true }, action: action, asynchronous: true, isRepeated: true)
+    func on(_ sensor: Sensor, action: @escaping () -> Void) {
+        addSensorListener(sensor, condition: { _ in true }, action: action, waitUntilDone: false, executedOnlyOnce: false)
     }
 }

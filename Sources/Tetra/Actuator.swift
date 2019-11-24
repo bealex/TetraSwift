@@ -9,48 +9,47 @@
 import Foundation
 
 enum ActuatorKind: Hashable, CustomDebugStringConvertible {
-    case motor4
-    case motor7
-    case motor8
+    enum LEDColor: CustomDebugStringConvertible {
+        case red
+        case yellow
+        case green
 
+        var debugDescription: String {
+            switch self {
+                case .red: return "Red"
+                case .yellow: return "Yellow"
+                case .green: return "Green"
+            }
+        }
+    }
+
+    case motor
     case buzzer
-
-    case ledAnalog5
-    case ledAnalog6
-
-    case ledDigital10
-    case ledDigital11
-    case ledDigital12
-    case ledDigital13
+    case analogLED(LEDColor)
+    case digitalLED(LEDColor)
 
     var debugDescription: String {
         switch self {
-            case .motor4: return "Motor 4"
-            case .motor7: return "Motor 7"
-            case .motor8: return "Motor 8"
+            case .motor: return "Motor"
             case .buzzer: return "Buzzer"
-            case .ledAnalog5: return "Analog Led 5 (Yellow)"
-            case .ledAnalog6: return "Analog Led 6 (Red)"
-            case .ledDigital10: return "Digital Led 10 (Green)"
-            case .ledDigital11: return "Digital Led 11 (Yellow)"
-            case .ledDigital12: return "Digital Led 12 (Yellow)"
-            case .ledDigital13: return "Digital Led 13 (Red)"
+            case .analogLED(let color): return "Analog LED, \(color)"
+            case .digitalLED(let color): return "Digital LED, \(color)"
         }
     }
 }
 
 protocol Actuator: class {
     var kind: ActuatorKind { get }
-    var id: UInt8 { get }
+    var port: IOPort { get }
     var rawValue: UInt { get }
 
-    var changedListener: (_ id: UInt8, _ rawValue: UInt) -> Void { get set }
+    var changedListener: (_ id: IOPort, _ rawValue: UInt) -> Void { get set }
 }
 
 class AnalogActuator: Actuator, CustomDebugStringConvertible {
     let kind: ActuatorKind
-    let id: UInt8
-    var changedListener: (UInt8, UInt) -> Void = { _, _ in }
+    let port: IOPort
+    var changedListener: (IOPort, UInt) -> Void = { _, _ in }
     private(set) var rawValue: UInt = 0
     private let maxValue: UInt
     var value: Double = 0 {
@@ -58,14 +57,14 @@ class AnalogActuator: Actuator, CustomDebugStringConvertible {
             let newRawValue = UInt(Double(maxValue) * value)
             if newRawValue != rawValue {
                 rawValue = newRawValue
-                changedListener(id, rawValue)
+                changedListener(port, rawValue)
             }
         }
     }
 
-    init(kind: ActuatorKind, id: UInt8, maxValue: UInt) {
+    init(kind: ActuatorKind, port: IOPort, maxValue: UInt) {
         self.kind = kind
-        self.id = id
+        self.port = port
         self.maxValue = maxValue
     }
 
@@ -74,15 +73,15 @@ class AnalogActuator: Actuator, CustomDebugStringConvertible {
 
 class DigitalActuator: Actuator, CustomDebugStringConvertible {
     let kind: ActuatorKind
-    let id: UInt8
+    let port: IOPort
     private(set) var rawValue: UInt = 0
-    var changedListener: (UInt8, UInt) -> Void = { _, _ in }
+    var changedListener: (IOPort, UInt) -> Void = { _, _ in }
     var value: Bool = false {
         didSet {
             let newRawValue: UInt = value ? 1023 : 0
             if newRawValue != rawValue {
                 rawValue = newRawValue
-                changedListener(id, rawValue)
+                changedListener(port, rawValue)
             }
         }
     }
@@ -95,9 +94,9 @@ class DigitalActuator: Actuator, CustomDebugStringConvertible {
         value = false
     }
 
-    init(kind: ActuatorKind, id: UInt8) {
+    init(kind: ActuatorKind, port: IOPort) {
         self.kind = kind
-        self.id = id
+        self.port = port
     }
 
     var debugDescription: String { "\(kind) ~> \(value) (\(rawValue))" }

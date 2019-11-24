@@ -12,7 +12,9 @@
 		2DBA15F8CC62BAC715188F7B /* Sensor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA15F71B344D7A69A0EA78 /* Sensor.swift */; };
 		2DBA17A5560A3307DB0B5779 /* Actuator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA17BC87BB7669431A6B7C /* Actuator.swift */; };
 		2DBA194DD3DD550955C3BB42 /* PicoBoardProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA13C931ED5C0590DC0D4B /* PicoBoardProtocol.swift */; };
+		2DBA1D41F37D799F7BB829F6 /* Devices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA12A6B2B49A0D84B440AC /* Devices.swift */; };
 		2DBA1DB76623A8BDB48E3193 /* Serial.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA121108B5FBEDFD8AC275 /* Serial.swift */; };
+		2DBA1EBF5E0740B74D81FC37 /* IOPort.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA163CBBE94A1C39752802 /* IOPort.swift */; };
 		FACF676523872AA700A7BE34 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = FACF676423872AA700A7BE34 /* main.swift */; };
 /* End PBXBuildFile section */
 
@@ -30,10 +32,12 @@
 
 /* Begin PBXFileReference section */
 		2DBA121108B5FBEDFD8AC275 /* Serial.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Serial.swift; sourceTree = "<group>"; };
+		2DBA12A6B2B49A0D84B440AC /* Devices.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Devices.swift; sourceTree = "<group>"; };
 		2DBA13C931ED5C0590DC0D4B /* PicoBoardProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PicoBoardProtocol.swift; sourceTree = "<group>"; };
 		2DBA15AE6FFBD7980F65EA0A /* TetraCode */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = TetraCode; sourceTree = BUILT_PRODUCTS_DIR; };
 		2DBA15CECB0AFF99008622B7 /* PlaygroundTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlaygroundTest.swift; sourceTree = "<group>"; };
 		2DBA15F71B344D7A69A0EA78 /* Sensor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Sensor.swift; sourceTree = "<group>"; };
+		2DBA163CBBE94A1C39752802 /* IOPort.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IOPort.swift; sourceTree = "<group>"; };
 		2DBA17800239C3B85673B6DD /* Tetra.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tetra.swift; sourceTree = "<group>"; };
 		2DBA17BC87BB7669431A6B7C /* Actuator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Actuator.swift; sourceTree = "<group>"; };
 		FACF676423872AA700A7BE34 /* main.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
@@ -74,8 +78,18 @@
 				2DBA17800239C3B85673B6DD /* Tetra.swift */,
 				2DBA13C931ED5C0590DC0D4B /* PicoBoardProtocol.swift */,
 				2DBA166E2758DBBE0711CD52 /* Serial */,
+				2DBA1C1BFD523E01D0378FA7 /* Utils */,
+				2DBA163CBBE94A1C39752802 /* IOPort.swift */,
 			);
 			path = Tetra;
+			sourceTree = "<group>";
+		};
+		2DBA1C1BFD523E01D0378FA7 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				2DBA12A6B2B49A0D84B440AC /* Devices.swift */,
+			);
+			path = Utils;
 			sourceTree = "<group>";
 		};
 		2DBA1C2940256FD56D025F26 /* Products */ = {
@@ -154,6 +168,8 @@
 				2DBA194DD3DD550955C3BB42 /* PicoBoardProtocol.swift in Sources */,
 				2DBA1DB76623A8BDB48E3193 /* Serial.swift in Sources */,
 				2DBA15B0DF52B803E573E0AE /* PlaygroundTest.swift in Sources */,
+				2DBA1D41F37D799F7BB829F6 /* Devices.swift in Sources */,
+				2DBA1EBF5E0740B74D81FC37 /* IOPort.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

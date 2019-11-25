@@ -81,7 +81,7 @@ class TetraProtocol {
     private enum State: Equatable {
         case initial // need to send handshake
         case awaitingConfiguration // need to receive configuration
-        case receivingSensorData // receive sensors, send actuators
+        case receivingData // receive sensors, send actuators
     }
 
     private struct PortInfo {
@@ -147,7 +147,7 @@ class TetraProtocol {
     func start() {
         guard state == .initial else { fatalError("Can't start protocol from non-initial state") }
 
-        sensorsPacketSize = 0
+        sensorsPacketByteSize = 0
         buffer = []
 
         send(data: [ Packet.Command.handshake.code, TetraProtocol.version ])
@@ -164,29 +164,31 @@ class TetraProtocol {
 
     func stop() {
         state = .initial
-        sensorsPacketSize = 0
+        sensorsPacketByteSize = 0
         buffer = []
     }
 
     // MARK: - Sending
 
     func sendActuatorData(_ actuators: [(portIndex: UInt8, value: UInt)]) {
+        let analogData = configuration.analogInputs
+            .compactMap { input in actuators.first(where: { input.index == $0.portIndex }) }
+        let digitalData = configuration.digitalInputs
+            .compactMap { input in actuators.first(where: { input.index == $0.portIndex }) }
+        guard analogData.count == configuration.analogInputs.count, digitalData.count == configuration.digitalInputs.count else {
+            fatalError("Can't send actuator data, because it does not correspond to port configuration")
+        }
+
         var data: [UInt8] = [ Packet.Command.actuators.code ]
-        configuration.analogInputs
-            .forEach { portInfo in
-                guard let actuator = actuators.first(where: { $0.portIndex == portInfo.index }) else { return }
-
-                let actuatorData = [ portInfo.index, UInt8((actuator.value >> 8) & 0b11111111), UInt8(actuator.value & 0b11111111) ]
-                data.append(contentsOf: actuatorData)
-            }
-        configuration.digitalInputs
-            .forEach { portInfo in
-                guard let actuator = actuators.first(where: { $0.portIndex == portInfo.index }) else { return }
-
-                let actuatorData = [ portInfo.index, actuator.value == 0 ? 0 : 1 ]
-                data.append(contentsOf: actuatorData)
-            }
-
+        data.append(contentsOf: analogData.flatMap { [
+            $0.portIndex,
+            UInt8(($0.value >> 8) & 0b11111111),
+            UInt8($0.value & 0b11111111)
+        ] })
+        data.append(contentsOf: digitalData.flatMap { [
+            $0.portIndex,
+            $0.value == 0 ? 0 : 1
+        ] })
         workQueue.async { self.send(data: data) }
     }
 
@@ -207,7 +209,7 @@ class TetraProtocol {
     // MARK: - Receiving
 
     private var serialPort: SerialPort
-    private var sensorsPacketSize: Int = 0
+    private var sensorsPacketByteSize: Int = 0
     private let bufferSize: Int = 32
     private var buffer: [UInt8] = []
 
@@ -241,41 +243,44 @@ class TetraProtocol {
                 let count = Int(buffer[2])
                 if count != 0 {
                     if buffer.count >= 3 + count * 2 {
-                        let ports = (0 ..< count)
+                        let ports: [PortInfo] = (0 ..< count)
                             .compactMap { index in
-                                PortInfo.Port(from: buffer[3 + index + 1]).map { PortInfo(index: buffer[3 + index], port: $0) }
+                                guard let port = PortInfo.Port(from: buffer[3 + index + 1]) else { return nil }
+
+                                return PortInfo(index: buffer[3 + index], port: port)
                             }
                         guard ports.count == count else {
                             fatalError("Got \(count) ports, but could process only \(ports.count)")
                         }
 
                         configuration = Configuration(ports: ports)
-                        sensorsPacketSize = configuration.analogOutputs.count * 2 + configuration.digitalOutputs.count
+                        sensorsPacketByteSize = configuration.analogOutputs.count * 2 + configuration.digitalOutputs.count
                         buffer = Array(buffer.dropFirst(3 + count * 2))
-                        state = .receivingSensorData
+                        state = .receivingData
                     }
                 } else {
                     handleError("Protocol is OK, but we've got no ports as configuration.")
-                    state = .receivingSensorData
+                    state = .receivingData
                 }
-            case .receivingSensorData:
+            case .receivingData:
                 guard
                     command == .sensors,
-                    buffer.count >= 1 + sensorsPacketSize
-                else { fatalError("Got wrong command (\(command)) in receivingSensorData state") }
+                    buffer.count >= 1 + sensorsPacketByteSize
+                else { fatalError("Got wrong command (\(command)) in receivingData state") }
 
                 let analogValues = configuration.analogOutputs
                     .enumerated()
                     .map { index, port in
                         (portIndex: port.index, value: (UInt(buffer[1 + index * 2]) << 8) | UInt(buffer[1 + index * 2 + 1]))
                     }
+                let digitalFirstIndex = 1 + configuration.analogOutputs.count * 2
                 let digitalValues = configuration.digitalOutputs
                     .enumerated()
                     .map { index, port in
-                        (portIndex: port.index, value: (UInt(buffer[1 + index * 2]) << 8) | UInt(buffer[1 + index * 2 + 1]))
+                        (portIndex: port.index, value: UInt(buffer[digitalFirstIndex + index]))
                     }
 
-                buffer = Array(buffer.dropFirst(1 + sensorsPacketSize))
+                buffer = Array(buffer.dropFirst(1 + sensorsPacketByteSize))
                 handleSensorData(analogValues + digitalValues)
             case .initial:
                 break

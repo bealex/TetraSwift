@@ -194,10 +194,9 @@ class Tetra {
 
         workQueue.async {
             do {
-                var bytes = self.picoBoardProtocol.bytes(id: id.tetraId, value: rawValue)
+                var bytes = self.picoBoardProtocol.encode(id: id.tetraId, value: Int(rawValue))
                 while !bytes.isEmpty {
                     let sent = try self.serialPort.writeBytes(from: bytes, size: bytes.count)
-
                     bytes = Array(bytes.dropFirst(sent))
                 }
                 if !silent {
@@ -234,7 +233,7 @@ class Tetra {
 
         workQueue.async {
             do {
-                var bytes: [UInt8] = self.picoBoardProtocol.bytes(id: id.tetraId, value: 1023)
+                var bytes: [UInt8] = self.picoBoardProtocol.encode(id: id.tetraId, value: 1023)
                 var displayDigitCommand: UInt = 1001
                 var mask: UInt8 = 0b11111111
                 string.forEach { character in
@@ -242,19 +241,19 @@ class Tetra {
                         mask = QuadDisplayDigits.digit_dot
                     } else {
                         if let encoded = QuadDisplayDigits.encode(character: character) {
-                            bytes.insert(contentsOf: self.picoBoardProtocol.bytes(id: id.tetraId, value: UInt(encoded & mask)), at: 0)
-                            bytes.insert(contentsOf: self.picoBoardProtocol.bytes(id: id.tetraId, value: displayDigitCommand), at: 0)
+//                            bytes.insert(contentsOf: self.picoBoardProtocol.encode(id: id.tetraId, value: UInt(encoded & mask)), at: 0)
+//                            bytes.insert(contentsOf: self.picoBoardProtocol.encode(id: id.tetraId, value: displayDigitCommand), at: 0)
                         }
                         mask = 0b11111111
                         displayDigitCommand += 1
                     }
                 }
                 if mask != 0b11111111, let encoded = QuadDisplayDigits.encode(character: ".") {
-                    bytes.insert(contentsOf: self.picoBoardProtocol.bytes(id: id.tetraId, value: UInt(encoded)), at: 0)
-                    bytes.insert(contentsOf: self.picoBoardProtocol.bytes(id: id.tetraId, value: displayDigitCommand), at: 0)
+//                    bytes.insert(contentsOf: self.picoBoardProtocol.encode(id: id.tetraId, value: UInt(encoded)), at: 0)
+//                    bytes.insert(contentsOf: self.picoBoardProtocol.encode(id: id.tetraId, value: displayDigitCommand), at: 0)
                 }
 
-                bytes.insert(contentsOf: self.picoBoardProtocol.bytes(id: id.tetraId, value: 1000), at: 0)
+                bytes.insert(contentsOf: self.picoBoardProtocol.encode(id: id.tetraId, value: 1000), at: 0)
 
                 while !bytes.isEmpty {
                     let sent = try self.serialPort.writeBytes(from: bytes, size: bytes.count)
@@ -279,10 +278,10 @@ class Tetra {
             }
 
             if bytes.count == 2 {
-                let (id, value) = self.picoBoardProtocol.data(from: bytes)
+                let (id, value) = self.picoBoardProtocol.decode(from: bytes)
                 bytes = []
 
-                if let port = IOPort(sensorTetraId: id), let sensor = sensors[port], sensor.update(rawValue: value) {
+                if let port = IOPort(sensorTetraId: id), let sensor = sensors[port], sensor.update(rawValue: UInt(value)) {
                     self.notifySensorListenersAboutUpdate(of: sensor)
                 }
             }

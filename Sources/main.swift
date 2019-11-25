@@ -44,15 +44,6 @@ tetra.run {
     tetra.on(tetra.temperatureSensor) {
         tetra.quadDisplay.value = String(format: "%.1f˚", tetra.temperatureSensor.value)
     }
-//    tetra.on(tetra.lightSensor) {
-//        print("Light: \(tetra.lightSensor.value)")
-//    }
-//    tetra.on(tetra.magneticSensor) {
-//        print("Magnetic: \(tetra.magneticSensor.value)")
-//    }
-//    tetra.on(tetra.temperatureSensor) {
-//        print("Temperature: \(tetra.temperatureSensor.value)")
-//    }
     tetra.on(tetra.potentiometer) {
         if tetra.potentiometer.value < 0.5 {
             tetra.analogLEDs[.digital5].value = 0

@@ -14,12 +14,7 @@ tetra.installSensors(
         AnalogSensor(kind: .light, port: .analog0, sampleTimes: 8),
         AnalogSensor(kind: .potentiometer, port: .analog1, sampleTimes: 4),
         AnalogSensor(kind: .magnetic, port: .analog2, sampleTimes: 8, tolerance: 0.01),
-        AnalogSensor(kind: .temperature, port: .analog3, sampleTimes: 32, tolerance: 0.03) { rawAverage in
-            // https://github.com/amperka/TroykaThermometer/blob/master/src/TroykaThermometer.cpp ¯\_(ツ)_/¯
-            let sensorVoltage = rawAverage * (5.0 / 1023.0) // 5 — voltage, 1024 — maxValue
-            let temperatureCelsius = (sensorVoltage - 0.5) * 100.0
-            return temperatureCelsius
-        },
+        AnalogSensor(kind: .temperature, port: .analog3, sampleTimes: 32, tolerance: 0.03, calculate: SensorCalculator.celsiusTemperature),
     ],
     digital: [
         DigitalSensor(kind: .infrared, port: .analog4),

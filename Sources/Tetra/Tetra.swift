@@ -61,7 +61,7 @@ class Tetra {
 
     init(pathToSerialPort: String, useTetraProtocol: Bool, eventQueue: DispatchQueue) {
         self.eventQueue = eventQueue
-        serialPort = HardwareSerialPort(path: "/dev/tty.usbmodem14801")
+        serialPort = HardwareSerialPort(path: pathToSerialPort)
 
         arduinoBoard = useTetraProtocol
             ? TetraBoard(serialPort: serialPort, errorHandler: log, sensorDataHandler: process(sensorData:))
@@ -133,6 +133,8 @@ class Tetra {
 
     func run(execute: @escaping () -> Void) {
         start()
+        guard opened else { return stop() }
+
         execute()
 
         while !sensorListeners.isEmpty {
@@ -149,7 +151,7 @@ class Tetra {
     // MARK: - Lifecycle methods
 
     private func start() {
-        open()
+        openSerialPort()
         guard opened else { return }
 
         arduinoBoard.start()
@@ -158,11 +160,11 @@ class Tetra {
 
     private func stop() {
         arduinoBoard.stop()
-        close()
+        closeSerialPort()
         log(message: "Stopped")
     }
 
-    private func open() {
+    private func openSerialPort() {
         do {
             try serialPort.openPort()
             opened = true
@@ -173,7 +175,7 @@ class Tetra {
         }
     }
 
-    private func close() {
+    private func closeSerialPort() {
         sensorListeners = []
         serialPort.closePort()
         opened = false

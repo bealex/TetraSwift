@@ -87,8 +87,8 @@ void sendSensorValues() {
     Serial.write(B00000010);
     // send analog sensor values
     for (sensorIndex = 0; sensorIndex < 6; sensorIndex++) {
-        Serial.write((byte) sensorValues[sensorIndex] >> 8);
-        Serial.write((byte) sensorValues[sensorIndex] & B11111111);
+        Serial.write((byte) ((sensorValues[sensorIndex] >> 8) & B00000011));
+        Serial.write((byte) (sensorValues[sensorIndex] & B11111111));
     }
     // send digital sensor values
     Serial.write((byte) digital6);

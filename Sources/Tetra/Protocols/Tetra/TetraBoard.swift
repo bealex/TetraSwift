@@ -261,7 +261,6 @@ class TetraBoard: ArduinoBoard {
 
         handleSensorData(analogValues + digitalValues)
         buffer = Array(buffer.dropFirst(fullPayloadSize))
-        log(message: "Got sensors")
     }
 
     // MARK: - Utilities

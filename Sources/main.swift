@@ -8,7 +8,13 @@
 
 import Foundation
 
-let tetra = Tetra(pathToSerialPort: "/dev/tty.usbmodem14801", useTetraProtocol: true, eventQueue: DispatchQueue.global())
+// MBP :-)
+let arduinoSerialPort = "/dev/tty.usbmodem14301"
+// iMac Pro :-)
+// let arduinoSerialPort = "/dev/tty.usbmodem14801"
+
+let tetra = Tetra(pathToSerialPort: arduinoSerialPort, useTetraProtocol: true, eventQueue: DispatchQueue.global())
+
 tetra.installSensors(
     analog: [
         AnalogSensor(kind: .light, port: .analog0, sampleTimes: 8),

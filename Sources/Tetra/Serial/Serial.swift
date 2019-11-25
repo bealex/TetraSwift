@@ -168,6 +168,7 @@ class HardwareSerialPort: SerialPort {
 
         // Throw error if open() failed
         if fileDescriptor == PortError.failedToOpen.rawValue {
+            print("Error opening port, errno: \(errno)")
             throw PortError.failedToOpen
         }
     }
@@ -265,9 +266,7 @@ class HardwareSerialPort: SerialPort {
     }
 
     func readBytes(into buffer: UnsafeMutablePointer<UInt8>, size: Int) throws -> Int {
-        guard let fileDescriptor = fileDescriptor else {
-            throw PortError.mustBeOpen
-        }
+        guard let fileDescriptor = fileDescriptor else { throw PortError.mustBeOpen }
 
         var statistics: stat = stat()
         fstat(fileDescriptor, &statistics)
@@ -275,16 +274,12 @@ class HardwareSerialPort: SerialPort {
             throw PortError.deviceNotConnected
         }
 
-        let bytesRead = read(fileDescriptor, buffer, size)
-        return bytesRead
+        return read(fileDescriptor, buffer, size)
     }
 
     func writeBytes(from buffer: UnsafePointer<UInt8>, size: Int) throws -> Int {
-        guard let fileDescriptor = fileDescriptor else {
-            throw PortError.mustBeOpen
-        }
+        guard let fileDescriptor = fileDescriptor else { throw PortError.mustBeOpen }
 
-        let bytesWritten = write(fileDescriptor, buffer, size)
-        return bytesWritten
+        return write(fileDescriptor, buffer, size)
     }
 }

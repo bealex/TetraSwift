@@ -8,7 +8,7 @@
 
 import Foundation
 
-let tetra = Tetra(pathToSerialPort: "/dev/tty.usbmodem14801", eventQueue: DispatchQueue.global())
+let tetra = Tetra(pathToSerialPort: "/dev/tty.usbmodem14801", useTetraProtocol: true, eventQueue: DispatchQueue.global())
 tetra.installSensors(
     analog: [
         AnalogSensor(kind: .light, port: .analog0, sampleTimes: 8),
@@ -41,9 +41,6 @@ tetra.installActuators(
 )
 
 tetra.run {
-    tetra.on(tetra.temperatureSensor) {
-        tetra.quadDisplay.value = String(format: "%.1f˚", tetra.temperatureSensor.value)
-    }
     tetra.on(tetra.potentiometer) {
         if tetra.potentiometer.value < 0.5 {
             tetra.analogLEDs[.digital5].value = 0
@@ -81,5 +78,8 @@ tetra.run {
 //        tetra.buzzer.value = 0
 //    }
 
-    tetra.quadDisplay.value = "HoHo"
+//    tetra.on(tetra.temperatureSensor) {
+//        tetra.quadDisplay.value = String(format: "%.1f˚", tetra.temperatureSensor.value)
+//    }
+//    tetra.quadDisplay.value = "HoHo"
 }

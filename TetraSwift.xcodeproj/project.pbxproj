@@ -9,16 +9,19 @@
 /* Begin PBXBuildFile section */
 		2DBA12768A1B25CBCC096985 /* SensorCalculations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA100EDA4AA77D07861AF5 /* SensorCalculations.swift */; };
 		2DBA13591F671312ECEDBDF7 /* Tetra.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA17800239C3B85673B6DD /* Tetra.swift */; };
+		2DBA14DA210EF1160FC0A106 /* TetraProtocolPort.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA151E0E1934DD13B9F2AC /* TetraProtocolPort.swift */; };
 		2DBA15B0DF52B803E573E0AE /* PlaygroundTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA15CECB0AFF99008622B7 /* PlaygroundTest.swift */; };
 		2DBA15F8CC62BAC715188F7B /* Sensor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA15F71B344D7A69A0EA78 /* Sensor.swift */; };
+		2DBA177ED661C06B99783D59 /* TetraProtocolCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA1C860A5C4AEECD5937A6 /* TetraProtocolCommand.swift */; };
 		2DBA17A5560A3307DB0B5779 /* Actuator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA17BC87BB7669431A6B7C /* Actuator.swift */; };
-		2DBA18480475A82A157B8A1F /* TetraSwiftProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA11B1CB53B81E7EE55C81 /* TetraSwiftProtocol.swift */; };
+		2DBA19129F07AA67CEA4AC85 /* PicoBoard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA19FA2CEC34BE80AB78AD /* PicoBoard.swift */; };
+		2DBA1B5258ABD254C237A8ED /* TetraBoard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA1DD95F5276EA6C80BFEB /* TetraBoard.swift */; };
 		2DBA1D41F37D799F7BB829F6 /* Devices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA12A6B2B49A0D84B440AC /* Devices.swift */; };
 		2DBA1DB76623A8BDB48E3193 /* Serial.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA121108B5FBEDFD8AC275 /* Serial.swift */; };
+		2DBA1E1EB14F2169B524892F /* TetraBoardTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA11F441A977B0000EBDBB /* TetraBoardTests.swift */; };
 		2DBA1E30649DA6A19CA56AA1 /* QuadDisplayDigits.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA1465707577361A8181BC /* QuadDisplayDigits.swift */; };
-		2DBA1E39A832C77E983B3F65 /* PicoBoardProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA1B2C000054BF6484B2E5 /* PicoBoardProtocol.swift */; };
 		2DBA1EBF5E0740B74D81FC37 /* IOPort.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA163CBBE94A1C39752802 /* IOPort.swift */; };
-		2DBA1EBFC6E29ED828A1AD88 /* ArduinoProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA166A5FED2FC944A926D7 /* ArduinoProtocol.swift */; };
+		2DBA1EBFC6E29ED828A1AD88 /* ArduinoBoard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA166A5FED2FC944A926D7 /* ArduinoBoard.swift */; };
 		FACF676523872AA700A7BE34 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = FACF676423872AA700A7BE34 /* main.swift */; };
 /* End PBXBuildFile section */
 
@@ -36,18 +39,21 @@
 
 /* Begin PBXFileReference section */
 		2DBA100EDA4AA77D07861AF5 /* SensorCalculations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SensorCalculations.swift; sourceTree = "<group>"; };
-		2DBA11B1CB53B81E7EE55C81 /* TetraSwiftProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TetraSwiftProtocol.swift; sourceTree = "<group>"; };
+		2DBA11F441A977B0000EBDBB /* TetraBoardTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TetraBoardTests.swift; sourceTree = "<group>"; };
 		2DBA121108B5FBEDFD8AC275 /* Serial.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Serial.swift; sourceTree = "<group>"; };
 		2DBA12A6B2B49A0D84B440AC /* Devices.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Devices.swift; sourceTree = "<group>"; };
 		2DBA1465707577361A8181BC /* QuadDisplayDigits.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuadDisplayDigits.swift; sourceTree = "<group>"; };
-		2DBA15AE6FFBD7980F65EA0A /* TetraCode */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = TetraCode; sourceTree = BUILT_PRODUCTS_DIR; };
+		2DBA151E0E1934DD13B9F2AC /* TetraProtocolPort.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TetraProtocolPort.swift; sourceTree = "<group>"; };
+		2DBA15AE6FFBD7980F65EA0A /* TetraSwift */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = TetraSwift; sourceTree = BUILT_PRODUCTS_DIR; };
 		2DBA15CECB0AFF99008622B7 /* PlaygroundTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlaygroundTest.swift; sourceTree = "<group>"; };
 		2DBA15F71B344D7A69A0EA78 /* Sensor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Sensor.swift; sourceTree = "<group>"; };
 		2DBA163CBBE94A1C39752802 /* IOPort.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IOPort.swift; sourceTree = "<group>"; };
-		2DBA166A5FED2FC944A926D7 /* ArduinoProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArduinoProtocol.swift; sourceTree = "<group>"; };
+		2DBA166A5FED2FC944A926D7 /* ArduinoBoard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArduinoBoard.swift; sourceTree = "<group>"; };
 		2DBA17800239C3B85673B6DD /* Tetra.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tetra.swift; sourceTree = "<group>"; };
 		2DBA17BC87BB7669431A6B7C /* Actuator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Actuator.swift; sourceTree = "<group>"; };
-		2DBA1B2C000054BF6484B2E5 /* PicoBoardProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PicoBoardProtocol.swift; sourceTree = "<group>"; };
+		2DBA19FA2CEC34BE80AB78AD /* PicoBoard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PicoBoard.swift; sourceTree = "<group>"; };
+		2DBA1C860A5C4AEECD5937A6 /* TetraProtocolCommand.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TetraProtocolCommand.swift; sourceTree = "<group>"; };
+		2DBA1DD95F5276EA6C80BFEB /* TetraBoard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TetraBoard.swift; sourceTree = "<group>"; };
 		FACF676423872AA700A7BE34 /* main.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -62,12 +68,20 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2DBA1041F56848E352C7030D /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				2DBA11F441A977B0000EBDBB /* TetraBoardTests.swift */,
+			);
+			path = Tests;
+			sourceTree = "<group>";
+		};
 		2DBA14AA66975EDED56D05A4 /* Protocols */ = {
 			isa = PBXGroup;
 			children = (
-				2DBA1B2C000054BF6484B2E5 /* PicoBoardProtocol.swift */,
-				2DBA166A5FED2FC944A926D7 /* ArduinoProtocol.swift */,
-				2DBA11B1CB53B81E7EE55C81 /* TetraSwiftProtocol.swift */,
+				2DBA166A5FED2FC944A926D7 /* ArduinoBoard.swift */,
+				2DBA1D895EDF3E977DB22FBC /* Tetra */,
+				2DBA1D03EB6452E5738DE3C7 /* Pico */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -115,9 +129,27 @@
 		2DBA1C2940256FD56D025F26 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				2DBA15AE6FFBD7980F65EA0A /* TetraCode */,
+				2DBA15AE6FFBD7980F65EA0A /* TetraSwift */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		2DBA1D03EB6452E5738DE3C7 /* Pico */ = {
+			isa = PBXGroup;
+			children = (
+				2DBA19FA2CEC34BE80AB78AD /* PicoBoard.swift */,
+			);
+			path = Pico;
+			sourceTree = "<group>";
+		};
+		2DBA1D895EDF3E977DB22FBC /* Tetra */ = {
+			isa = PBXGroup;
+			children = (
+				2DBA1DD95F5276EA6C80BFEB /* TetraBoard.swift */,
+				2DBA1C860A5C4AEECD5937A6 /* TetraProtocolCommand.swift */,
+				2DBA151E0E1934DD13B9F2AC /* TetraProtocolPort.swift */,
+			);
+			path = Tetra;
 			sourceTree = "<group>";
 		};
 		FACF676323872AA700A7BE34 /* Sources */ = {
@@ -126,6 +158,7 @@
 				FACF676423872AA700A7BE34 /* main.swift */,
 				2DBA184C16C2CAE23E4B7981 /* Tetra */,
 				2DBA15CECB0AFF99008622B7 /* PlaygroundTest.swift */,
+				2DBA1041F56848E352C7030D /* Tests */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -133,9 +166,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		2DBA12E23D8A6533DDFA42C4 /* TetraCode */ = {
+		2DBA12E23D8A6533DDFA42C4 /* TetraSwift */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 2DBA1383E6607730E792A93E /* Build configuration list for PBXNativeTarget "TetraCode" */;
+			buildConfigurationList = 2DBA1383E6607730E792A93E /* Build configuration list for PBXNativeTarget "TetraSwift" */;
 			buildPhases = (
 				2DBA11CAF5E25D77E7CCBCF9 /* Sources */,
 				2DBA16C2357A241BAEAF4054 /* Frameworks */,
@@ -145,9 +178,9 @@
 			);
 			dependencies = (
 			);
-			name = TetraCode;
+			name = TetraSwift;
 			productName = TetraCode;
-			productReference = 2DBA15AE6FFBD7980F65EA0A /* TetraCode */;
+			productReference = 2DBA15AE6FFBD7980F65EA0A /* TetraSwift */;
 			productType = "com.apple.product-type.tool";
 		};
 /* End PBXNativeTarget section */
@@ -158,7 +191,7 @@
 			attributes = {
 				ORGANIZATIONNAME = LonelyBytes;
 			};
-			buildConfigurationList = 2DBA1C2DE672FF23455C0DE6 /* Build configuration list for PBXProject "TetraCode" */;
+			buildConfigurationList = 2DBA1C2DE672FF23455C0DE6 /* Build configuration list for PBXProject "TetraSwift" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -171,7 +204,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				2DBA12E23D8A6533DDFA42C4 /* TetraCode */,
+				2DBA12E23D8A6533DDFA42C4 /* TetraSwift */,
 			);
 		};
 /* End PBXProject section */
@@ -191,9 +224,12 @@
 				2DBA1EBF5E0740B74D81FC37 /* IOPort.swift in Sources */,
 				2DBA1E30649DA6A19CA56AA1 /* QuadDisplayDigits.swift in Sources */,
 				2DBA12768A1B25CBCC096985 /* SensorCalculations.swift in Sources */,
-				2DBA1E39A832C77E983B3F65 /* PicoBoardProtocol.swift in Sources */,
-				2DBA1EBFC6E29ED828A1AD88 /* ArduinoProtocol.swift in Sources */,
-				2DBA18480475A82A157B8A1F /* TetraSwiftProtocol.swift in Sources */,
+				2DBA1EBFC6E29ED828A1AD88 /* ArduinoBoard.swift in Sources */,
+				2DBA1B5258ABD254C237A8ED /* TetraBoard.swift in Sources */,
+				2DBA177ED661C06B99783D59 /* TetraProtocolCommand.swift in Sources */,
+				2DBA14DA210EF1160FC0A106 /* TetraProtocolPort.swift in Sources */,
+				2DBA19129F07AA67CEA4AC85 /* PicoBoard.swift in Sources */,
+				2DBA1E1EB14F2169B524892F /* TetraBoardTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -331,7 +367,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		2DBA1383E6607730E792A93E /* Build configuration list for PBXNativeTarget "TetraCode" */ = {
+		2DBA1383E6607730E792A93E /* Build configuration list for PBXNativeTarget "TetraSwift" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				2DBA1ABF42AB64D4F5B5BAA6 /* Debug */,
@@ -340,7 +376,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		2DBA1C2DE672FF23455C0DE6 /* Build configuration list for PBXProject "TetraCode" */ = {
+		2DBA1C2DE672FF23455C0DE6 /* Build configuration list for PBXProject "TetraSwift" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				2DBA1C94DF7683BE9CF783D0 /* Debug */,

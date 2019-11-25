@@ -45,15 +45,12 @@ protocol Actuator: class {
     var port: IOPort { get }
     var rawValue: UInt { get }
 
-    var needsRefresh: Bool { get }
-
     var changedListener: () -> Void { get set }
 }
 
 class AnalogActuator: Actuator, CustomDebugStringConvertible {
     let kind: ActuatorKind
     let port: IOPort
-    let needsRefresh: Bool
     var changedListener: () -> Void = {}
     private(set) var rawValue: UInt = 0
     private let maxValue: UInt
@@ -67,10 +64,9 @@ class AnalogActuator: Actuator, CustomDebugStringConvertible {
         }
     }
 
-    init(kind: ActuatorKind, port: IOPort, maxValue: UInt, needsRefresh: Bool = true) {
+    init(kind: ActuatorKind, port: IOPort, maxValue: UInt) {
         self.kind = kind
         self.port = port
-        self.needsRefresh = needsRefresh
         self.maxValue = maxValue
     }
 
@@ -80,7 +76,6 @@ class AnalogActuator: Actuator, CustomDebugStringConvertible {
 class DigitalActuator: Actuator, CustomDebugStringConvertible {
     let kind: ActuatorKind
     let port: IOPort
-    let needsRefresh: Bool
     private(set) var rawValue: UInt = 0
     var changedListener: () -> Void = {}
     var value: Bool = false {
@@ -101,10 +96,9 @@ class DigitalActuator: Actuator, CustomDebugStringConvertible {
         value = false
     }
 
-    init(kind: ActuatorKind, port: IOPort, needsRefresh: Bool = true) {
+    init(kind: ActuatorKind, port: IOPort) {
         self.kind = kind
         self.port = port
-        self.needsRefresh = needsRefresh
     }
 
     var debugDescription: String { "\(kind) ~> \(value) (\(rawValue))" }
@@ -113,7 +107,6 @@ class DigitalActuator: Actuator, CustomDebugStringConvertible {
 class QuadNumericDisplayActuator: Actuator, CustomDebugStringConvertible {
     let kind: ActuatorKind
     let port: IOPort
-    let needsRefresh: Bool = false
     private(set) var rawValue: UInt = 0
     var changedListener: () -> Void = {}
     var value: String = "" {

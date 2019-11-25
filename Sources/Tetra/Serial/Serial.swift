@@ -8,7 +8,7 @@
 
 import Foundation
 
-public enum BaudRate {
+enum BaudRate {
     case baud0
     case baud50
     case baud75
@@ -54,7 +54,7 @@ public enum BaudRate {
     }
 }
 
-public enum DataBitsSize {
+enum DataBitsSize {
     case bits5
     case bits6
     case bits7
@@ -70,7 +70,7 @@ public enum DataBitsSize {
     }
 }
 
-public enum ParityType {
+enum ParityType {
     case none
     case even
     case odd
@@ -84,7 +84,7 @@ public enum ParityType {
     }
 }
 
-public enum PortError: Int32, Error {
+enum PortError: Int32, Error {
     case failedToOpen = -1 // refer to open()
     case invalidPath
     case mustReceiveOrTransmit
@@ -94,19 +94,65 @@ public enum PortError: Int32, Error {
     case deviceNotConnected
 }
 
-public class SerialPort {
-    var path: String
-    var fileDescriptor: Int32?
+protocol SerialPort {
+    func openPort(toReceive receive: Bool, andTransmit transmit: Bool) throws
+    func setSettings(receiveRate: BaudRate,
+        transmitRate: BaudRate,
+        minimumBytesToRead: Int,
+        timeout: Int,
+        parityType: ParityType,
+        sendTwoStopBits: Bool,
+        dataBitsSize: DataBitsSize,
+        useHardwareFlowControl: Bool,
+        useSoftwareFlowControl: Bool,
+        processOutput: Bool
+    )
+    func closePort()
+    func readBytes(into buffer: UnsafeMutablePointer<UInt8>, size: Int) throws -> Int
+    func writeBytes(from buffer: UnsafePointer<UInt8>, size: Int) throws -> Int
+}
 
-    public init(path: String) {
-        self.path = path
-    }
-
-    public func openPort() throws {
+extension SerialPort {
+    func openPort() throws {
         try openPort(toReceive: true, andTransmit: true)
     }
 
-    public func openPort(toReceive receive: Bool, andTransmit transmit: Bool) throws {
+    func setSettings(receiveRate: BaudRate,
+        transmitRate: BaudRate,
+        minimumBytesToRead: Int,
+        timeout: Int = 0, /* 0 means wait indefinitely */
+        parityType: ParityType = .none,
+        sendTwoStopBits: Bool = false, /* 1 stop bit is the default */
+        dataBitsSize: DataBitsSize = .bits8,
+        useHardwareFlowControl: Bool = false,
+        useSoftwareFlowControl: Bool = false,
+        processOutput: Bool = false
+    ) {
+        setSettings(
+            receiveRate: receiveRate,
+            transmitRate: transmitRate,
+            minimumBytesToRead: minimumBytesToRead,
+            timeout: timeout,
+            parityType: parityType,
+            sendTwoStopBits: sendTwoStopBits,
+            dataBitsSize: dataBitsSize,
+            useHardwareFlowControl: useHardwareFlowControl,
+            useSoftwareFlowControl: useSoftwareFlowControl,
+            processOutput: processOutput
+        )
+    }
+
+}
+
+class HardwareSerialPort: SerialPort {
+    var path: String
+    var fileDescriptor: Int32?
+
+    init(path: String) {
+        self.path = path
+    }
+
+    func openPort(toReceive receive: Bool, andTransmit transmit: Bool) throws {
         guard !path.isEmpty else { throw PortError.invalidPath }
         guard receive || transmit else { throw PortError.mustReceiveOrTransmit }
 
@@ -126,7 +172,7 @@ public class SerialPort {
         }
     }
 
-    public func setSettings(receiveRate: BaudRate,
+    func setSettings(receiveRate: BaudRate,
         transmitRate: BaudRate,
         minimumBytesToRead: Int,
         timeout: Int = 0, /* 0 means wait indefinitely */
@@ -211,18 +257,14 @@ public class SerialPort {
         tcsetattr(fileDescriptor, TCSANOW, &settings)
     }
 
-    public func closePort() {
+    func closePort() {
         if let fileDescriptor = fileDescriptor {
             close(fileDescriptor)
         }
         fileDescriptor = nil
     }
-}
 
-// MARK: Receiving
-
-extension SerialPort {
-    public func readBytes(into buffer: UnsafeMutablePointer<UInt8>, size: Int) throws -> Int {
+    func readBytes(into buffer: UnsafeMutablePointer<UInt8>, size: Int) throws -> Int {
         guard let fileDescriptor = fileDescriptor else {
             throw PortError.mustBeOpen
         }
@@ -237,139 +279,12 @@ extension SerialPort {
         return bytesRead
     }
 
-    public func readData(ofLength length: Int) throws -> Data {
-        let buffer = UnsafeMutablePointer<UInt8>.allocate(capacity: length)
-        defer {
-            buffer.deallocate()
-        }
-
-        let bytesRead = try readBytes(into: buffer, size: length)
-
-        var data: Data
-
-        if bytesRead > 0 {
-            data = Data(bytes: buffer, count: bytesRead)
-        } else {
-            // This is to avoid the case where bytesRead can be negative causing problems allocating the Data buffer
-            data = Data(bytes: buffer, count: 0)
-        }
-
-        return data
-    }
-
-    public func readString(ofLength length: Int) throws -> String {
-        var remainingBytesToRead = length
-        var result = ""
-
-        while remainingBytesToRead > 0 {
-            let data = try readData(ofLength: remainingBytesToRead)
-
-            if let string = String(data: data, encoding: String.Encoding.utf8) {
-                result += string
-                remainingBytesToRead -= data.count
-            } else {
-                return result
-            }
-        }
-
-        return result
-    }
-
-    public func readUntilChar(_ terminator: CChar) throws -> String {
-        var data = Data()
-        let buffer = UnsafeMutablePointer<UInt8>.allocate(capacity: 1)
-        defer {
-            buffer.deallocate()
-        }
-
-        while true {
-            let bytesRead = try readBytes(into: buffer, size: 1)
-
-            if bytesRead > 0 {
-                if buffer[0] > 127 {
-                    throw PortError.unableToConvertByteToCharacter
-                }
-                let character = CChar(buffer[0])
-
-                if character == terminator {
-                    break
-                } else {
-                    data.append(buffer, count: 1)
-                }
-            }
-        }
-
-        if let string = String(data: data, encoding: String.Encoding.utf8) {
-            return string
-        } else {
-            throw PortError.stringsMustBeUTF8
-        }
-    }
-
-    public func readLine() throws -> String {
-        let newlineChar = CChar(10) // Newline/Line feed character `\n` is 10
-        return try readUntilChar(newlineChar)
-    }
-
-    public func readByte() throws -> UInt8 {
-        let buffer = UnsafeMutablePointer<UInt8>.allocate(capacity: 1)
-
-        defer {
-            buffer.deallocate()
-        }
-
-        while true {
-            let bytesRead = try readBytes(into: buffer, size: 1)
-
-            if bytesRead > 0 {
-                return buffer[0]
-            }
-        }
-    }
-
-    public func readChar() throws -> UnicodeScalar {
-        let byteRead = try readByte()
-        let character = UnicodeScalar(byteRead)
-        return character
-    }
-}
-
-// MARK: Transmitting
-
-extension SerialPort {
-    public func writeBytes(from buffer: UnsafePointer<UInt8>, size: Int) throws -> Int {
+    func writeBytes(from buffer: UnsafePointer<UInt8>, size: Int) throws -> Int {
         guard let fileDescriptor = fileDescriptor else {
             throw PortError.mustBeOpen
         }
 
         let bytesWritten = write(fileDescriptor, buffer, size)
-        return bytesWritten
-    }
-
-    public func writeData(_ data: Data) throws -> Int {
-        let size = data.count
-        let buffer = UnsafeMutablePointer<UInt8>.allocate(capacity: size)
-        defer {
-            buffer.deallocate()
-        }
-
-        data.copyBytes(to: buffer, count: size)
-
-        let bytesWritten = try writeBytes(from: buffer, size: size)
-        return bytesWritten
-    }
-
-    public func writeString(_ string: String) throws -> Int {
-        guard let data = string.data(using: String.Encoding.utf8) else {
-            throw PortError.stringsMustBeUTF8
-        }
-
-        return try writeData(data)
-    }
-
-    public func writeChar(_ character: UnicodeScalar) throws -> Int {
-        let stringEquiv = String(character)
-        let bytesWritten = try writeString(stringEquiv)
         return bytesWritten
     }
 }

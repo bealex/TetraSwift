@@ -11,7 +11,6 @@ import Foundation
 class Tetra {
     private let serialPort: SerialPort
     private var opened = false
-    private var started: Bool = false
 
     private let workQueue: DispatchQueue = DispatchQueue(label: "tetra", qos: .default)
     private let eventQueue: DispatchQueue
@@ -58,9 +57,15 @@ class Tetra {
     var digitalLED: DigitalActuator { digitalLEDs.single }
     var quadDisplay: QuadNumericDisplayActuator { quadDisplays.single }
 
-    init(pathToSerialPort: String, eventQueue: DispatchQueue) {
+    private var arduinoBoard: ArduinoBoard!
+
+    init(pathToSerialPort: String, useTetraProtocol: Bool, eventQueue: DispatchQueue) {
         self.eventQueue = eventQueue
-        serialPort = SerialPort(path: "/dev/tty.usbmodem14801")
+        serialPort = HardwareSerialPort(path: "/dev/tty.usbmodem14801")
+
+        arduinoBoard = useTetraProtocol
+            ? TetraBoard(serialPort: serialPort, errorHandler: log, sensorDataHandler: process(sensorData:))
+            : PicoBoard(serialPort: serialPort, errorHandler: log, sensorDataHandler: process(sensorData:))
     }
 
     private var sensors: [IOPort: Sensor] = [:]
@@ -93,7 +98,9 @@ class Tetra {
         analog.forEach { actuator in
             actuators[actuator.port] = actuator
             analogActuators[actuator.port] = actuator
-            actuator.changedListener = { self.write(id: actuator.port, rawValue: actuator.rawValue, silent: false) }
+            actuator.changedListener = {
+                self.arduinoBoard.sendActuator(portId: actuator.port.tetraId, rawValue: actuator.rawValue)
+            }
             switch actuator.kind {
                 case .buzzer: buzzers[actuator.port] = actuator
                 case .motor: motors[actuator.port] = actuator
@@ -104,7 +111,9 @@ class Tetra {
         digital.forEach { actuator in
             actuators[actuator.port] = actuator
             digitalActuators[actuator.port] = actuator
-            actuator.changedListener = { self.write(id: actuator.port, rawValue: actuator.rawValue, silent: false) }
+            actuator.changedListener = {
+                self.arduinoBoard.sendActuator(portId: actuator.port.tetraId, rawValue: actuator.rawValue)
+            }
             switch actuator.kind {
                 case .digitalLED: digitalLEDs[actuator.port] = actuator
                 case .buzzer, .motor, .analogLED, .quadDisplay: break
@@ -113,7 +122,8 @@ class Tetra {
         displays.forEach { actuator in
             actuators[actuator.port] = actuator
             displayActuators[actuator.port] = actuator
-            actuator.changedListener = { self.writeToQuadDisplay(id: actuator.port, string: actuator.value, silent: false) }
+            // TODO: Restore
+//            actuator.changedListener = { self.writeToQuadDisplay(id: actuator.port, string: actuator.value, silent: false) }
             switch actuator.kind {
                 case .quadDisplay: quadDisplays[actuator.port] = actuator
                 case .buzzer, .motor, .analogLED, .digitalLED: break
@@ -124,11 +134,11 @@ class Tetra {
     func run(execute: @escaping () -> Void) {
         start()
         execute()
-        workQueue.async(execute: runLoop)
 
-        while started {
+        while !sensorListeners.isEmpty {
             Thread.sleep(forTimeInterval: 0.1)
         }
+        stop()
     }
 
     func sleep(_ time: TimeInterval) {
@@ -138,19 +148,16 @@ class Tetra {
 
     // MARK: - Lifecycle methods
 
-    private let picoBoardProtocol = PicoBoardProtocol()
-    private var lastActuatorsUpdateTime: TimeInterval = 0
-
     private func start() {
         open()
         guard opened else { return }
 
-        started = true
+        arduinoBoard.start()
         log(message: "Started")
     }
 
     private func stop() {
-        started = false
+        arduinoBoard.stop()
         close()
         log(message: "Stopped")
     }
@@ -172,132 +179,15 @@ class Tetra {
         opened = false
     }
 
-    private func runLoop() {
-        guard started else { return close() }
-
-        if sensorListeners.isEmpty {
-            stop()
-        } else {
-            read()
-            updateAllActuators()
-            workQueue.async(execute: runLoop)
-        }
-    }
-
     // MARK: - Input and output
 
-    private var buffer: [UInt8] = [ 0, 0 ]
-    private var bytes: [UInt8] = []
+    private func process(sensorData: [(portId: UInt8, value: UInt)]) {
+        sensorData.forEach { data in
+            guard let port = IOPort(sensorTetraId: data.portId), let sensor = sensors[port] else { return }
 
-    private func write(id: IOPort, rawValue: UInt, silent: Bool = true) {
-        guard opened && started else { return }
-
-        workQueue.async {
-            do {
-                var bytes = self.picoBoardProtocol.encode(id: id.tetraId, value: Int(rawValue))
-                while !bytes.isEmpty {
-                    let sent = try self.serialPort.writeBytes(from: bytes, size: bytes.count)
-                    bytes = Array(bytes.dropFirst(sent))
-                }
-                if !silent {
-                    self.log(message: " \(id) <- \(rawValue)")
-                }
-            } catch {
-                self.log(message: "Error writing \(rawValue) to \(id): \(error)")
+            if sensor.update(rawValue: data.value) {
+                notifySensorListenersAboutUpdate(of: sensor)
             }
-        }
-    }
-
-    /**
-        This sends 4 digits to the Arduino Quad Display, and then sends command "show".
-        Sequence:
-        1000 (meaning start of a program)
-        1001
-        [segments of digit 1]
-        1002
-        [segments of digit 2]
-        1003
-        [segments of digit 3]
-        1004
-        [segments of digit 4]
-        1023
-
-        Pin is "virtual pin", Quad Display itself must be connected to 5 specific pins (please look into Arduino Sketch).
-     */
-    private func writeToQuadDisplay(id: IOPort, string: String, silent: Bool = true) {
-        guard opened && started else { return }
-        guard string.replacingOccurrences(of: ".", with: "").count <= 4 else {
-            log(message: "Can't write more than 4 symbols \(string) on quad display")
-            return
-        }
-
-        workQueue.async {
-            do {
-                var bytes: [UInt8] = self.picoBoardProtocol.encode(id: id.tetraId, value: 1023)
-                var displayDigitCommand: UInt = 1001
-                var mask: UInt8 = 0b11111111
-                string.forEach { character in
-                    if character == "." {
-                        mask = QuadDisplayDigits.digit_dot
-                    } else {
-                        if let encoded = QuadDisplayDigits.encode(character: character) {
-//                            bytes.insert(contentsOf: self.picoBoardProtocol.encode(id: id.tetraId, value: UInt(encoded & mask)), at: 0)
-//                            bytes.insert(contentsOf: self.picoBoardProtocol.encode(id: id.tetraId, value: displayDigitCommand), at: 0)
-                        }
-                        mask = 0b11111111
-                        displayDigitCommand += 1
-                    }
-                }
-                if mask != 0b11111111, let encoded = QuadDisplayDigits.encode(character: ".") {
-//                    bytes.insert(contentsOf: self.picoBoardProtocol.encode(id: id.tetraId, value: UInt(encoded)), at: 0)
-//                    bytes.insert(contentsOf: self.picoBoardProtocol.encode(id: id.tetraId, value: displayDigitCommand), at: 0)
-                }
-
-                bytes.insert(contentsOf: self.picoBoardProtocol.encode(id: id.tetraId, value: 1000), at: 0)
-
-                while !bytes.isEmpty {
-                    let sent = try self.serialPort.writeBytes(from: bytes, size: bytes.count)
-                    bytes = Array(bytes.dropFirst(sent))
-                }
-                if !silent {
-                    self.log(message: " \(id) <- Display \"\(string)\"")
-                }
-            } catch {
-                self.log(message: "Error displaying \"\(string)\" on \(id): \(error)")
-            }
-        }
-    }
-
-    private func read() {
-        guard opened && started else { return }
-
-        do {
-            let readCount = try self.serialPort.readBytes(into: &buffer, size: 2 - bytes.count)
-            if readCount > 0 {
-                bytes.append(contentsOf: buffer[0 ..< readCount])
-            }
-
-            if bytes.count == 2 {
-                let (id, value) = self.picoBoardProtocol.decode(from: bytes)
-                bytes = []
-
-                if let port = IOPort(sensorTetraId: id), let sensor = sensors[port], sensor.update(rawValue: UInt(value)) {
-                    self.notifySensorListenersAboutUpdate(of: sensor)
-                }
-            }
-        } catch {
-            self.log(message: "Error reading: \(error)")
-            self.stop()
-        }
-    }
-
-    private func updateAllActuators() {
-        let currentTime = Date.timeIntervalSinceReferenceDate
-        if currentTime - lastActuatorsUpdateTime > 0.01 {
-            lastActuatorsUpdateTime = currentTime
-            actuators.values
-                .filter { $0.needsRefresh }
-                .forEach { self.write(id: $0.port, rawValue: $0.rawValue) }
         }
     }
 

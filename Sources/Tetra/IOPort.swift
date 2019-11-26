@@ -28,8 +28,6 @@ enum IOPort: Hashable, CustomDebugStringConvertible {
     case digital12
     case digital13
 
-    case fake14
-
     init?(sensorTetraId: UInt8) {
         switch sensorTetraId {
             case 0: self = .analog0
@@ -66,8 +64,6 @@ enum IOPort: Hashable, CustomDebugStringConvertible {
             case .digital11: return 11
             case .digital12: return 12
             case .digital13: return 13
-
-            case .fake14: return 14
         }
     }
 
@@ -93,8 +89,6 @@ enum IOPort: Hashable, CustomDebugStringConvertible {
             case .digital11: return "#m11"
             case .digital12: return "#m12"
             case .digital13: return "#m13"
-
-            case .fake14: return "%14"
         }
     }
 
@@ -120,8 +114,6 @@ enum IOPort: Hashable, CustomDebugStringConvertible {
             case .digital11: return "Digital 11"
             case .digital12: return "Digital 12"
             case .digital13: return "Digital 13"
-
-            case .fake14: return "N/A"
         }
     }
 }

@@ -18,6 +18,7 @@ protocol ArduinoBoard: class {
     func start()
     func stop()
 
+    func showOnQuadDisplay(portId: UInt8, value: String)
     func sendActuator(portId: UInt8, rawValue: UInt)
     func sendAllActuators(analog: [(portId: UInt8, value: UInt)], digital: [(portId: UInt8, value: UInt)])
 }

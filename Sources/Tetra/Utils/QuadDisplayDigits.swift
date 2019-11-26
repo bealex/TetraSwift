@@ -63,6 +63,7 @@ struct QuadDisplayDigits {
     private static let digit_degree: UInt8 = 0b00111001
     private static let digit_under_degree: UInt8 = 0b11000101
 
+    static let digit_space: UInt8 = 0b11111111
     static let digit_dot: UInt8 = 0b11111110
 
     // swiftlint:disable cyclomatic_complexity
@@ -116,9 +117,11 @@ struct QuadDisplayDigits {
             case "u": return QuadDisplayDigits.digit_u
             case "Y": return QuadDisplayDigits.digit_Y
             case "y": return QuadDisplayDigits.digit_y
+
             case "˚": return QuadDisplayDigits.digit_degree
             case "-": return QuadDisplayDigits.digit_minus
             case "_": return QuadDisplayDigits.digit_underscore
+            case " ": return QuadDisplayDigits.digit_space
 
             default: return QuadDisplayDigits.digit_underscore
         }

@@ -1,5 +1,7 @@
+#include <QuadDisplay2.h>
+
 typedef enum {
-    input, servomotor, pwm, digital
+    input, servomotor, pwm, digital, quaddisplay
 } pinType;
 
 typedef struct pin {
@@ -9,9 +11,10 @@ typedef struct pin {
 
 pin arduinoPins[14]; //Array of struct holding 0-13 pins information
 unsigned long lastDataReceivedTime = millis();
+QuadDisplay quadDisplay(8);
 
 // 0 — waiting for handshake, 1 - send/receive
-static int state = 0;
+int state = 0;
 
 void setup() {
     Serial.begin(38400);
@@ -41,7 +44,7 @@ void configurePins() {
     arduinoPins[5].type = pwm;
     arduinoPins[6].type = pwm;
     arduinoPins[7].type = servomotor;
-    arduinoPins[8].type = servomotor;
+    arduinoPins[8].type = quaddisplay; // servomotor
     arduinoPins[9].type = pwm;
     arduinoPins[10].type = digital;
     arduinoPins[11].type = digital;
@@ -62,6 +65,8 @@ void resetPins() {
             }
         }
     }
+    quadDisplay.begin();
+    quadDisplay.displayClear();
 }
 
 void sendSensorValues() {
@@ -81,8 +86,8 @@ void sendSensorValues() {
         sensorValues[sensorIndex] = readings[2]; // select median reading
     }
 
-    byte digital6 = digitalRead(2) ? 1 : 0;
-    byte digital7 = digitalRead(2) ? 1 : 0;
+    byte digital6 = digitalRead(2) ? 255 : 0;
+    byte digital7 = digitalRead(3) ? 255 : 0;
 
     Serial.write(B00000010);
     // send analog sensor values
@@ -91,8 +96,8 @@ void sendSensorValues() {
         Serial.write((byte) (sensorValues[sensorIndex] & B11111111));
     }
     // send digital sensor values
-    Serial.write((byte) digital6);
-    Serial.write((byte) digital7);
+    Serial.write(digital6);
+    Serial.write(digital7);
 }
 
 void insertionSort(unsigned int *array, unsigned int n) {
@@ -110,9 +115,19 @@ void swap(unsigned int *array, unsigned int a, unsigned int b) {
 }
 
 void exception() {
+    state = 0;
+  
     Serial.end();
     Serial.begin(38400);
     Serial.flush();
+    resetPins();
+
+    for (int i = 0; i < 10; i++) {
+        digitalWrite(13, HIGH);
+        delay(50);
+        digitalWrite(13, LOW);
+        delay(50);
+    }
 }
 
 void readSerialPort() {
@@ -126,8 +141,10 @@ void readSerialPort() {
         buffer[position] = Serial.read();
         position += 1;
         if (position > max) {
+            position = 0;
             exception();
         }
+        lastDataReceivedTime = millis();
 
         if (state == 0) {
             if (position == 2) {
@@ -156,37 +173,46 @@ void readSerialPort() {
                     Serial.write((byte) 12); Serial.write((byte) 0b10); // digital, led
                     Serial.write((byte) 13); Serial.write((byte) 0b10); // digital, led
 
-                    lastDataReceivedTime = millis();
                     position = 0;
                     state = 1;
                 } else {
+                    position = 0;
                     exception();
                 }
             }
         } else if (state == 1) {
             if (position > 0) {
-                if (buffer[0] == B00000011 && position == 3) { // single actuator
-                    byte pinIndex = buffer[1];
-                    int value = buffer[2]; updatePin(pinIndex, value);
-
-                    lastDataReceivedTime = millis();
+                byte command = buffer[0];
+                if (command == B00000011) { // single actuator
+                    if (position == 3) {
+                        byte pinIndex = buffer[1];
+                        int value = buffer[2]; updatePin(pinIndex, value);
+                        position = 0;
+                    }
+                } else if (command == B00000100) { // all actuators
+                    if (position == 1 + 6 + 4) {
+                        int base = 1;
+                        int value = 0;
+                        value = buffer[base]; updatePin(4, value); base += 1;
+                        value = buffer[base]; updatePin(5, value); base += 1;
+                        value = buffer[base]; updatePin(6, value); base += 1;
+                        value = buffer[base]; updatePin(7, value); base += 1;
+                        value = buffer[base]; updatePin(8, value); base += 1;
+                        value = buffer[base]; updatePin(9, value); base += 1;
+                        value = buffer[base]; if (value == 0) value = 0; else value = 1023; updatePin(10, value); base += 1;
+                        value = buffer[base]; if (value == 0) value = 0; else value = 1023; updatePin(11, value); base += 1;
+                        value = buffer[base]; if (value == 0) value = 0; else value = 1023; updatePin(12, value); base += 1;
+                        value = buffer[base]; if (value == 0) value = 0; else value = 1023; updatePin(13, value); base += 1;
+                        position = 0;
+                    }
+                } else if (command == B00000101) {
+                    if (position == 6 && arduinoPins[buffer[1]].type == quaddisplay) {
+                        quadDisplay.displayDigits(buffer[2], buffer[3], buffer[4], buffer[5]);
+                        position = 0;
+                    }
+                } else {
                     position = 0;
-                } else if (buffer[0] == B00000100 && position == 1 + 6 + 4) { // all actuators
-                    int base = 1;
-                    int value = 0;
-                    value = buffer[base]; updatePin(4, value); base += 1;
-                    value = buffer[base]; updatePin(5, value); base += 1;
-                    value = buffer[base]; updatePin(6, value); base += 1;
-                    value = buffer[base]; updatePin(7, value); base += 1;
-                    value = buffer[base]; updatePin(8, value); base += 1;
-                    value = buffer[base]; updatePin(9, value); base += 1;
-                    value = buffer[base]; if (value != 0) { value = 1023; } updatePin(10, value); base += 1;
-                    value = buffer[base]; if (value != 0) { value = 1023; } updatePin(11, value); base += 1;
-                    value = buffer[base]; if (value != 0) { value = 1023; } updatePin(12, value); base += 1;
-                    value = buffer[base]; if (value != 0) { value = 1023; } updatePin(13, value); base += 1;
-
-                    lastDataReceivedTime = millis();
-                    position = 0;
+                    exception();
                 }
             }
         }

@@ -95,6 +95,8 @@ enum PortError: Int32, Error {
 }
 
 protocol SerialPort {
+    var isOpened: Bool { get }
+
     func openPort(toReceive receive: Bool, andTransmit transmit: Bool) throws
     func setSettings(receiveRate: BaudRate,
         transmitRate: BaudRate,
@@ -147,6 +149,8 @@ extension SerialPort {
 class HardwareSerialPort: SerialPort {
     var path: String
     var fileDescriptor: Int32?
+
+    var isOpened: Bool { fileDescriptor ?? 0 > 0 }
 
     init(path: String) {
         self.path = path

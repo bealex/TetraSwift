@@ -122,8 +122,7 @@ class Tetra {
         displays.forEach { actuator in
             actuators[actuator.port] = actuator
             displayActuators[actuator.port] = actuator
-            // TODO: Restore
-//            actuator.changedListener = { self.writeToQuadDisplay(id: actuator.port, string: actuator.value, silent: false) }
+            actuator.changedListener = { self.arduinoBoard.showOnQuadDisplay(portId: actuator.port.tetraId, value: actuator.value) }
             switch actuator.kind {
                 case .quadDisplay: quadDisplays[actuator.port] = actuator
                 case .buzzer, .motor, .analogLED, .digitalLED: break
@@ -138,6 +137,9 @@ class Tetra {
         execute()
 
         while !sensorListeners.isEmpty {
+            if !serialPort.isOpened {
+                break
+            }
             Thread.sleep(forTimeInterval: 0.1)
         }
         stop()

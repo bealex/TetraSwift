@@ -85,6 +85,10 @@ class PicoBoard: ArduinoBoard {
 
     private var lastActuatorRawValues: [UInt8: (portId: UInt8, value: UInt)] = [:]
 
+    func showOnQuadDisplay(portId: UInt8, value: String) {
+        handleError("Quad Display is not implemented")
+    }
+
     func sendActuator(portId: UInt8, rawValue: UInt) {
         guard started else { return }
 

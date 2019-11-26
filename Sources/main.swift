@@ -8,19 +8,16 @@
 
 import Foundation
 
-// MBP :-)
-let arduinoSerialPort = "/dev/tty.usbmodem14301"
-// iMac Pro :-)
-// let arduinoSerialPort = "/dev/tty.usbmodem14801"
+let arduinoSerialPort = "/dev/tty.usbmodem14201"
 
 let tetra = Tetra(pathToSerialPort: arduinoSerialPort, useTetraProtocol: true, eventQueue: DispatchQueue.global())
 
 tetra.installSensors(
     analog: [
         AnalogSensor(kind: .light, port: .analog0, sampleTimes: 8),
-        AnalogSensor(kind: .potentiometer, port: .analog1, sampleTimes: 4),
+        AnalogSensor(kind: .potentiometer, port: .analog1, sampleTimes: 4, tolerance: 0.7),
         AnalogSensor(kind: .magnetic, port: .analog2, sampleTimes: 8, tolerance: 0.01),
-        AnalogSensor(kind: .temperature, port: .analog3, sampleTimes: 32, tolerance: 0.03, calculate: SensorCalculator.celsiusTemperature),
+        AnalogSensor(kind: .temperature, port: .analog3, sampleTimes: 32, tolerance: 0.05, calculate: SensorCalculator.celsiusTemperature),
     ],
     digital: [
         DigitalSensor(kind: .infrared, port: .analog4),
@@ -30,7 +27,7 @@ tetra.installSensors(
 )
 tetra.installActuators(
     analog: [
-//        AnalogActuator(kind: .motor, port: .motor4, maxValue: 180), // Motor pins are replaced by QuadDisplay
+        AnalogActuator(kind: .motor, port: .digital4, maxValue: 180),
         AnalogActuator(kind: .buzzer, port: .digital9, maxValue: 200),
         AnalogActuator(kind: .analogLED(.green), port: .digital5, maxValue: 200),
         AnalogActuator(kind: .analogLED(.red), port: .digital6, maxValue: 200),
@@ -42,7 +39,7 @@ tetra.installActuators(
         DigitalActuator(kind: .digitalLED(.red), port: .digital13),
     ],
     displays: [
-        QuadNumericDisplayActuator(kind: .quadDisplay, port: .fake14),
+        QuadNumericDisplayActuator(kind: .quadDisplay, port: .digital8),
     ]
 )
 
@@ -84,8 +81,9 @@ tetra.run {
 //        tetra.buzzer.value = 0
 //    }
 
-//    tetra.on(tetra.temperatureSensor) {
-//        tetra.quadDisplay.value = String(format: "%.1f˚", tetra.temperatureSensor.value)
-//    }
+    tetra.on(tetra.temperatureSensor) {
+        print("Temperature: \(tetra.temperatureSensor.value)")
+        tetra.quadDisplay.value = String(format: "%.1f˚", tetra.temperatureSensor.value)
+    }
 //    tetra.quadDisplay.value = "HoHo"
 }

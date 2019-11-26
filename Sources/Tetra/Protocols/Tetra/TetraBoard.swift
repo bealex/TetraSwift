@@ -111,19 +111,25 @@ class TetraBoard: ArduinoBoard {
         guard state == .initial else { fatalError("Can't start protocol from non-initial state") }
 
         buffer = []
-
-        state = .awaitingConfiguration
-        workQueue.async(execute: loop)
+        handshake()
+        loop()
         log(message: "Started")
-        send(data: [ Packet.Command.handshake.code, TetraBoard.version ])
         log(message: "Sent handshake")
     }
 
-    private func loop() {
-        guard state != .initial else { return }
+    private func handshake() {
+        send(data: [ Packet.Command.handshake.rawValue, TetraBoard.version ]) {
+            self.state = .awaitingConfiguration
+        }
+    }
 
-        receive()
-        workQueue.async(execute: loop)
+    private func loop() {
+        workQueue.async {
+            guard self.state != .initial else { return }
+
+            self.receive()
+            self.loop()
+        }
     }
 
     func stop() {
@@ -134,9 +140,34 @@ class TetraBoard: ArduinoBoard {
 
     // MARK: - Sending
 
+    func showOnQuadDisplay(portId: UInt8, value: String) {
+        var value = value
+        while value.replacingOccurrences(of: ".", with: "").count < 4 {
+            value = " \(value)"
+        }
+
+        var bytes: [UInt8] = [ Packet.Command.display.rawValue, portId ]
+        value.forEach { character in
+            if character == "." {
+                if bytes.count > 2 {
+                    bytes[bytes.count - 1] &= QuadDisplayDigits.digit_dot
+                } else {
+                    bytes.append(QuadDisplayDigits.digit_dot)
+                }
+            } else {
+                if let encoded = QuadDisplayDigits.encode(character: character) {
+                    bytes.append(encoded)
+                }
+            }
+        }
+        self.send(data: Array(bytes.prefix(6)))
+        log(message: "Sent to quad display \(portId): \(value)")
+    }
+
     func sendActuator(portId: UInt8, rawValue: UInt) {
+        let rawValue = min(255, rawValue)
         let data: [UInt8] =
-            [ Packet.Command.singleActuator.code ] +
+            [ Packet.Command.singleActuator.rawValue ] +
             [ portId, UInt8(rawValue & 0b11111111) ]
         self.send(data: data)
         log(message: "Sent actuator \(portId)")
@@ -151,16 +182,14 @@ class TetraBoard: ArduinoBoard {
         }
 
         let data: [UInt8] =
-            [ Packet.Command.allActuators.code ] +
+            [ Packet.Command.allActuators.rawValue ] +
             analog.flatMap { [ UInt8($0.value & 0b11111111) ] } +
             digital.flatMap { [ $0.value == 0 ? 0 : 1 ] }
         workQueue.async { self.send(data: data) }
         log(message: "Sent all actuators")
     }
 
-    private func send(data: [UInt8]) {
-        guard state != .initial else { return }
-
+    private func send(data: [UInt8], completion: @escaping () -> Void = {}) {
         workQueue.async {
             do {
                 var bytes = data
@@ -173,6 +202,7 @@ class TetraBoard: ArduinoBoard {
                         break
                     }
                 }
+                completion()
             } catch {
                 self.handleError("Error writing: \(error)")
             }
@@ -192,15 +222,15 @@ class TetraBoard: ArduinoBoard {
             let readCount = try serialPort.readBytes(into: &bytes, size: bufferSize)
             if readCount > 0 {
                 buffer.append(contentsOf: bytes[0 ..< readCount])
+                processBuffer()
             }
-            processBuffer()
         } catch {
             handleError("Error reading: \(error)")
         }
     }
 
     private func processBuffer() {
-        guard !buffer.isEmpty, let command = Packet.Command(from: buffer[0]) else { return }
+        guard !buffer.isEmpty, let command = Packet.Command(rawValue: buffer[0]) else { return }
 
         switch state {
             case .awaitingConfiguration:
@@ -233,13 +263,15 @@ class TetraBoard: ArduinoBoard {
                 configuration = Configuration(ports: ports)
                 buffer = Array(buffer.dropFirst(fullPayloadSize))
                 state = .receivingData
+
+                log(message: "Got configuration")
             }
         } else {
             handleError("Protocol is OK, but we've got no ports as configuration.")
             state = .receivingData
-        }
 
-        log(message: "Got configuration")
+            log(message: "Got configuration")
+        }
     }
 
     private func processSensorDataPayload() {
@@ -256,7 +288,7 @@ class TetraBoard: ArduinoBoard {
         let digitalValues = configuration.digitalOutputs
             .enumerated()
             .map { index, port in
-                (portId: port.id, value: UInt(buffer[digitalFirstIndex + index]))
+                (portId: port.id, value: UInt(buffer[digitalFirstIndex + index] > 0 ? 1023 : 0))
             }
 
         handleSensorData(analogValues + digitalValues)

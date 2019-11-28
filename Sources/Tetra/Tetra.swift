@@ -137,7 +137,7 @@ class Tetra {
             actuators[actuator.port] = actuator
             ledMatrixActuators[actuator.port] = actuator
             actuator.changedListener = {
-                self.arduinoBoard.showOnLEDMatrix(portId: actuator.port.tetraId, brightness: 0.5, character: actuator.value)
+                self.arduinoBoard.showOnLEDMatrix(portId: actuator.port.tetraId, brightness: 0.05, character: actuator.value)
             }
             switch actuator.kind {
                 case .ledMatrix: ledMatrixActuators[actuator.port] = actuator

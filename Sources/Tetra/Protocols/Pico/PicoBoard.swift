@@ -89,6 +89,10 @@ class PicoBoard: ArduinoBoard {
         handleError("Quad Display is not implemented")
     }
 
+    func showOnLEDMatrix(portId: UInt8, brightness: Double, character: Character) {
+        handleError("LED Matrix is not implemented")
+    }
+
     func sendActuator(portId: UInt8, rawValue: UInt) {
         guard started else { return }
 

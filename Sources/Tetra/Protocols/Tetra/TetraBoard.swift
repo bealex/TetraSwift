@@ -146,22 +146,30 @@ class TetraBoard: ArduinoBoard {
             value = " \(value)"
         }
 
-        var bytes: [UInt8] = [ Packet.Command.display.rawValue, portId ]
+        var bytes: [UInt8] = [ Packet.Command.quadDisplay.rawValue, portId ]
         value.forEach { character in
             if character == "." {
                 if bytes.count > 2 {
-                    bytes[bytes.count - 1] &= QuadDisplayDigits.digit_dot
+                    bytes[bytes.count - 1] &= QuadDisplay.digit_dot
                 } else {
-                    bytes.append(QuadDisplayDigits.digit_dot)
+                    bytes.append(QuadDisplay.digit_dot)
                 }
             } else {
-                if let encoded = QuadDisplayDigits.encode(character: character) {
+                if let encoded = QuadDisplay.encode(character: character) {
                     bytes.append(encoded)
                 }
             }
         }
         self.send(data: Array(bytes.prefix(6)))
         log(message: "Sent to quad display \(portId): \(value)")
+    }
+
+    // Brightness can be from 0 to 1, character — ASCII from 0 to 0x7f
+    func showOnLEDMatrix(portId: UInt8, brightness: Double, character: Character) {
+        let bytes: [UInt8] = [ Packet.Command.ledMatrix.rawValue, portId, LEDMatrix.brightness(value: brightness) ] +
+            LEDMatrix.data(for: character)
+        self.send(data: bytes)
+        log(message: "Sent data to LED Matrix \(portId)")
     }
 
     func sendActuator(portId: UInt8, rawValue: UInt) {

@@ -24,7 +24,8 @@ class Tetra {
 
     private(set) var analogActuators: Devices<AnalogActuator> = Devices(type: "Analog Actuator")
     private(set) var digitalActuators: Devices<DigitalActuator> = Devices(type: "Digital Actuator")
-    private(set) var displayActuators: Devices<QuadNumericDisplayActuator> = Devices(type: "Quad Numeric Display Actuator")
+    private(set) var quadDisplayActuators: Devices<QuadNumericDisplayActuator> = Devices(type: "Quad Numeric Display Actuator")
+    private(set) var ledMatrixActuators: Devices<LEDMatrixActuator> = Devices(type: "LED Matrix Actuator")
 
     // MARK: - Typed accessors
 
@@ -40,7 +41,6 @@ class Tetra {
     private(set) var buzzers: Devices<AnalogActuator> = Devices(type: "Buzzer")
     private(set) var analogLEDs: Devices<AnalogActuator> = Devices(type: "Analog LED")
     private(set) var digitalLEDs: Devices<DigitalActuator> = Devices(type: "Digital LED")
-    private(set) var quadDisplays: Devices<QuadNumericDisplayActuator> = Devices(type: "Quad Display")
 
     // MARK: - Single device accessors
 
@@ -55,7 +55,8 @@ class Tetra {
     var buzzer: AnalogActuator { buzzers.single }
     var analogLED: AnalogActuator { analogLEDs.single }
     var digitalLED: DigitalActuator { digitalLEDs.single }
-    var quadDisplay: QuadNumericDisplayActuator { quadDisplays.single }
+    var quadDisplay: QuadNumericDisplayActuator { quadDisplayActuators.single }
+    var ledMatrix: LEDMatrixActuator { ledMatrixActuators.single }
 
     private var arduinoBoard: ArduinoBoard!
 
@@ -94,7 +95,11 @@ class Tetra {
         }
     }
 
-    func installActuators(analog: [AnalogActuator], digital: [DigitalActuator], displays: [QuadNumericDisplayActuator]) {
+    func installActuators(
+        analog: [AnalogActuator], digital: [DigitalActuator],
+        quadDisplays: [QuadNumericDisplayActuator],
+        ledMatrices: [LEDMatrixActuator]
+    ) {
         analog.forEach { actuator in
             actuators[actuator.port] = actuator
             analogActuators[actuator.port] = actuator
@@ -105,7 +110,7 @@ class Tetra {
                 case .buzzer: buzzers[actuator.port] = actuator
                 case .motor: motors[actuator.port] = actuator
                 case .analogLED: analogLEDs[actuator.port] = actuator
-                case .digitalLED, .quadDisplay: break
+                case .digitalLED, .quadDisplay, .ledMatrix: break
             }
         }
         digital.forEach { actuator in
@@ -116,16 +121,27 @@ class Tetra {
             }
             switch actuator.kind {
                 case .digitalLED: digitalLEDs[actuator.port] = actuator
-                case .buzzer, .motor, .analogLED, .quadDisplay: break
+                case .buzzer, .motor, .analogLED, .quadDisplay, .ledMatrix: break
             }
         }
-        displays.forEach { actuator in
+        quadDisplays.forEach { actuator in
             actuators[actuator.port] = actuator
-            displayActuators[actuator.port] = actuator
+            quadDisplayActuators[actuator.port] = actuator
             actuator.changedListener = { self.arduinoBoard.showOnQuadDisplay(portId: actuator.port.tetraId, value: actuator.value) }
             switch actuator.kind {
-                case .quadDisplay: quadDisplays[actuator.port] = actuator
-                case .buzzer, .motor, .analogLED, .digitalLED: break
+                case .quadDisplay: quadDisplayActuators[actuator.port] = actuator
+                case .buzzer, .motor, .analogLED, .digitalLED, .ledMatrix: break
+            }
+        }
+        ledMatrices.forEach { actuator in
+            actuators[actuator.port] = actuator
+            ledMatrixActuators[actuator.port] = actuator
+            actuator.changedListener = {
+                self.arduinoBoard.showOnLEDMatrix(portId: actuator.port.tetraId, brightness: 0.5, character: actuator.value)
+            }
+            switch actuator.kind {
+                case .ledMatrix: ledMatrixActuators[actuator.port] = actuator
+                case .buzzer, .motor, .analogLED, .digitalLED, .quadDisplay: break
             }
         }
     }

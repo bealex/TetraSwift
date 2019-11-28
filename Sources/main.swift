@@ -8,7 +8,7 @@
 
 import Foundation
 
-let arduinoSerialPort = "/dev/tty.usbmodem14201"
+let arduinoSerialPort = "/dev/tty.usbmodem14801"
 
 let tetra = Tetra(pathToSerialPort: arduinoSerialPort, useTetraProtocol: true, eventQueue: DispatchQueue.global())
 
@@ -38,8 +38,11 @@ tetra.installActuators(
         DigitalActuator(kind: .digitalLED(.yellow), port: .digital12),
         DigitalActuator(kind: .digitalLED(.red), port: .digital13),
     ],
-    displays: [
+    quadDisplays: [
         QuadNumericDisplayActuator(kind: .quadDisplay, port: .digital8),
+    ],
+    ledMatrices: [
+        LEDMatrixActuator(kind: .ledMatrix(.monochrome), port: .digital7),
     ]
 )
 
@@ -86,4 +89,5 @@ tetra.run {
         tetra.quadDisplay.value = String(format: "%.1f˚", tetra.temperatureSensor.value)
     }
 //    tetra.quadDisplay.value = "HoHo"
+    tetra.ledMatrix.value = "@"
 }

@@ -16,7 +16,8 @@ extension TetraBoard {
             case sensors = 2
             case singleActuator = 3
             case allActuators = 4
-            case display = 5
+            case quadDisplay = 5
+            case ledMatrix = 6
         }
 
         let command: Command

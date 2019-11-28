@@ -10,8 +10,10 @@
 		2DBA12768A1B25CBCC096985 /* SensorCalculations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA100EDA4AA77D07861AF5 /* SensorCalculations.swift */; };
 		2DBA13591F671312ECEDBDF7 /* Tetra.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA17800239C3B85673B6DD /* Tetra.swift */; };
 		2DBA14DA210EF1160FC0A106 /* TetraProtocolPort.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA151E0E1934DD13B9F2AC /* TetraProtocolPort.swift */; };
+		2DBA1551FC0B8083E953A6E5 /* QuadDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA13BCAC7ECD316EC85A90 /* QuadDisplay.swift */; };
 		2DBA15B0DF52B803E573E0AE /* PlaygroundTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA15CECB0AFF99008622B7 /* PlaygroundTest.swift */; };
 		2DBA15F8CC62BAC715188F7B /* Sensor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA15F71B344D7A69A0EA78 /* Sensor.swift */; };
+		2DBA176D616510FA1DD0332C /* LEDMatrix.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA101A56B6A86BE6EF847B /* LEDMatrix.swift */; };
 		2DBA177ED661C06B99783D59 /* TetraProtocolCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA1C860A5C4AEECD5937A6 /* TetraProtocolCommand.swift */; };
 		2DBA17A5560A3307DB0B5779 /* Actuator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA17BC87BB7669431A6B7C /* Actuator.swift */; };
 		2DBA19129F07AA67CEA4AC85 /* PicoBoard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA19FA2CEC34BE80AB78AD /* PicoBoard.swift */; };
@@ -19,7 +21,6 @@
 		2DBA1D41F37D799F7BB829F6 /* Devices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA12A6B2B49A0D84B440AC /* Devices.swift */; };
 		2DBA1DB76623A8BDB48E3193 /* Serial.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA121108B5FBEDFD8AC275 /* Serial.swift */; };
 		2DBA1E1EB14F2169B524892F /* TetraBoardTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA11F441A977B0000EBDBB /* TetraBoardTests.swift */; };
-		2DBA1E30649DA6A19CA56AA1 /* QuadDisplayDigits.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA1465707577361A8181BC /* QuadDisplayDigits.swift */; };
 		2DBA1EBF5E0740B74D81FC37 /* IOPort.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA163CBBE94A1C39752802 /* IOPort.swift */; };
 		2DBA1EBFC6E29ED828A1AD88 /* ArduinoBoard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA166A5FED2FC944A926D7 /* ArduinoBoard.swift */; };
 		FACF676523872AA700A7BE34 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = FACF676423872AA700A7BE34 /* main.swift */; };
@@ -39,10 +40,11 @@
 
 /* Begin PBXFileReference section */
 		2DBA100EDA4AA77D07861AF5 /* SensorCalculations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SensorCalculations.swift; sourceTree = "<group>"; };
+		2DBA101A56B6A86BE6EF847B /* LEDMatrix.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LEDMatrix.swift; sourceTree = "<group>"; };
 		2DBA11F441A977B0000EBDBB /* TetraBoardTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TetraBoardTests.swift; sourceTree = "<group>"; };
 		2DBA121108B5FBEDFD8AC275 /* Serial.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Serial.swift; sourceTree = "<group>"; };
 		2DBA12A6B2B49A0D84B440AC /* Devices.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Devices.swift; sourceTree = "<group>"; };
-		2DBA1465707577361A8181BC /* QuadDisplayDigits.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuadDisplayDigits.swift; sourceTree = "<group>"; };
+		2DBA13BCAC7ECD316EC85A90 /* QuadDisplay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuadDisplay.swift; sourceTree = "<group>"; };
 		2DBA151E0E1934DD13B9F2AC /* TetraProtocolPort.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TetraProtocolPort.swift; sourceTree = "<group>"; };
 		2DBA15AE6FFBD7980F65EA0A /* TetraSwift */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = TetraSwift; sourceTree = BUILT_PRODUCTS_DIR; };
 		2DBA15CECB0AFF99008622B7 /* PlaygroundTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlaygroundTest.swift; sourceTree = "<group>"; };
@@ -117,11 +119,19 @@
 			path = Tetra;
 			sourceTree = "<group>";
 		};
+		2DBA1A25336459033B4F1A17 /* Devices */ = {
+			isa = PBXGroup;
+			children = (
+				2DBA13BCAC7ECD316EC85A90 /* QuadDisplay.swift */,
+				2DBA101A56B6A86BE6EF847B /* LEDMatrix.swift */,
+			);
+			path = Devices;
+			sourceTree = "<group>";
+		};
 		2DBA1C1BFD523E01D0378FA7 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
 				2DBA12A6B2B49A0D84B440AC /* Devices.swift */,
-				2DBA1465707577361A8181BC /* QuadDisplayDigits.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -148,6 +158,7 @@
 				2DBA1DD95F5276EA6C80BFEB /* TetraBoard.swift */,
 				2DBA1C860A5C4AEECD5937A6 /* TetraProtocolCommand.swift */,
 				2DBA151E0E1934DD13B9F2AC /* TetraProtocolPort.swift */,
+				2DBA1A25336459033B4F1A17 /* Devices */,
 			);
 			path = Tetra;
 			sourceTree = "<group>";
@@ -222,7 +233,6 @@
 				2DBA15B0DF52B803E573E0AE /* PlaygroundTest.swift in Sources */,
 				2DBA1D41F37D799F7BB829F6 /* Devices.swift in Sources */,
 				2DBA1EBF5E0740B74D81FC37 /* IOPort.swift in Sources */,
-				2DBA1E30649DA6A19CA56AA1 /* QuadDisplayDigits.swift in Sources */,
 				2DBA12768A1B25CBCC096985 /* SensorCalculations.swift in Sources */,
 				2DBA1EBFC6E29ED828A1AD88 /* ArduinoBoard.swift in Sources */,
 				2DBA1B5258ABD254C237A8ED /* TetraBoard.swift in Sources */,
@@ -230,6 +240,8 @@
 				2DBA14DA210EF1160FC0A106 /* TetraProtocolPort.swift in Sources */,
 				2DBA19129F07AA67CEA4AC85 /* PicoBoard.swift in Sources */,
 				2DBA1E1EB14F2169B524892F /* TetraBoardTests.swift in Sources */,
+				2DBA1551FC0B8083E953A6E5 /* QuadDisplay.swift in Sources */,
+				2DBA176D616510FA1DD0332C /* LEDMatrix.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

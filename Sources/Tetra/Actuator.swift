@@ -23,11 +23,22 @@ enum ActuatorKind: Hashable, CustomDebugStringConvertible {
         }
     }
 
+    enum LEDMatrixType: CustomDebugStringConvertible {
+        case monochrome
+
+        var debugDescription: String {
+            switch self {
+                case .monochrome: return "Monochrome"
+            }
+        }
+    }
+
     case motor
     case buzzer
     case analogLED(LEDColor)
     case digitalLED(LEDColor)
     case quadDisplay
+    case ledMatrix(LEDMatrixType)
 
     var debugDescription: String {
         switch self {
@@ -36,6 +47,7 @@ enum ActuatorKind: Hashable, CustomDebugStringConvertible {
             case .analogLED(let color): return "Analog LED, \(color)"
             case .digitalLED(let color): return "Digital LED, \(color)"
             case .quadDisplay: return "QuadDisplay"
+            case .ledMatrix(let type): return "Led Matrix, \(type)"
         }
     }
 }
@@ -110,6 +122,25 @@ class QuadNumericDisplayActuator: Actuator, CustomDebugStringConvertible {
     private(set) var rawValue: UInt = 0
     var changedListener: () -> Void = {}
     var value: String = "" {
+        didSet {
+            changedListener()
+        }
+    }
+
+    init(kind: ActuatorKind, port: IOPort) {
+        self.kind = kind
+        self.port = port
+    }
+
+    var debugDescription: String { "\(kind) ~> \(value)" }
+}
+
+class LEDMatrixActuator: Actuator, CustomDebugStringConvertible {
+    let kind: ActuatorKind
+    let port: IOPort
+    private(set) var rawValue: UInt = 0
+    var changedListener: () -> Void = {}
+    var value: Character = " " { // Make this custom matrix
         didSet {
             changedListener()
         }

@@ -1,5 +1,5 @@
 //
-// QuadDisplayDigits
+// QuadDisplay
 // TetraCode
 //
 // Created by Alex Babaev on 24 November 2019.
@@ -7,7 +7,7 @@
 //
 
 // swiftlint:disable identifier_name
-struct QuadDisplayDigits {
+struct QuadDisplay {
     private static let digit_0: UInt8 = 0b00000011
     private static let digit_1: UInt8 = 0b10011111
     private static let digit_2: UInt8 = 0b00100101
@@ -69,61 +69,61 @@ struct QuadDisplayDigits {
     // swiftlint:disable cyclomatic_complexity
     static func encode(character: Character) -> UInt8? {
         switch character {
-            case "0": return QuadDisplayDigits.digit_0
-            case "1": return QuadDisplayDigits.digit_1
-            case "2": return QuadDisplayDigits.digit_2
-            case "3": return QuadDisplayDigits.digit_3
-            case "4": return QuadDisplayDigits.digit_4
-            case "5": return QuadDisplayDigits.digit_5
-            case "6": return QuadDisplayDigits.digit_6
-            case "7": return QuadDisplayDigits.digit_7
-            case "8": return QuadDisplayDigits.digit_8
-            case "9": return QuadDisplayDigits.digit_9
-            case "A": return QuadDisplayDigits.digit_A
-            case "a": return QuadDisplayDigits.digit_a
-            case "B": return QuadDisplayDigits.digit_B
-            case "b": return QuadDisplayDigits.digit_b
-            case "C": return QuadDisplayDigits.digit_C
-            case "c": return QuadDisplayDigits.digit_c
-            case "D": return QuadDisplayDigits.digit_D
-            case "d": return QuadDisplayDigits.digit_d
-            case "E": return QuadDisplayDigits.digit_E
-            case "e": return QuadDisplayDigits.digit_e
-            case "F": return QuadDisplayDigits.digit_F
-            case "f": return QuadDisplayDigits.digit_f
-            case "H": return QuadDisplayDigits.digit_H
-            case "h": return QuadDisplayDigits.digit_h
-            case "I": return QuadDisplayDigits.digit_I
-            case "i": return QuadDisplayDigits.digit_i
-            case "J": return QuadDisplayDigits.digit_J
-            case "j": return QuadDisplayDigits.digit_j
-            case "K": return QuadDisplayDigits.digit_K
-            case "k": return QuadDisplayDigits.digit_k
-            case "L": return QuadDisplayDigits.digit_L
-            case "l": return QuadDisplayDigits.digit_l
-            case "N": return QuadDisplayDigits.digit_N
-            case "n": return QuadDisplayDigits.digit_n
-            case "O": return QuadDisplayDigits.digit_O
-            case "o": return QuadDisplayDigits.digit_o
-            case "P": return QuadDisplayDigits.digit_P
-            case "p": return QuadDisplayDigits.digit_p
-            case "R": return QuadDisplayDigits.digit_R
-            case "r": return QuadDisplayDigits.digit_r
-            case "S": return QuadDisplayDigits.digit_S
-            case "s": return QuadDisplayDigits.digit_s
-            case "T": return QuadDisplayDigits.digit_T
-            case "t": return QuadDisplayDigits.digit_t
-            case "U": return QuadDisplayDigits.digit_U
-            case "u": return QuadDisplayDigits.digit_u
-            case "Y": return QuadDisplayDigits.digit_Y
-            case "y": return QuadDisplayDigits.digit_y
+            case "0": return QuadDisplay.digit_0
+            case "1": return QuadDisplay.digit_1
+            case "2": return QuadDisplay.digit_2
+            case "3": return QuadDisplay.digit_3
+            case "4": return QuadDisplay.digit_4
+            case "5": return QuadDisplay.digit_5
+            case "6": return QuadDisplay.digit_6
+            case "7": return QuadDisplay.digit_7
+            case "8": return QuadDisplay.digit_8
+            case "9": return QuadDisplay.digit_9
+            case "A": return QuadDisplay.digit_A
+            case "a": return QuadDisplay.digit_a
+            case "B": return QuadDisplay.digit_B
+            case "b": return QuadDisplay.digit_b
+            case "C": return QuadDisplay.digit_C
+            case "c": return QuadDisplay.digit_c
+            case "D": return QuadDisplay.digit_D
+            case "d": return QuadDisplay.digit_d
+            case "E": return QuadDisplay.digit_E
+            case "e": return QuadDisplay.digit_e
+            case "F": return QuadDisplay.digit_F
+            case "f": return QuadDisplay.digit_f
+            case "H": return QuadDisplay.digit_H
+            case "h": return QuadDisplay.digit_h
+            case "I": return QuadDisplay.digit_I
+            case "i": return QuadDisplay.digit_i
+            case "J": return QuadDisplay.digit_J
+            case "j": return QuadDisplay.digit_j
+            case "K": return QuadDisplay.digit_K
+            case "k": return QuadDisplay.digit_k
+            case "L": return QuadDisplay.digit_L
+            case "l": return QuadDisplay.digit_l
+            case "N": return QuadDisplay.digit_N
+            case "n": return QuadDisplay.digit_n
+            case "O": return QuadDisplay.digit_O
+            case "o": return QuadDisplay.digit_o
+            case "P": return QuadDisplay.digit_P
+            case "p": return QuadDisplay.digit_p
+            case "R": return QuadDisplay.digit_R
+            case "r": return QuadDisplay.digit_r
+            case "S": return QuadDisplay.digit_S
+            case "s": return QuadDisplay.digit_s
+            case "T": return QuadDisplay.digit_T
+            case "t": return QuadDisplay.digit_t
+            case "U": return QuadDisplay.digit_U
+            case "u": return QuadDisplay.digit_u
+            case "Y": return QuadDisplay.digit_Y
+            case "y": return QuadDisplay.digit_y
 
-            case "˚": return QuadDisplayDigits.digit_degree
-            case "-": return QuadDisplayDigits.digit_minus
-            case "_": return QuadDisplayDigits.digit_underscore
-            case " ": return QuadDisplayDigits.digit_space
+            case "˚": return QuadDisplay.digit_degree
+            case "-": return QuadDisplay.digit_minus
+            case "_": return QuadDisplay.digit_underscore
+            case " ": return QuadDisplay.digit_space
 
-            default: return QuadDisplayDigits.digit_underscore
+            default: return QuadDisplay.digit_underscore
         }
     }
 }

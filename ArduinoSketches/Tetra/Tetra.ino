@@ -1,7 +1,9 @@
+#include <Wire.h>
+#include <TroykaLedMatrix.h>
 #include <QuadDisplay2.h>
 
 typedef enum {
-    input, servomotor, pwm, digital, quaddisplay
+    input, servomotor, pwm, digital, quaddisplay, ledmatrix
 } pinType;
 
 typedef struct pin {
@@ -11,7 +13,9 @@ typedef struct pin {
 
 pin arduinoPins[14]; //Array of struct holding 0-13 pins information
 unsigned long lastDataReceivedTime = millis();
+
 QuadDisplay quadDisplay(8);
+TroykaLedMatrix ledMatrix;
 
 // 0 — waiting for handshake, 1 - send/receive
 int state = 0;
@@ -43,7 +47,7 @@ void configurePins() {
     arduinoPins[4].type = servomotor;
     arduinoPins[5].type = pwm;
     arduinoPins[6].type = pwm;
-    arduinoPins[7].type = servomotor;
+    arduinoPins[7].type = ledmatrix; // servomotor
     arduinoPins[8].type = quaddisplay; // servomotor
     arduinoPins[9].type = pwm;
     arduinoPins[10].type = digital;
@@ -65,8 +69,12 @@ void resetPins() {
             }
         }
     }
+    
     quadDisplay.begin();
     quadDisplay.displayClear();
+
+    ledMatrix.begin();
+    ledMatrix.clear();
 }
 
 void sendSensorValues() {
@@ -89,7 +97,7 @@ void sendSensorValues() {
     byte digital6 = digitalRead(2) ? 255 : 0;
     byte digital7 = digitalRead(3) ? 255 : 0;
 
-    Serial.write(B00000010);
+    Serial.write(2);
     // send analog sensor values
     for (sensorIndex = 0; sensorIndex < 6; sensorIndex++) {
         Serial.write((byte) ((sensorValues[sensorIndex] >> 8) & B00000011));
@@ -149,7 +157,7 @@ void readSerialPort() {
         if (state == 0) {
             if (position == 2) {
                 if (buffer[0] == 0 && buffer[1] == version) {
-                    Serial.write((byte) B00000001);
+                    Serial.write((byte) 1);
                     Serial.write(version);
                     Serial.write((byte) 18); // ports count
                     // outputs
@@ -183,13 +191,13 @@ void readSerialPort() {
         } else if (state == 1) {
             if (position > 0) {
                 byte command = buffer[0];
-                if (command == B00000011) { // single actuator
+                if (command == 3) { // single actuator
                     if (position == 3) {
                         byte pinIndex = buffer[1];
                         int value = buffer[2]; updatePin(pinIndex, value);
                         position = 0;
                     }
-                } else if (command == B00000100) { // all actuators
+                } else if (command == 4) { // all actuators
                     if (position == 1 + 6 + 4) {
                         int base = 1;
                         int value = 0;
@@ -205,9 +213,15 @@ void readSerialPort() {
                         value = buffer[base]; if (value == 0) value = 0; else value = 1023; updatePin(13, value); base += 1;
                         position = 0;
                     }
-                } else if (command == B00000101) {
+                } else if (command == 5) {
                     if (position == 6 && arduinoPins[buffer[1]].type == quaddisplay) {
                         quadDisplay.displayDigits(buffer[2], buffer[3], buffer[4], buffer[5]);
+                        position = 0;
+                    }
+                } else if (command == 6) {
+                    if (position == 11 && arduinoPins[buffer[1]].type == ledmatrix) {
+                        ledMatrix.setCurrentLimit(buffer[2]);
+                        ledMatrix.drawBitmap(buffer + 3, false, 8);
                         position = 0;
                     }
                 } else {

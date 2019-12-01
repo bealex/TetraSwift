@@ -6,10 +6,7 @@
 //  Copyright © 2019 LonelyBytes. All rights reserved.
 //
 
-import Foundation
-
-let arduinoSerialPort = "/dev/tty.usbmodem14801"
-let tetra = Tetra(pathToSerialPort: arduinoSerialPort, useTetraProtocol: true, eventQueue: DispatchQueue.global())
+let tetra = Tetra(pathToSerialPort: "/dev/tty.usbmodem14801", useTetraProtocol: true)
 tetra.install(sensors: [
     .analog0: AnalogSensor(kind: .light, sampleTimes: 8),
     .analog1: AnalogSensor(kind: .potentiometer, sampleTimes: 4, tolerance: 0.7),

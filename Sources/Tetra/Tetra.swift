@@ -60,7 +60,7 @@ class Tetra {
 
     private var arduinoBoard: ArduinoBoard!
 
-    init(pathToSerialPort: String, useTetraProtocol: Bool, eventQueue: DispatchQueue) {
+    init(pathToSerialPort: String, useTetraProtocol: Bool, eventQueue: DispatchQueue = DispatchQueue.global()) {
         self.eventQueue = eventQueue
         serialPort = HardwareSerialPort(path: pathToSerialPort)
 

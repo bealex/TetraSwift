@@ -72,76 +72,67 @@ class Tetra {
     private var sensors: [IOPort: Sensor] = [:]
     private var actuators: [IOPort: Actuator] = [:]
 
-    func installSensors(analog: [AnalogSensor], digital: [DigitalSensor]) {
-        analog.forEach { sensor in
-            analogSensors[sensor.port] = sensor
-            sensors[sensor.port] = sensor
-            switch sensor.kind {
-                case .light: lightSensors[sensor.port] = sensor
-                case .potentiometer: potentiometers[sensor.port] = sensor
-                case .magnetic: magneticSensors[sensor.port] = sensor
-                case .temperature: temperatureSensors[sensor.port] = sensor
-                case .infrared, .button: break
-            }
-        }
-        digital.forEach { sensor in
-            digitalSensors[sensor.port] = sensor
-            sensors[sensor.port] = sensor
-            switch sensor.kind {
-                case .infrared: infraredSensors[sensor.port] = sensor
-                case .button: buttons[sensor.port] = sensor
-                case .light, .potentiometer, .magnetic, .temperature: break
+    func install(sensors: [IOPort: Sensor]) {
+        for (port, sensor) in sensors {
+            self.sensors[port] = sensor
+
+            if let sensor = sensor as? AnalogSensor {
+                analogSensors[port] = sensor
+                switch sensor.kind {
+                    case .light: lightSensors[port] = sensor
+                    case .potentiometer: potentiometers[port] = sensor
+                    case .magnetic: magneticSensors[port] = sensor
+                    case .temperature: temperatureSensors[port] = sensor
+                    case .infrared, .button: break
+                }
+            } else if let sensor = sensor as? DigitalSensor {
+                digitalSensors[port] = sensor
+                switch sensor.kind {
+                    case .infrared: infraredSensors[port] = sensor
+                    case .button: buttons[port] = sensor
+                    case .light, .potentiometer, .magnetic, .temperature: break
+                }
             }
         }
     }
 
-    func installActuators(
-        analog: [AnalogActuator], digital: [DigitalActuator],
-        quadDisplays: [QuadNumericDisplayActuator],
-        ledMatrices: [LEDMatrixActuator]
-    ) {
-        analog.forEach { actuator in
-            actuators[actuator.port] = actuator
-            analogActuators[actuator.port] = actuator
-            actuator.changedListener = {
-                self.arduinoBoard.sendActuator(portId: actuator.port.tetraId, rawValue: actuator.rawValue)
-            }
-            switch actuator.kind {
-                case .buzzer: buzzers[actuator.port] = actuator
-                case .motor: motors[actuator.port] = actuator
-                case .analogLED: analogLEDs[actuator.port] = actuator
-                case .digitalLED, .quadDisplay, .ledMatrix: break
-            }
-        }
-        digital.forEach { actuator in
-            actuators[actuator.port] = actuator
-            digitalActuators[actuator.port] = actuator
-            actuator.changedListener = {
-                self.arduinoBoard.sendActuator(portId: actuator.port.tetraId, rawValue: actuator.rawValue)
-            }
-            switch actuator.kind {
-                case .digitalLED: digitalLEDs[actuator.port] = actuator
-                case .buzzer, .motor, .analogLED, .quadDisplay, .ledMatrix: break
-            }
-        }
-        quadDisplays.forEach { actuator in
-            actuators[actuator.port] = actuator
-            quadDisplayActuators[actuator.port] = actuator
-            actuator.changedListener = { self.arduinoBoard.showOnQuadDisplay(portId: actuator.port.tetraId, value: actuator.value) }
-            switch actuator.kind {
-                case .quadDisplay: quadDisplayActuators[actuator.port] = actuator
-                case .buzzer, .motor, .analogLED, .digitalLED, .ledMatrix: break
-            }
-        }
-        ledMatrices.forEach { actuator in
-            actuators[actuator.port] = actuator
-            ledMatrixActuators[actuator.port] = actuator
-            actuator.changedListener = {
-                self.arduinoBoard.showOnLEDMatrix(portId: actuator.port.tetraId, brightness: 0.05, character: actuator.value)
-            }
-            switch actuator.kind {
-                case .ledMatrix: ledMatrixActuators[actuator.port] = actuator
-                case .buzzer, .motor, .analogLED, .digitalLED, .quadDisplay: break
+    func install(actuators: [IOPort: Actuator]) {
+        for (port, actuator) in actuators {
+            self.actuators[port] = actuator
+            if let actuator = actuator as? AnalogActuator {
+                analogActuators[port] = actuator
+                actuator.changedListener = { self.arduinoBoard.sendActuator(portId: port.tetraId, rawValue: actuator.rawValue) }
+                switch actuator.kind {
+                    case .buzzer: buzzers[port] = actuator
+                    case .motor: motors[port] = actuator
+                    case .analogLED: analogLEDs[port] = actuator
+                    case .digitalLED, .quadDisplay, .ledMatrix: break
+                }
+            } else if let actuator = actuator as? DigitalActuator {
+                digitalActuators[port] = actuator
+                actuator.changedListener = {
+                    self.arduinoBoard.sendActuator(portId: port.tetraId, rawValue: actuator.rawValue)
+                }
+                switch actuator.kind {
+                    case .digitalLED: digitalLEDs[port] = actuator
+                    case .buzzer, .motor, .analogLED, .quadDisplay, .ledMatrix: break
+                }
+            } else if let actuator = actuator as? QuadNumericDisplayActuator {
+                quadDisplayActuators[port] = actuator
+                actuator.changedListener = { self.arduinoBoard.showOnQuadDisplay(portId: port.tetraId, value: actuator.value) }
+                switch actuator.kind {
+                    case .quadDisplay: quadDisplayActuators[port] = actuator
+                    case .buzzer, .motor, .analogLED, .digitalLED, .ledMatrix: break
+                }
+            } else if let actuator = actuator as? LEDMatrixActuator {
+                ledMatrixActuators[port] = actuator
+                actuator.changedListener = {
+                    self.arduinoBoard.showOnLEDMatrix(portId: port.tetraId, brightness: 0.01, character: actuator.value)
+                }
+                switch actuator.kind {
+                    case .ledMatrix: ledMatrixActuators[port] = actuator
+                    case .buzzer, .motor, .analogLED, .digitalLED, .quadDisplay: break
+                }
             }
         }
     }
@@ -206,7 +197,7 @@ class Tetra {
             guard let port = IOPort(sensorTetraId: data.portId), let sensor = sensors[port] else { return }
 
             if sensor.update(rawValue: data.value) {
-                notifySensorListenersAboutUpdate(of: sensor)
+                notifySensorListenersAboutUpdate(of: sensor, on: port)
             }
         }
     }
@@ -225,6 +216,7 @@ class Tetra {
         var id: UUID = UUID()
 
         var sensor: Sensor
+        var port: IOPort
         var condition: (Sensor) -> Bool
         var action: () -> Void
         var executeOnlyOnce: Bool
@@ -234,11 +226,11 @@ class Tetra {
 
     private var sensorListeners: [SensorListener] = []
 
-    private func addSensorListener(
-        _ sensor: Sensor, condition: @escaping (Sensor) -> Bool, action: @escaping () -> Void,
+    private func listen(
+        for sensor: Sensor, on port: IOPort, condition: @escaping (Sensor) -> Bool, action: @escaping () -> Void,
         waitUntilDone: Bool, executedOnlyOnce: Bool
     ) {
-        var listener = SensorListener(sensor: sensor, condition: condition, action: action, executeOnlyOnce: executedOnlyOnce)
+        var listener = SensorListener(sensor: sensor, port: port, condition: condition, action: action, executeOnlyOnce: executedOnlyOnce)
         sensorListeners.append(listener)
 
         log(message: " + Condition for \(sensor) added")
@@ -249,10 +241,10 @@ class Tetra {
         }
     }
 
-    private func notifySensorListenersAboutUpdate(of sensor: Sensor) {
+    private func notifySensorListenersAboutUpdate(of sensor: Sensor, on port: IOPort) {
         var listenerIdsToRemove: [UUID] = []
         sensorListeners.forEach { listener in
-            if listener.sensor.port == sensor.port, listener.condition(sensor) {
+            if listener.port == port, listener.condition(sensor) {
                 eventQueue.async {
                     self.log(message: " ! Condition for \(sensor) executed")
                     listener.action()
@@ -282,66 +274,74 @@ extension Tetra {
     }
 
     private func sleep<SensorType: Sensor>(
-        until sensor: SensorType,
+        until sensor: SensorType, on port: IOPort? = nil,
         matches condition: @escaping (SensorType) -> Bool,
-        andDo: @escaping () -> Void
+        then: @escaping () -> Void
     ) {
-        addSensorListener(sensor, condition: eraseType(on: condition), action: andDo, waitUntilDone: true, executedOnlyOnce: true)
+        guard let port = port ?? findPort(for: sensor) else { fatalError("Can't find port for \(sensor)") }
+
+        listen(for: sensor, on: port, condition: eraseType(on: condition), action: then, waitUntilDone: true, executedOnlyOnce: true)
     }
 
-    func when<SensorType: Sensor>(
-        _ sensor: SensorType,
+    private func when<SensorType: Sensor>(
+        _ sensor: SensorType, on port: IOPort? = nil,
         matches condition: @escaping (SensorType) -> Bool,
         do action: @escaping () -> Void
     ) {
-        addSensorListener(sensor, condition: eraseType(on: condition), action: action, waitUntilDone: false, executedOnlyOnce: false)
+        guard let port = port ?? findPort(for: sensor) else { fatalError("Can't find port for \(sensor)") }
+
+        listen(for: sensor, on: port, condition: eraseType(on: condition), action: action, waitUntilDone: false, executedOnlyOnce: false)
+    }
+
+    private func findPort(for sensor: Sensor) -> IOPort? {
+        sensors.first { $1.id == sensor.id }?.key
     }
 }
 
 extension Tetra {
-    func sleep(untilIsOn sensor: DigitalSensor, andDo action: @escaping () -> Void) {
-        sleep(until: sensor, matches: { _ in sensor.value }, andDo: action)
+    func sleep(untilIsOn sensor: DigitalSensor, on port: IOPort? = nil, then action: @escaping () -> Void) {
+        sleep(until: sensor, on: port, matches: { _ in sensor.value }, then: action)
     }
 
-    func sleep(untilIsOff sensor: DigitalSensor, andDo action: @escaping () -> Void) {
-        sleep(until: sensor, matches: { _ in !sensor.value }, andDo: action)
+    func sleep(untilIsOff sensor: DigitalSensor, on port: IOPort? = nil, then action: @escaping () -> Void) {
+        sleep(until: sensor, on: port, matches: { _ in !sensor.value }, then: action)
     }
 
-    func sleep(until sensor: AnalogSensor, is value: Double, plusMinus: Double, andDo action: @escaping () -> Void) {
-        sleep(until: sensor, matches: { abs($0.value - value) < plusMinus }, andDo: action)
+    func sleep(until sensor: AnalogSensor, on port: IOPort? = nil, is value: Double, plusMinus: Double, then action: @escaping () -> Void) {
+        sleep(until: sensor, on: port, matches: { abs($0.value - value) < plusMinus }, then: action)
     }
 
-    func sleep(until sensor: AnalogSensor, isLessThan value: Double, andDo action: @escaping () -> Void) {
-        sleep(until: sensor, matches: { $0.value < value }, andDo: action)
+    func sleep(until sensor: AnalogSensor, on port: IOPort? = nil, isLessThan value: Double, then action: @escaping () -> Void) {
+        sleep(until: sensor, on: port, matches: { $0.value < value }, then: action)
     }
 
-    func sleep(until sensor: AnalogSensor, isGreaterThan value: Double, andDo action: @escaping () -> Void) {
-        sleep(until: sensor, matches: { $0.value > value }, andDo: action)
+    func sleep(until sensor: AnalogSensor, on port: IOPort? = nil, isGreaterThan value: Double, then action: @escaping () -> Void) {
+        sleep(until: sensor, on: port, matches: { $0.value > value }, then: action)
     }
 
-    func whenOn(_ sensor: DigitalSensor, action: @escaping () -> Void) {
-        when(sensor, matches: { _ in sensor.value }, do: action)
+    func whenOn(_ sensor: DigitalSensor, on port: IOPort? = nil, action: @escaping () -> Void) {
+        when(sensor, on: port, matches: { _ in sensor.value }, do: action)
     }
 
-    func whenSensorIsOff(_ sensor: DigitalSensor, action: @escaping () -> Void) {
-        when(sensor, matches: { _ in !sensor.value }, do: action)
+    func whenSensorIsOff(_ sensor: DigitalSensor, on port: IOPort? = nil, action: @escaping () -> Void) {
+        when(sensor, on: port, matches: { _ in !sensor.value }, do: action)
     }
 
-    func when(_ sensor: AnalogSensor, is value: Double, plusMinus: Double, action: @escaping () -> Void) {
-        when(sensor, matches: { abs($0.value - value) < plusMinus }, do: action)
+    func when(_ sensor: AnalogSensor, on port: IOPort? = nil, is value: Double, plusMinus: Double, action: @escaping () -> Void) {
+        when(sensor, on: port, matches: { abs($0.value - value) < plusMinus }, do: action)
     }
 
-    func when(_ sensor: AnalogSensor, isLessThan value: Double, action: @escaping () -> Void) {
-        when(sensor, matches: { $0.value < value }, do: action)
+    func when(_ sensor: AnalogSensor, on port: IOPort? = nil, isLessThan value: Double, action: @escaping () -> Void) {
+        when(sensor, on: port, matches: { $0.value < value }, do: action)
     }
 
-    func when(_ sensor: AnalogSensor, isGreaterThan value: Double, action: @escaping () -> Void) {
-        when(sensor, matches: { $0.value > value }, do: action)
+    func when(_ sensor: AnalogSensor, on port: IOPort? = nil, isGreaterThan value: Double, action: @escaping () -> Void) {
+        when(sensor, on: port, matches: { $0.value > value }, do: action)
     }
-}
 
-extension Tetra {
-    func on(_ sensor: Sensor, action: @escaping () -> Void) {
-        addSensorListener(sensor, condition: { _ in true }, action: action, waitUntilDone: false, executedOnlyOnce: false)
+    func on(_ sensor: Sensor, on port: IOPort? = nil, action: @escaping () -> Void) {
+        guard let port = port ?? findPort(for: sensor) else { fatalError("Can't find port for \(sensor)") }
+
+        listen(for: sensor, on: port, condition: { _ in true }, action: action, waitUntilDone: false, executedOnlyOnce: false)
     }
 }

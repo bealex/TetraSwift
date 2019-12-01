@@ -28,17 +28,16 @@ enum SensorKind: Hashable, CustomDebugStringConvertible {
     }
 }
 
-protocol Sensor {
+protocol Sensor: IdentifiableDevice {
     var kind: SensorKind { get }
-    var port: IOPort { get }
     var rawValue: UInt { get }
 
     func update(rawValue: UInt) -> Bool
 }
 
 class AnalogSensor: Sensor, CustomDebugStringConvertible {
+    let id: UUID = UUID()
     let kind: SensorKind
-    let port: IOPort
     private(set) var rawValue: UInt = 0
     private(set) var rawAverage: Double = 0
     private(set) var value: Double = 0
@@ -47,12 +46,8 @@ class AnalogSensor: Sensor, CustomDebugStringConvertible {
     private let sampleTimes: UInt
     private let calculate: (Double) -> Double
 
-    init(
-        kind: SensorKind, port: IOPort,
-        sampleTimes: UInt = 1, tolerance: Double = 0.1, calculate: @escaping (Double) -> Double = { $0 / 1023 }
-    ) {
+    init(kind: SensorKind, sampleTimes: UInt = 1, tolerance: Double = 0.1, calculate: @escaping (Double) -> Double = { $0 / 1023 }) {
         self.kind = kind
-        self.port = port
         self.sampleTimes = sampleTimes
         self.tolerance = tolerance
         self.calculate = calculate
@@ -79,18 +74,17 @@ class AnalogSensor: Sensor, CustomDebugStringConvertible {
         return valueChanged
     }
 
-    var debugDescription: String { "\(kind):\(port) ~> \(value) (\(rawValue))" }
+    var debugDescription: String { "\(kind) ~> \(value) (\(rawValue))" }
 }
 
 class DigitalSensor: Sensor, CustomDebugStringConvertible {
+    let id: UUID = UUID()
     let kind: SensorKind
-    let port: IOPort
     private(set) var rawValue: UInt = 0
     private(set) var value: Bool = false
 
-    init(kind: SensorKind, port: IOPort) {
+    init(kind: SensorKind) {
         self.kind = kind
-        self.port = port
     }
 
     /// Returns whether the value was changed.
@@ -102,5 +96,5 @@ class DigitalSensor: Sensor, CustomDebugStringConvertible {
         return valueChanged
     }
 
-    var debugDescription: String { "\(kind):\(port) ~> \(value) (\(rawValue))" }
+    var debugDescription: String { "\(kind) ~> \(value) (\(rawValue))" }
 }

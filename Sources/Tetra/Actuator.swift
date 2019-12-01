@@ -54,7 +54,6 @@ enum ActuatorKind: Hashable, CustomDebugStringConvertible {
 
 protocol Actuator: class {
     var kind: ActuatorKind { get }
-    var port: IOPort { get }
     var rawValue: UInt { get }
 
     var changedListener: () -> Void { get set }
@@ -62,7 +61,6 @@ protocol Actuator: class {
 
 class AnalogActuator: Actuator, CustomDebugStringConvertible {
     let kind: ActuatorKind
-    let port: IOPort
     var changedListener: () -> Void = {}
     private(set) var rawValue: UInt = 0
     private let maxValue: UInt
@@ -76,9 +74,8 @@ class AnalogActuator: Actuator, CustomDebugStringConvertible {
         }
     }
 
-    init(kind: ActuatorKind, port: IOPort, maxValue: UInt) {
+    init(kind: ActuatorKind, maxValue: UInt) {
         self.kind = kind
-        self.port = port
         self.maxValue = maxValue
     }
 
@@ -87,7 +84,6 @@ class AnalogActuator: Actuator, CustomDebugStringConvertible {
 
 class DigitalActuator: Actuator, CustomDebugStringConvertible {
     let kind: ActuatorKind
-    let port: IOPort
     private(set) var rawValue: UInt = 0
     var changedListener: () -> Void = {}
     var value: Bool = false {
@@ -108,9 +104,8 @@ class DigitalActuator: Actuator, CustomDebugStringConvertible {
         value = false
     }
 
-    init(kind: ActuatorKind, port: IOPort) {
+    init(kind: ActuatorKind) {
         self.kind = kind
-        self.port = port
     }
 
     var debugDescription: String { "\(kind) ~> \(value) (\(rawValue))" }
@@ -118,7 +113,6 @@ class DigitalActuator: Actuator, CustomDebugStringConvertible {
 
 class QuadNumericDisplayActuator: Actuator, CustomDebugStringConvertible {
     let kind: ActuatorKind
-    let port: IOPort
     private(set) var rawValue: UInt = 0
     var changedListener: () -> Void = {}
     var value: String = "" {
@@ -127,9 +121,8 @@ class QuadNumericDisplayActuator: Actuator, CustomDebugStringConvertible {
         }
     }
 
-    init(kind: ActuatorKind, port: IOPort) {
+    init(kind: ActuatorKind) {
         self.kind = kind
-        self.port = port
     }
 
     var debugDescription: String { "\(kind) ~> \(value)" }
@@ -137,7 +130,6 @@ class QuadNumericDisplayActuator: Actuator, CustomDebugStringConvertible {
 
 class LEDMatrixActuator: Actuator, CustomDebugStringConvertible {
     let kind: ActuatorKind
-    let port: IOPort
     private(set) var rawValue: UInt = 0
     var changedListener: () -> Void = {}
     var value: Character = " " { // Make this custom matrix
@@ -146,9 +138,8 @@ class LEDMatrixActuator: Actuator, CustomDebugStringConvertible {
         }
     }
 
-    init(kind: ActuatorKind, port: IOPort) {
+    init(kind: ActuatorKind) {
         self.kind = kind
-        self.port = port
     }
 
     var debugDescription: String { "\(kind) ~> \(value)" }

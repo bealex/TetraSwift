@@ -13,6 +13,7 @@
 		2DBA1551FC0B8083E953A6E5 /* QuadDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA13BCAC7ECD316EC85A90 /* QuadDisplay.swift */; };
 		2DBA15B0DF52B803E573E0AE /* PlaygroundTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA15CECB0AFF99008622B7 /* PlaygroundTest.swift */; };
 		2DBA15F8CC62BAC715188F7B /* Sensor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA15F71B344D7A69A0EA78 /* Sensor.swift */; };
+		2DBA1706304FE023EA175951 /* IdentifiableDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA1F247F1165BB67B3657F /* IdentifiableDevice.swift */; };
 		2DBA176D616510FA1DD0332C /* LEDMatrix.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA101A56B6A86BE6EF847B /* LEDMatrix.swift */; };
 		2DBA177ED661C06B99783D59 /* TetraProtocolCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA1C860A5C4AEECD5937A6 /* TetraProtocolCommand.swift */; };
 		2DBA17A5560A3307DB0B5779 /* Actuator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA17BC87BB7669431A6B7C /* Actuator.swift */; };
@@ -56,6 +57,7 @@
 		2DBA19FA2CEC34BE80AB78AD /* PicoBoard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PicoBoard.swift; sourceTree = "<group>"; };
 		2DBA1C860A5C4AEECD5937A6 /* TetraProtocolCommand.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TetraProtocolCommand.swift; sourceTree = "<group>"; };
 		2DBA1DD95F5276EA6C80BFEB /* TetraBoard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TetraBoard.swift; sourceTree = "<group>"; };
+		2DBA1F247F1165BB67B3657F /* IdentifiableDevice.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IdentifiableDevice.swift; sourceTree = "<group>"; };
 		FACF676423872AA700A7BE34 /* main.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -115,6 +117,7 @@
 				2DBA163CBBE94A1C39752802 /* IOPort.swift */,
 				2DBA100EDA4AA77D07861AF5 /* SensorCalculations.swift */,
 				2DBA14AA66975EDED56D05A4 /* Protocols */,
+				2DBA1F247F1165BB67B3657F /* IdentifiableDevice.swift */,
 			);
 			path = Tetra;
 			sourceTree = "<group>";
@@ -242,6 +245,7 @@
 				2DBA1E1EB14F2169B524892F /* TetraBoardTests.swift in Sources */,
 				2DBA1551FC0B8083E953A6E5 /* QuadDisplay.swift in Sources */,
 				2DBA176D616510FA1DD0332C /* LEDMatrix.swift in Sources */,
+				2DBA1706304FE023EA175951 /* IdentifiableDevice.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

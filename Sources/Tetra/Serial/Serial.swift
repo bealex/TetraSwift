@@ -168,7 +168,11 @@ class HardwareSerialPort: SerialPort {
             case (false, false): fatalError()
         }
 
+        #if os(Linux)
+        fileDescriptor = open(path, readWriteParam | O_NOCTTY)
+        #else
         fileDescriptor = open(path, readWriteParam | O_NOCTTY | O_EXLOCK | O_NONBLOCK)
+        #endif
 
         // Throw error if open() failed
         if fileDescriptor == PortError.failedToOpen.rawValue {
@@ -214,7 +218,13 @@ class HardwareSerialPort: SerialPort {
         settings.c_cflag &= ~tcflag_t(CSIZE)
         settings.c_cflag |= dataBitsSize.flagValue
 
-        // Set hardware flow control flag
+        #if os(Linux)
+        if useHardwareFlowControl {
+            settings.c_cflag |= tcflag_t(CRTSCTS)
+        } else {
+            settings.c_cflag &= ~tcflag_t(CRTSCTS)
+        }
+        #else
         if useHardwareFlowControl {
             settings.c_cflag |= tcflag_t(CRTS_IFLOW)
             settings.c_cflag |= tcflag_t(CCTS_OFLOW)
@@ -222,6 +232,7 @@ class HardwareSerialPort: SerialPort {
             settings.c_cflag &= ~tcflag_t(CRTS_IFLOW)
             settings.c_cflag &= ~tcflag_t(CCTS_OFLOW)
         }
+        #endif
 
         // Set software flow control flags
         let softwareFlowControlFlags = tcflag_t(IXON | IXOFF | IXANY)
@@ -247,12 +258,25 @@ class HardwareSerialPort: SerialPort {
         // Special characters
         // We do this as c_cc is a C-fixed array which is imported as a tuple in Swift.
         // To avoid hard coding the VMIN or VTIME value to access the tuple value, we use the typealias instead
+        #if os(Linux)
+        typealias SpecialCharactersTuple = (
+            VINTR: cc_t, VQUIT: cc_t, VERASE: cc_t, VKILL: cc_t, VEOF: cc_t, VTIME: cc_t, VMIN: cc_t,
+            VSWTC: cc_t, VSTART: cc_t, VSTOP: cc_t, VSUSP: cc_t, VEOL: cc_t, VREPRINT: cc_t, VDISCARD: cc_t, VWERASE: cc_t,
+            VLNEXT: cc_t, VEOL2: cc_t, spare1: cc_t, spare2: cc_t, spare3: cc_t, spare4: cc_t, spare5: cc_t, spare6: cc_t,
+            spare7: cc_t, spare8: cc_t, spare9: cc_t, spare10: cc_t, spare11: cc_t, spare12: cc_t, spare13: cc_t,
+            spare14: cc_t, spare15: cc_t
+        )
+        var specialCharacters: SpecialCharactersTuple = (
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        ) // NCCS = 32
+        #else
         typealias SpecialCharactersTuple = (
             VEOF: cc_t, VEOL: cc_t, VEOL2: cc_t, VERASE: cc_t, VWERASE: cc_t, VKILL: cc_t, VREPRINT: cc_t,
             spare1: cc_t, VINTR: cc_t, VQUIT: cc_t, VSUSP: cc_t, VDSUSP: cc_t, VSTART: cc_t, VSTOP: cc_t, VLNEXT: cc_t, VDISCARD: cc_t,
             VMIN: cc_t, VTIME: cc_t, VSTATUS: cc_t, spare: cc_t
         )
         var specialCharacters: SpecialCharactersTuple = (0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0) // NCCS = 20
+        #endif
 
         specialCharacters.VMIN = cc_t(minimumBytesToRead)
         specialCharacters.VTIME = cc_t(timeout)

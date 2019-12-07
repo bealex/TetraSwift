@@ -7,8 +7,14 @@
 //
 
 import TetraSwift
+import Foundation
 
-let tetra = Tetra(pathToSerialPort: "/dev/tty.usbmodem14801", useTetraProtocol: true)
+guard let serialPort = CommandLine.arguments.dropFirst().first else {
+    print("Please specify path to the Tetra serial port as a parameter")
+    exit(1)
+}
+
+let tetra = Tetra(pathToSerialPort: serialPort, useTetraProtocol: true)
 tetra.install(sensors: [
     .analog0: AnalogSensor(kind: .light, sampleTimes: 8),
     .analog1: AnalogSensor(kind: .potentiometer, sampleTimes: 4, tolerance: 0.7),

@@ -6,6 +6,8 @@
 //  Copyright © 2019 LonelyBytes. All rights reserved.
 //
 
+import TetraSwift
+
 let tetra = Tetra(pathToSerialPort: "/dev/tty.usbmodem14801", useTetraProtocol: true)
 tetra.install(sensors: [
     .analog0: AnalogSensor(kind: .light, sampleTimes: 8),

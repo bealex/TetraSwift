@@ -8,13 +8,13 @@
 
 import Foundation
 
-enum ActuatorKind: Hashable, CustomDebugStringConvertible {
-    enum LEDColor: CustomDebugStringConvertible {
+public enum ActuatorKind: Hashable, CustomDebugStringConvertible {
+    public enum LEDColor: CustomDebugStringConvertible {
         case red
         case yellow
         case green
 
-        var debugDescription: String {
+        public var debugDescription: String {
             switch self {
                 case .red: return "Red"
                 case .yellow: return "Yellow"
@@ -23,10 +23,10 @@ enum ActuatorKind: Hashable, CustomDebugStringConvertible {
         }
     }
 
-    enum LEDMatrixType: CustomDebugStringConvertible {
+    public enum LEDMatrixType: CustomDebugStringConvertible {
         case monochrome
 
-        var debugDescription: String {
+        public var debugDescription: String {
             switch self {
                 case .monochrome: return "Monochrome"
             }
@@ -40,7 +40,7 @@ enum ActuatorKind: Hashable, CustomDebugStringConvertible {
     case quadDisplay
     case ledMatrix(LEDMatrixType)
 
-    var debugDescription: String {
+    public var debugDescription: String {
         switch self {
             case .motor: return "Motor"
             case .buzzer: return "Buzzer"
@@ -52,19 +52,19 @@ enum ActuatorKind: Hashable, CustomDebugStringConvertible {
     }
 }
 
-protocol Actuator: class {
+public protocol Actuator: class {
     var kind: ActuatorKind { get }
     var rawValue: UInt { get }
 
     var changedListener: () -> Void { get set }
 }
 
-class AnalogActuator: Actuator, CustomDebugStringConvertible {
-    let kind: ActuatorKind
-    var changedListener: () -> Void = {}
-    private(set) var rawValue: UInt = 0
+public class AnalogActuator: Actuator, CustomDebugStringConvertible {
+    public let kind: ActuatorKind
+    public var changedListener: () -> Void = {}
+    public private(set) var rawValue: UInt = 0
     private let maxValue: UInt
-    var value: Double = 0 {
+    public var value: Double = 0 {
         didSet {
             let newRawValue = UInt(Double(maxValue) * value)
             if newRawValue != rawValue {
@@ -74,19 +74,19 @@ class AnalogActuator: Actuator, CustomDebugStringConvertible {
         }
     }
 
-    init(kind: ActuatorKind, maxValue: UInt) {
+    public init(kind: ActuatorKind, maxValue: UInt) {
         self.kind = kind
         self.maxValue = maxValue
     }
 
-    var debugDescription: String { "\(kind) ~> \(value) (\(rawValue))" }
+    public var debugDescription: String { "\(kind) ~> \(value) (\(rawValue))" }
 }
 
-class DigitalActuator: Actuator, CustomDebugStringConvertible {
-    let kind: ActuatorKind
-    private(set) var rawValue: UInt = 0
-    var changedListener: () -> Void = {}
-    var value: Bool = false {
+public class DigitalActuator: Actuator, CustomDebugStringConvertible {
+    public let kind: ActuatorKind
+    public private(set) var rawValue: UInt = 0
+    public var changedListener: () -> Void = {}
+    public var value: Bool = false {
         didSet {
             let newRawValue: UInt = value ? 1023 : 0
             if newRawValue != rawValue {
@@ -96,51 +96,51 @@ class DigitalActuator: Actuator, CustomDebugStringConvertible {
         }
     }
 
-    func on() {
+    public func on() {
         value = true
     }
 
-    func off() {
+    public func off() {
         value = false
     }
 
-    init(kind: ActuatorKind) {
+    public init(kind: ActuatorKind) {
         self.kind = kind
     }
 
-    var debugDescription: String { "\(kind) ~> \(value) (\(rawValue))" }
+    public var debugDescription: String { "\(kind) ~> \(value) (\(rawValue))" }
 }
 
-class QuadNumericDisplayActuator: Actuator, CustomDebugStringConvertible {
-    let kind: ActuatorKind
-    private(set) var rawValue: UInt = 0
-    var changedListener: () -> Void = {}
-    var value: String = "" {
+public class QuadNumericDisplayActuator: Actuator, CustomDebugStringConvertible {
+    public let kind: ActuatorKind
+    public private(set) var rawValue: UInt = 0
+    public var changedListener: () -> Void = {}
+    public var value: String = "" {
         didSet {
             changedListener()
         }
     }
 
-    init(kind: ActuatorKind) {
+    public init(kind: ActuatorKind) {
         self.kind = kind
     }
 
-    var debugDescription: String { "\(kind) ~> \(value)" }
+    public var debugDescription: String { "\(kind) ~> \(value)" }
 }
 
-class LEDMatrixActuator: Actuator, CustomDebugStringConvertible {
-    let kind: ActuatorKind
-    private(set) var rawValue: UInt = 0
-    var changedListener: () -> Void = {}
-    var value: Character = " " { // Make this custom matrix
+public class LEDMatrixActuator: Actuator, CustomDebugStringConvertible {
+    public let kind: ActuatorKind
+    public private(set) var rawValue: UInt = 0
+    public var changedListener: () -> Void = {}
+    public var value: Character = " " { // Make this custom matrix
         didSet {
             changedListener()
         }
     }
 
-    init(kind: ActuatorKind) {
+    public init(kind: ActuatorKind) {
         self.kind = kind
     }
 
-    var debugDescription: String { "\(kind) ~> \(value)" }
+    public var debugDescription: String { "\(kind) ~> \(value)" }
 }

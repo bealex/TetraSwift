@@ -8,7 +8,7 @@
 
 import Foundation
 
-class Tetra {
+public class Tetra {
     private let serialPort: SerialPort
     private var opened = false
 
@@ -19,48 +19,48 @@ class Tetra {
 
     // MARK: - Common accessors
 
-    private(set) var analogSensors: Devices<AnalogSensor> = Devices(type: "Analog Sensor")
-    private(set) var digitalSensors: Devices<DigitalSensor> = Devices(type: "Digital Sensor")
+    public private(set) var analogSensors: Devices<AnalogSensor> = Devices(type: "Analog Sensor")
+    public private(set) var digitalSensors: Devices<DigitalSensor> = Devices(type: "Digital Sensor")
 
-    private(set) var analogActuators: Devices<AnalogActuator> = Devices(type: "Analog Actuator")
-    private(set) var digitalActuators: Devices<DigitalActuator> = Devices(type: "Digital Actuator")
-    private(set) var quadDisplayActuators: Devices<QuadNumericDisplayActuator> = Devices(type: "Quad Numeric Display Actuator")
-    private(set) var ledMatrixActuators: Devices<LEDMatrixActuator> = Devices(type: "LED Matrix Actuator")
+    public private(set) var analogActuators: Devices<AnalogActuator> = Devices(type: "Analog Actuator")
+    public private(set) var digitalActuators: Devices<DigitalActuator> = Devices(type: "Digital Actuator")
+    public private(set) var quadDisplayActuators: Devices<QuadNumericDisplayActuator> = Devices(type: "Quad Numeric Display Actuator")
+    public private(set) var ledMatrixActuators: Devices<LEDMatrixActuator> = Devices(type: "LED Matrix Actuator")
 
     // MARK: - Typed accessors
 
-    private(set) var lightSensors: Devices<AnalogSensor> = Devices(type: "Light Sensor")
-    private(set) var magneticSensors: Devices<AnalogSensor> = Devices(type: "Magnetic Sensor")
-    private(set) var temperatureSensors: Devices<AnalogSensor> = Devices(type: "Temperature Sensor")
-    private(set) var motorSensors: Devices<AnalogSensor> = Devices(type: "Motor Sensor")
-    private(set) var infraredSensors: Devices<DigitalSensor> = Devices(type: "Infrared Sensor")
-    private(set) var potentiometers: Devices<AnalogSensor> = Devices(type: "Potentiometer")
-    private(set) var buttons: Devices<DigitalSensor> = Devices(type: "Button")
+    public private(set) var lightSensors: Devices<AnalogSensor> = Devices(type: "Light Sensor")
+    public private(set) var magneticSensors: Devices<AnalogSensor> = Devices(type: "Magnetic Sensor")
+    public private(set) var temperatureSensors: Devices<AnalogSensor> = Devices(type: "Temperature Sensor")
+    public private(set) var motorSensors: Devices<AnalogSensor> = Devices(type: "Motor Sensor")
+    public private(set) var infraredSensors: Devices<DigitalSensor> = Devices(type: "Infrared Sensor")
+    public private(set) var potentiometers: Devices<AnalogSensor> = Devices(type: "Potentiometer")
+    public private(set) var buttons: Devices<DigitalSensor> = Devices(type: "Button")
 
-    private(set) var motors: Devices<AnalogActuator> = Devices(type: "Motor")
-    private(set) var buzzers: Devices<AnalogActuator> = Devices(type: "Buzzer")
-    private(set) var analogLEDs: Devices<AnalogActuator> = Devices(type: "Analog LED")
-    private(set) var digitalLEDs: Devices<DigitalActuator> = Devices(type: "Digital LED")
+    public private(set) var motors: Devices<AnalogActuator> = Devices(type: "Motor")
+    public private(set) var buzzers: Devices<AnalogActuator> = Devices(type: "Buzzer")
+    public private(set) var analogLEDs: Devices<AnalogActuator> = Devices(type: "Analog LED")
+    public private(set) var digitalLEDs: Devices<DigitalActuator> = Devices(type: "Digital LED")
 
     // MARK: - Single device accessors
 
-    var lightSensor: AnalogSensor { lightSensors.single }
-    var magneticSensor: AnalogSensor { magneticSensors.single }
-    var temperatureSensor: AnalogSensor { temperatureSensors.single }
-    var infraredSensor: DigitalSensor { infraredSensors.single }
-    var potentiometer: AnalogSensor { potentiometers.single }
+    public var lightSensor: AnalogSensor { lightSensors.single }
+    public var magneticSensor: AnalogSensor { magneticSensors.single }
+    public var temperatureSensor: AnalogSensor { temperatureSensors.single }
+    public var infraredSensor: DigitalSensor { infraredSensors.single }
+    public var potentiometer: AnalogSensor { potentiometers.single }
 
-    var button: DigitalSensor { buttons.single }
-    var motor: AnalogActuator { motors.single }
-    var buzzer: AnalogActuator { buzzers.single }
-    var analogLED: AnalogActuator { analogLEDs.single }
-    var digitalLED: DigitalActuator { digitalLEDs.single }
-    var quadDisplay: QuadNumericDisplayActuator { quadDisplayActuators.single }
-    var ledMatrix: LEDMatrixActuator { ledMatrixActuators.single }
+    public var button: DigitalSensor { buttons.single }
+    public var motor: AnalogActuator { motors.single }
+    public var buzzer: AnalogActuator { buzzers.single }
+    public var analogLED: AnalogActuator { analogLEDs.single }
+    public var digitalLED: DigitalActuator { digitalLEDs.single }
+    public var quadDisplay: QuadNumericDisplayActuator { quadDisplayActuators.single }
+    public var ledMatrix: LEDMatrixActuator { ledMatrixActuators.single }
 
     private var arduinoBoard: ArduinoBoard!
 
-    init(pathToSerialPort: String, useTetraProtocol: Bool, eventQueue: DispatchQueue = DispatchQueue.global()) {
+    public init(pathToSerialPort: String, useTetraProtocol: Bool, eventQueue: DispatchQueue = DispatchQueue.global()) {
         self.eventQueue = eventQueue
         serialPort = HardwareSerialPort(path: pathToSerialPort)
 
@@ -72,7 +72,7 @@ class Tetra {
     private var sensors: [IOPort: Sensor] = [:]
     private var actuators: [IOPort: Actuator] = [:]
 
-    func install(sensors: [IOPort: Sensor]) {
+    public func install(sensors: [IOPort: Sensor]) {
         for (port, sensor) in sensors {
             self.sensors[port] = sensor
 
@@ -96,7 +96,7 @@ class Tetra {
         }
     }
 
-    func install(actuators: [IOPort: Actuator]) {
+    public func install(actuators: [IOPort: Actuator]) {
         for (port, actuator) in actuators {
             self.actuators[port] = actuator
             if let actuator = actuator as? AnalogActuator {
@@ -137,7 +137,7 @@ class Tetra {
         }
     }
 
-    func run(execute: @escaping () -> Void) {
+    public func run(execute: @escaping () -> Void) {
         start()
         guard opened else { return stop() }
 
@@ -152,7 +152,7 @@ class Tetra {
         stop()
     }
 
-    func sleep(_ time: TimeInterval) {
+    public func sleep(_ time: TimeInterval) {
         log(message: " Sleep for \(time) sec")
         Thread.sleep(forTimeInterval: time)
     }
@@ -298,7 +298,7 @@ extension Tetra {
     }
 }
 
-extension Tetra {
+public extension Tetra {
     func sleep(untilIsOn sensor: DigitalSensor, on port: IOPort? = nil, then action: @escaping () -> Void) {
         sleep(until: sensor, on: port, matches: { _ in sensor.value }, then: action)
     }

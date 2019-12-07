@@ -6,7 +6,7 @@
 // Copyright (c) 2019 LonelyBytes. All rights reserved.
 //
 
-enum IOPort: Hashable, CustomDebugStringConvertible {
+public enum IOPort: Hashable, CustomDebugStringConvertible {
     case analog0
     case analog1
     case analog2
@@ -67,7 +67,7 @@ enum IOPort: Hashable, CustomDebugStringConvertible {
         }
     }
 
-    var debugDescription: String {
+    public var debugDescription: String {
         switch self {
             case .analog0: return "@a0"
             case .analog1: return "@a1"

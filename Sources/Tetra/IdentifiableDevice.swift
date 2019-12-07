@@ -8,6 +8,6 @@
 
 import Foundation
 
-protocol IdentifiableDevice {
+public protocol IdentifiableDevice {
     var id: UUID { get }
 }

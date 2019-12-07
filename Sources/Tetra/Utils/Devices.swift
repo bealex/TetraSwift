@@ -8,7 +8,7 @@
 
 import Foundation
 
-class Devices<T> {
+public class Devices<T> {
     private let type: String
     private var holder: [IOPort: T] = [:]
 
@@ -16,7 +16,7 @@ class Devices<T> {
         self.type = type
     }
 
-    subscript(id: IOPort) -> T {
+    public subscript(id: IOPort) -> T {
         get {
             if let result = holder[id] {
                 return result
@@ -29,7 +29,7 @@ class Devices<T> {
         }
     }
 
-    var any: T {
+    public var any: T {
         if let result = holder.values.first {
             return result
         } else {
@@ -37,7 +37,7 @@ class Devices<T> {
         }
     }
 
-    var single: T {
+    public var single: T {
         if holder.count == 1, let result = holder.values.first {
             return result
         } else {

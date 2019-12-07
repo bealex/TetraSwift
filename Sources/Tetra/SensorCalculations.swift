@@ -8,8 +8,8 @@
 
 import Foundation
 
-enum Calculators {
-    static func celsiusTemperature(rawAverage: Double) -> Double {
+public enum Calculators {
+    public static func celsiusTemperature(rawAverage: Double) -> Double {
         // https://github.com/amperka/TroykaThermometer/blob/master/src/TroykaThermometer.cpp ¯\_(ツ)_/¯
         let sensorVoltage = rawAverage * (5.0 / 1023.0) // 5 — voltage, 1024 — maxValue
         let temperatureCelsius = (sensorVoltage - 0.5) * 100.0

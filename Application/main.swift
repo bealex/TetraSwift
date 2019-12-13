@@ -16,23 +16,23 @@ guard let serialPort = CommandLine.arguments.dropFirst().first else {
 
 let tetra = Tetra(pathToSerialPort: serialPort, useTetraProtocol: true)
 tetra.install(sensors: [
-    .analog0: AnalogSensor(kind: .light, sampleTimes: 8),
-    .analog1: AnalogSensor(kind: .potentiometer, sampleTimes: 4, tolerance: 0.7),
-    .analog2: AnalogSensor(kind: .magnetic, sampleTimes: 8, tolerance: 0.01),
-    .analog3: AnalogSensor(kind: .temperature, sampleTimes: 32, tolerance: 0.05, calculate: Calculators.celsiusTemperature),
-    .analog4: DigitalSensor(kind: .infrared),
-    .digital6: DigitalSensor(kind: .button),
-    .digital7: DigitalSensor(kind: .button),
+    .analog0: LightSensor(),
+    .analog1: Potentiometer(),
+    .analog2: MagneticSensor(),
+    .analog3: TemperatureSensor(),
+    .analog4: InfraredSensor(),
+    .digital6: Button(),
+    .digital7: Button(),
 ])
 tetra.install(actuators: [
-    .digital4: AnalogActuator(kind: .motor, maxValue: 180),
-    .digital9: AnalogActuator(kind: .buzzer, maxValue: 200),
-    .digital5: AnalogActuator(kind: .analogLED(.green), maxValue: 200),
-    .digital6: AnalogActuator(kind: .analogLED(.red), maxValue: 200),
-    .digital10: DigitalActuator(kind: .digitalLED(.green)),
-    .digital11: DigitalActuator(kind: .digitalLED(.yellow)),
-    .digital12: DigitalActuator(kind: .digitalLED(.yellow)),
-    .digital13: DigitalActuator(kind: .digitalLED(.red)),
+    .digital4: LimitedAnalogActuator(kind: .motor, maxValue: 180),
+    .digital9: LimitedAnalogActuator(kind: .buzzer, maxValue: 200),
+    .digital5: LimitedAnalogActuator(kind: .analogLED(.green), maxValue: 200),
+    .digital6: LimitedAnalogActuator(kind: .analogLED(.red), maxValue: 200),
+    .digital10: BooleanDigitalActuator(kind: .digitalLED(.green)),
+    .digital11: BooleanDigitalActuator(kind: .digitalLED(.yellow)),
+    .digital12: BooleanDigitalActuator(kind: .digitalLED(.yellow)),
+    .digital13: BooleanDigitalActuator(kind: .digitalLED(.red)),
     .digital7: LEDMatrixActuator(kind: .ledMatrix(.monochrome)),
     .digital8: QuadNumericDisplayActuator(kind: .quadDisplay),
 ])
@@ -62,10 +62,10 @@ tetra.run {
     }
 
     tetra.when(tetra.potentiometer, isLessThan: 0.4) {
-        tetra.buzzer.value = 0.01
+        tetra.buzzer.value = true
     }
     tetra.when(tetra.potentiometer, isGreaterThan: 0.6) {
-        tetra.buzzer.value = 0
+        tetra.buzzer.value = false
     }
 
     tetra.on(tetra.temperatureSensor) {

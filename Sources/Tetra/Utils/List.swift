@@ -1,5 +1,5 @@
 //
-// ForcedDictionary
+// List
 // TetraCode
 //
 // Created by Alex Babaev on 24 November 2019.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-public class Devices<T> {
+public class List<T> {
     private let type: String
     private var holder: [IOPort: T] = [:]
 
@@ -16,16 +16,16 @@ public class Devices<T> {
         self.type = type
     }
 
-    public subscript(id: IOPort) -> T {
+    public subscript(port: IOPort) -> T {
         get {
-            if let result = holder[id] {
+            if let result = holder[port] {
                 return result
             } else {
-                fatalError("Can't find \(type) with id \(id)")
+                fatalError("Can't find \(type) with id \(port)")
             }
         }
         set {
-            holder[id] = newValue
+            holder[port] = newValue
         }
     }
 
@@ -47,5 +47,9 @@ public class Devices<T> {
                 fatalError("No devices with type \"\(type)\" present")
             }
         }
+    }
+
+    func set(_ value: T?, for port: IOPort) {
+        holder[port] = value
     }
 }

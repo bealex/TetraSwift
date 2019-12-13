@@ -25,16 +25,16 @@ tetra.install(sensors: [
     .digital7: Button(),
 ])
 tetra.install(actuators: [
-    .digital4: LimitedAnalogActuator(kind: .motor, maxValue: 180),
-    .digital9: LimitedAnalogActuator(kind: .buzzer, maxValue: 200),
-    .digital5: LimitedAnalogActuator(kind: .analogLED(.green), maxValue: 200),
-    .digital6: LimitedAnalogActuator(kind: .analogLED(.red), maxValue: 200),
-    .digital10: BooleanDigitalActuator(kind: .digitalLED(.green)),
-    .digital11: BooleanDigitalActuator(kind: .digitalLED(.yellow)),
-    .digital12: BooleanDigitalActuator(kind: .digitalLED(.yellow)),
-    .digital13: BooleanDigitalActuator(kind: .digitalLED(.red)),
-    .digital7: LEDMatrixActuator(kind: .ledMatrix(.monochrome)),
-    .digital8: QuadNumericDisplayActuator(kind: .quadDisplay),
+    .digital4: Motor(),
+    .digital9: Buzzer(),
+    .digital5: AnalogLED(color: .green),
+    .digital6: AnalogLED(color: .red),
+    .digital10: DigitalLED(color: .green),
+    .digital11: DigitalLED(color: .yellow),
+    .digital12: DigitalLED(color: .yellow),
+    .digital13: DigitalLED(color: .red),
+    .digital7: LEDMatrixActuator(),
+    .digital8: QuadNumericDisplayActuator(),
 ])
 
 tetra.run {

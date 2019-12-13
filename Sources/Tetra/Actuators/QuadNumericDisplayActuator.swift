@@ -17,8 +17,8 @@ public class QuadNumericDisplayActuator: StringActing, CustomDebugStringConverti
         }
     }
 
-    public init(kind: DeviceKind) {
-        self.kind = kind
+    public init() {
+        self.kind = .quadDisplay
     }
 
     public var debugDescription: String { "\(kind) ~> \(value)" }

@@ -17,8 +17,8 @@ public class LEDMatrixActuator: CharacterActing, CustomDebugStringConvertible {
         }
     }
 
-    public init(kind: DeviceKind) {
-        self.kind = kind
+    public init() {
+        self.kind = .ledMatrix
     }
 
     public var debugDescription: String { "\(kind) ~> \(value)" }

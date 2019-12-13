@@ -32,22 +32,12 @@ public enum DeviceKind: Hashable, CustomDebugStringConvertible {
         }
     }
 
-    public enum LEDMatrixType: Hashable, CustomDebugStringConvertible {
-        case monochrome
-
-        public var debugDescription: String {
-            switch self {
-                case .monochrome: return "Monochrome"
-            }
-        }
-    }
-
     case motor
     case buzzer
     case analogLED(LEDColor)
     case digitalLED(LEDColor)
     case quadDisplay
-    case ledMatrix(LEDMatrixType)
+    case ledMatrix
 
     // MARK: - Combined Devices
 
@@ -66,7 +56,7 @@ public enum DeviceKind: Hashable, CustomDebugStringConvertible {
             case .analogLED(let color): return "Analog LED, \(color)"
             case .digitalLED(let color): return "Digital LED, \(color)"
             case .quadDisplay: return "QuadDisplay"
-            case .ledMatrix(let type): return "Led Matrix, \(type)"
+            case .ledMatrix: return "Led Matrix"
 
             case .button: return "Button"
         }

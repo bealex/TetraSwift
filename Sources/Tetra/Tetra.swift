@@ -8,7 +8,7 @@
 
 import Foundation
 
-public class Tetra {
+open class Tetra {
     private let serialPort: SerialPort
     private var opened = false
 
@@ -54,13 +54,21 @@ public class Tetra {
 
     private var arduinoBoard: ArduinoBoard!
 
-    public init(pathToSerialPort: String, useTetraProtocol: Bool, eventQueue: DispatchQueue = DispatchQueue.global()) {
+    public init(
+        pathToSerialPort: String, useTetraProtocol: Bool, eventQueue: DispatchQueue = DispatchQueue.global(),
+        sensors: [IOPort: IdentifiableDevice & UpdatableSensor],
+        actuators: [IOPort: Actuator]
+    ) {
         self.eventQueue = eventQueue
         serialPort = HardwareSerialPort(path: pathToSerialPort)
-
         arduinoBoard = useTetraProtocol
             ? TetraBoard(serialPort: serialPort, errorHandler: log, sensorDataHandler: process(sensorData:))
             : PicoBoard(serialPort: serialPort, errorHandler: log, sensorDataHandler: process(sensorData:))
+
+        install(sensors: sensors)
+        install(actuators: actuators)
+
+        executeProgram()
     }
 
     private var portToIdentifiable: [IOPort: IdentifiableDevice] = [:]
@@ -105,11 +113,11 @@ public class Tetra {
         }
     }
 
-    public func run(execute: @escaping () -> Void) {
+    public func executeProgram() {
         start()
         guard opened else { return stop() }
 
-        execute()
+        run()
 
         while portToUpdatableSensor.values.contains(where: { $0.hasListeners }) {
             if !serialPort.isOpened {
@@ -118,6 +126,10 @@ public class Tetra {
             Thread.sleep(forTimeInterval: 0.1)
         }
         stop()
+    }
+
+    open func run() {
+        // To override
     }
 
     public func sleep(_ time: TimeInterval) {

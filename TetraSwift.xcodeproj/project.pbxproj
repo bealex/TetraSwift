@@ -31,6 +31,7 @@
 		2DBA186F07C2A5EE46502507 /* Actuator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA17C845C4CF004B053C7D /* Actuator.swift */; };
 		2DBA19B236914BEDC5C8660E /* Sensors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA1D4B9627C339A73D16AB /* Sensors.swift */; };
 		2DBA1AD990DF13B973D67577 /* Actuators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA1B03BEEE82EC23DAC1AC /* Actuators.swift */; };
+		2DBA1CEAAAB0F68DE298EB67 /* MyTetra.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA1BDF1E99FF855679096D /* MyTetra.swift */; };
 		2DBA1DB25BD63B976C8D6063 /* DeviceKind.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA10323CEAE78BD97478C6 /* DeviceKind.swift */; };
 		2DBA1FD28E8F39462ED09F9C /* BooleanDigitalActuator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA1E63C4C19053A7257592 /* BooleanDigitalActuator.swift */; };
 		FA1BF79E23A3C7F400C5963A /* IdentifiableDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA1BF78623A3C7F400C5963A /* IdentifiableDevice.swift */; };
@@ -77,6 +78,7 @@
 		2DBA197DB7C9C7EE3D8384FF /* LimitedAnalogActuator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LimitedAnalogActuator.swift; sourceTree = "<group>"; };
 		2DBA1B03BEEE82EC23DAC1AC /* Actuators.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Actuators.swift; sourceTree = "<group>"; };
 		2DBA1B879DE0C4F136980DC9 /* BooleanDigitalSensor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BooleanDigitalSensor.swift; sourceTree = "<group>"; };
+		2DBA1BDF1E99FF855679096D /* MyTetra.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyTetra.swift; sourceTree = "<group>"; };
 		2DBA1D4B9627C339A73D16AB /* Sensors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Sensors.swift; sourceTree = "<group>"; };
 		2DBA1E3ADE70A6B5741966E1 /* Sensor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Sensor.swift; sourceTree = "<group>"; };
 		2DBA1E63C4C19053A7257592 /* BooleanDigitalActuator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BooleanDigitalActuator.swift; sourceTree = "<group>"; };
@@ -146,6 +148,7 @@
 			isa = PBXGroup;
 			children = (
 				FA1BF78023A3C7F400C5963A /* main.swift */,
+				2DBA1BDF1E99FF855679096D /* MyTetra.swift */,
 			);
 			path = Application;
 			sourceTree = "<group>";
@@ -355,6 +358,7 @@
 			buildActionMask = 0;
 			files = (
 				FA1BF7AC23A3C80F00C5963A /* main.swift in Sources */,
+				2DBA1CEAAAB0F68DE298EB67 /* MyTetra.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

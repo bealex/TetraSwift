@@ -13,42 +13,41 @@ guard let serialPort = CommandLine.arguments.dropFirst().first else {
     exit(1)
 }
 
-let tetra = MyTetra(serialPort: serialPort)
-tetra.run { æ in
-    guard let æ = æ as? MyTetra else { return }
+Tetra(serialPort: serialPort).run {
+    guard let tetra = $0 as? Tetra else { return }
 
-    æ.potentiometer.whenValueChanged { value in
+    tetra.potentiometer.whenValueChanged { value in
         if value < 0.5 {
-            æ.greenAnalogLED.value = 0
-            æ.redAnalogLED.value = (0.5 - value) * 2
+            tetra.greenAnalogLED.value = 0
+            tetra.redAnalogLED.value = (0.5 - value) * 2
         } else {
-            æ.greenAnalogLED.value = (value - 0.5) * 2
-            æ.redAnalogLED.value = 0
+            tetra.greenAnalogLED.value = (value - 0.5) * 2
+            tetra.redAnalogLED.value = 0
         }
     }
 
-    æ.button2.whenOn {
-        æ.greenDigitalLED.on()
-        æ.yellowDigitalLED.on()
-        æ.yellowDigitalOtherLED.on()
-        æ.redDigitalLED.on()
+    tetra.button2.whenOn {
+        tetra.greenDigitalLED.on()
+        tetra.yellowDigitalLED.on()
+        tetra.yellowDigitalOtherLED.on()
+        tetra.redDigitalLED.on()
     }
-    æ.button2.whenOff {
-        æ.greenDigitalLED.off()
-        æ.yellowDigitalLED.off()
-        æ.yellowDigitalOtherLED.off()
-        æ.redDigitalLED.off()
-    }
-
-    æ.potentiometer.when(lessThan: 0.4) { _ in
-        æ.buzzer.value = true
-    }
-    æ.potentiometer.when(greaterThan: 0.6) { _ in
-        æ.buzzer.value = false
+    tetra.button2.whenOff {
+        tetra.greenDigitalLED.off()
+        tetra.yellowDigitalLED.off()
+        tetra.yellowDigitalOtherLED.off()
+        tetra.redDigitalLED.off()
     }
 
-    æ.temperatureSensor.whenValueChanged { value in
-        æ.quadDisplay.value = String(format: "%.1f˚", value)
+    tetra.potentiometer.when(lessThan: 0.4) {
+        tetra.buzzer.value = true
     }
-    æ.ledMatrix.value = "@"
+    tetra.potentiometer.when(greaterThan: 0.6) {
+        tetra.buzzer.value = false
+    }
+
+    tetra.temperatureSensor.whenValueChanged { value in
+        tetra.quadDisplay.value = String(format: "%.1f˚", value)
+    }
+    tetra.ledMatrix.value = "@"
 }

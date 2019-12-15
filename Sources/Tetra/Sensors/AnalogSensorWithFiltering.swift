@@ -60,5 +60,17 @@ public class AnalogSensorWithFiltering: AnalogSensor, CustomDebugStringConvertib
         _value.when(greaterThan: compareValue, do: listener)
     }
 
+    public func whenValueChanged(listener: @escaping () -> Void) {
+        _value.whenValueChanged(do: { _ in listener() })
+    }
+
+    public func when(lessThan compareValue: Double, listener: @escaping () -> Void) {
+        _value.when(lessThan: compareValue, do: { _ in listener() })
+    }
+
+    public func when(greaterThan compareValue: Double, listener: @escaping () -> Void) {
+        _value.when(greaterThan: compareValue, do: { _ in listener() })
+    }
+
     public var debugDescription: String { "\(kind) ~> \(value) (\(rawValue))" }
 }

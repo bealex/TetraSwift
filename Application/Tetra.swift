@@ -8,9 +8,21 @@
 import TetraSwift
 import Foundation
 
-class MyTetra: Tetra {
+class Tetra: TetraInterface {
     let button2 = Button()
     let button3 = Button()
+
+    let lightSensor = LightSensor()
+    let magneticSensor = MagneticSensor()
+    let temperatureSensor = TemperatureSensor()
+    let infraredSensor = InfraredSensor()
+    let potentiometer = Potentiometer()
+
+    let button = Button()
+    let motor = Motor()
+    let buzzer = Buzzer()
+    let quadDisplay = QuadNumericDisplayActuator()
+    let ledMatrix = LEDMatrixActuator()
 
     let redAnalogLED = AnalogLED(color: .red)
     let greenAnalogLED = AnalogLED(color: .green)
@@ -25,25 +37,25 @@ class MyTetra: Tetra {
             pathToSerialPort: serialPort,
             useTetraProtocol: true,
             sensors: [
-                .analog0: LightSensor(),
-                .analog1: Potentiometer(),
-                .analog2: MagneticSensor(),
-                .analog3: TemperatureSensor(),
-                .analog4: InfraredSensor(),
+                .analog0: lightSensor,
+                .analog1: potentiometer,
+                .analog2: magneticSensor,
+                .analog3: temperatureSensor,
+                .analog4: infraredSensor,
                 .digital6: button2,
                 .digital7: button3,
             ],
             actuators: [
-                .digital4: Motor(),
-                .digital9: Buzzer(),
+                .digital4: motor,
+                .digital9: buzzer,
                 .digital5: greenAnalogLED,
                 .digital6: redAnalogLED,
                 .digital10: greenDigitalLED,
                 .digital11: yellowDigitalLED,
                 .digital12: yellowDigitalOtherLED,
                 .digital13: redDigitalLED,
-                .digital7: LEDMatrixActuator(),
-                .digital8: QuadNumericDisplayActuator(),
+                .digital7: ledMatrix,
+                .digital8: quadDisplay,
             ]
         )
     }

@@ -18,7 +18,6 @@ class Tetra: TetraInterface {
     let infraredSensor = InfraredSensor()
     let potentiometer = Potentiometer()
 
-    let button = Button()
     let motor = Motor()
     let buzzer = Buzzer()
     let quadDisplay = QuadNumericDisplayActuator()

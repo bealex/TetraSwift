@@ -7,11 +7,14 @@
 
 import Foundation
 
-public class AnalogSensorWithFiltering: AnalogSensing, CustomDebugStringConvertible {
+public class AnalogSensorWithFiltering: AnalogSensor, CustomDebugStringConvertible {
     public let id: UUID = UUID()
     public let kind: DeviceKind
     public private(set) var rawValue: UInt = 0
+
+    @SensorValue
     public private(set) var value: Double = 0
+    public var hasListeners: Bool { _value.hasListeners }
 
     private var rawAverage: Double = 0
 
@@ -29,22 +32,32 @@ public class AnalogSensorWithFiltering: AnalogSensing, CustomDebugStringConverti
     private var samples: [UInt] = []
 
     /// Returns whether the value was changed.
-    public func update(rawValue: UInt) -> Bool {
+    public func update(rawValue: UInt) {
         samples.append(rawValue)
         while samples.count > sampleTimes {
             samples.remove(at: 0)
         }
 
-        guard samples.count == sampleTimes else { return false }
+        guard samples.count == sampleTimes else { return }
 
         let averageRawValue: Double = samples.reduce(Double(0)) { $0 + Double($1) } / Double(sampleTimes)
+        guard abs(rawAverage - averageRawValue) > tolerance else { return }
 
-        let valueChanged = abs(rawAverage - averageRawValue) > tolerance
         self.rawValue = UInt(averageRawValue)
         self.rawAverage = averageRawValue
         value = calculate(averageRawValue)
+    }
 
-        return valueChanged
+    public func whenValueChanged(listener: @escaping (_ value: Double) -> Void) {
+        _value.whenValueChanged(do: listener)
+    }
+
+    public func when(lessThan compareValue: Double, listener: @escaping (_ value: Double) -> Void) {
+        _value.when(lessThan: compareValue, do: listener)
+    }
+
+    public func when(greaterThan compareValue: Double, listener: @escaping (_ value: Double) -> Void) {
+        _value.when(greaterThan: compareValue, do: listener)
     }
 
     public var debugDescription: String { "\(kind) ~> \(value) (\(rawValue))" }

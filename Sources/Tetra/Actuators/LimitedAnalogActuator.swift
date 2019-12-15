@@ -7,7 +7,7 @@
 
 import Foundation
 
-public class LimitedAnalogActuator: AnalogActing, CustomDebugStringConvertible {
+public class LimitedAnalogActuator: AnalogActuator, CustomDebugStringConvertible {
     public let kind: DeviceKind
     public var changedListener: () -> Void = {}
     public internal(set) var rawValue: UInt = 0

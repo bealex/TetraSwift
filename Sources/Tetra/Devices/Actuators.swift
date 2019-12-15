@@ -15,13 +15,13 @@ public class Motor: LimitedAnalogActuator {
 
 public class Buzzer: BooleanDigitalActuator {
     public init() {
-        super.init(kind: .buzzer)
+        super.init(kind: .buzzer, onValue: 10, offValue: 0)
     }
 }
 
 public class DigitalLED: BooleanDigitalActuator {
     public init(color: DeviceKind.LEDColor) {
-        super.init(kind: .digitalLED(color))
+        super.init(kind: .digitalLED(color), onValue: 1023, offValue: 0)
     }
 }
 

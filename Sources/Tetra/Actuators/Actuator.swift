@@ -1,5 +1,5 @@
 //
-// Acting
+// Actuator
 // TetraCode
 //
 // Created by Alex Babaev on 22 November 2019.
@@ -8,25 +8,25 @@
 
 import Foundation
 
-public protocol Acting: class {
+public protocol Actuator: class {
     var kind: DeviceKind { get }
     var rawValue: UInt { get }
 
     var changedListener: () -> Void { get set }
 }
 
-public protocol AnalogActing: Acting {
+public protocol AnalogActuator: Actuator {
     var value: Double { get set }
 }
 
-public protocol DigitalActing: Acting {
+public protocol DigitalActuator: Actuator {
     var value: Bool { get set }
 }
 
-public protocol CharacterActing: Acting {
+public protocol CharacterActuator: Actuator {
     var value: Character { get set }
 }
 
-public protocol StringActing: Acting {
+public protocol StringActuator: Actuator {
     var value: String { get set }
 }

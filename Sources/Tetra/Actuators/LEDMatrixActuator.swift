@@ -7,7 +7,7 @@
 
 import Foundation
 
-public class LEDMatrixActuator: CharacterActing, CustomDebugStringConvertible {
+public class LEDMatrixActuator: CharacterActuator, CustomDebugStringConvertible {
     public let kind: DeviceKind
     public private(set) var rawValue: UInt = 0
     public var changedListener: () -> Void = {}

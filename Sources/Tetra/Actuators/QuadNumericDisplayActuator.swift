@@ -7,7 +7,7 @@
 
 import Foundation
 
-public class QuadNumericDisplayActuator: StringActing, CustomDebugStringConvertible {
+public class QuadNumericDisplayActuator: StringActuator, CustomDebugStringConvertible {
     public let kind: DeviceKind
     public private(set) var rawValue: UInt = 0
     public var changedListener: () -> Void = {}

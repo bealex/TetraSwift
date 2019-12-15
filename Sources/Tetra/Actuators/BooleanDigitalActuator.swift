@@ -7,13 +7,15 @@
 
 import Foundation
 
-public class BooleanDigitalActuator: DigitalActing, CustomDebugStringConvertible {
+public class BooleanDigitalActuator: DigitalActuator, CustomDebugStringConvertible {
     public let kind: DeviceKind
-    public private(set) var rawValue: UInt = 0
+    public private(set) var rawValue: UInt
+    private let onValue: UInt
+    private let offValue: UInt
     public var changedListener: () -> Void = {}
     public var value: Bool = false {
         didSet {
-            let newRawValue: UInt = value ? 1023 : 0
+            let newRawValue: UInt = value ? onValue : offValue
             if newRawValue != rawValue {
                 rawValue = newRawValue
                 changedListener()
@@ -29,8 +31,11 @@ public class BooleanDigitalActuator: DigitalActing, CustomDebugStringConvertible
         value = false
     }
 
-    public init(kind: DeviceKind) {
+    public init(kind: DeviceKind, onValue: UInt, offValue: UInt = 0) {
         self.kind = kind
+        self.onValue = onValue
+        self.offValue = offValue
+        rawValue = offValue
     }
 
     public var debugDescription: String { "\(kind) ~> \(value) (\(rawValue))" }

@@ -15,7 +15,7 @@ guard let serialPort = CommandLine.arguments.dropFirst().first else {
 }
 
 let tetra = Tetra(pathToSerialPort: serialPort, useTetraProtocol: true)
-tetra.install(sensors: [
+let sensors: [IOPort: IdentifiableDevice & UpdatableSensor] = [
     .analog0: LightSensor(),
     .analog1: Potentiometer(),
     .analog2: MagneticSensor(),
@@ -23,8 +23,10 @@ tetra.install(sensors: [
     .analog4: InfraredSensor(),
     .digital6: Button(),
     .digital7: Button(),
-])
-tetra.install(actuators: [
+]
+tetra.install(sensors: sensors)
+
+let actuators: [IOPort: Actuator] = [
     .digital4: Motor(),
     .digital9: Buzzer(),
     .digital5: AnalogLED(color: .green),
@@ -35,43 +37,43 @@ tetra.install(actuators: [
     .digital13: DigitalLED(color: .red),
     .digital7: LEDMatrixActuator(),
     .digital8: QuadNumericDisplayActuator(),
-])
+]
+tetra.install(actuators: actuators)
 
 tetra.run {
-    tetra.on(tetra.potentiometer) {
-        let potentiometerValue = tetra.potentiometer.value
-        if potentiometerValue < 0.5 {
+    tetra.potentiometer.whenValueChanged { value in
+        if value < 0.5 {
             tetra.analogLEDs[.digital5].value = 0
-            tetra.analogLEDs[.digital6].value = (0.5 - potentiometerValue) * 2
+            tetra.analogLEDs[.digital6].value = (0.5 - value) * 2
         } else {
-            tetra.analogLEDs[.digital5].value = (potentiometerValue - 0.5) * 2
+            tetra.analogLEDs[.digital5].value = (value - 0.5) * 2
             tetra.analogLEDs[.digital6].value = 0
         }
     }
-    tetra.whenOn(tetra.buttons[.digital6]) {
+
+    tetra.buttons[.digital6].whenOn {
         tetra.digitalLEDs[.digital13].on()
         tetra.digitalLEDs[.digital12].on()
         tetra.digitalLEDs[.digital11].on()
         tetra.digitalLEDs[.digital10].on()
     }
-    tetra.whenOn(tetra.buttons[.digital7]) {
+    tetra.buttons[.digital7].whenOn {
         tetra.digitalLEDs[.digital13].off()
         tetra.digitalLEDs[.digital12].off()
         tetra.digitalLEDs[.digital11].off()
         tetra.digitalLEDs[.digital10].off()
     }
 
-    tetra.when(tetra.potentiometer, isLessThan: 0.4) {
+    tetra.potentiometer.when(lessThan: 0.4) { _ in
         tetra.buzzer.value = true
     }
-    tetra.when(tetra.potentiometer, isGreaterThan: 0.6) {
+    tetra.potentiometer.when(greaterThan: 0.6) { _ in
         tetra.buzzer.value = false
     }
 
-    tetra.on(tetra.temperatureSensor) {
-        let temperature = tetra.temperatureSensor.value
-        print("Temperature: \(temperature)")
-        tetra.quadDisplay.value = String(format: "%.1f˚", temperature)
+    tetra.temperatureSensor.whenValueChanged { value in
+        print("Temperature: \(value)")
+        tetra.quadDisplay.value = String(format: "%.1f˚", value)
     }
     tetra.ledMatrix.value = "@"
 }

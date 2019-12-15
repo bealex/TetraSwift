@@ -63,12 +63,13 @@ public class Tetra {
             : PicoBoard(serialPort: serialPort, errorHandler: log, sensorDataHandler: process(sensorData:))
     }
 
-    private var sensors: [IOPort: Sensing] = [:]
-    private var actuators: [IOPort: Acting] = [:]
+    private var portToIdentifiable: [IOPort: IdentifiableDevice] = [:]
+    private var portToUpdatableSensor: [IOPort: UpdatableSensor] = [:]
 
-    public func install(sensors: [IOPort: Sensing]) {
+    public func install(sensors: [IOPort: IdentifiableDevice & UpdatableSensor]) {
         for (port, sensor) in sensors {
-            self.sensors[port] = sensor
+            self.portToIdentifiable[port] = sensor
+            self.portToUpdatableSensor[port] = sensor
 
             lightSensors.set(sensor as? LightSensor, for: port)
             potentiometers.set(sensor as? Potentiometer, for: port)
@@ -79,10 +80,8 @@ public class Tetra {
         }
     }
 
-    public func install(actuators: [IOPort: Acting]) {
+    public func install(actuators: [IOPort: Actuator]) {
         for (port, actuator) in actuators {
-            self.actuators[port] = actuator
-
             buzzers.set(actuator as? Buzzer, for: port)
             motors.set(actuator as? Motor, for: port)
             digitalLEDs.set(actuator as? DigitalLED, for: port)
@@ -112,7 +111,7 @@ public class Tetra {
 
         execute()
 
-        while !sensorListeners.isEmpty {
+        while portToUpdatableSensor.values.contains(where: { $0.hasListeners }) {
             if !serialPort.isOpened {
                 break
             }
@@ -154,20 +153,24 @@ public class Tetra {
     }
 
     private func closeSerialPort() {
-        sensorListeners = []
         serialPort.closePort()
         opened = false
     }
 
     // MARK: - Input and output
 
+    private func port(for sensor: IdentifiableDevice) -> IOPort? {
+        portToIdentifiable.first { $1.id == sensor.id }?.key
+    }
+
     private func process(sensorData: [(portId: UInt8, value: UInt)]) {
         sensorData.forEach { data in
-            guard let port = IOPort(sensorTetraId: data.portId), let sensor = sensors[port] else { return }
+            guard
+                let port = IOPort(sensorTetraId: data.portId),
+                let updatable = portToUpdatableSensor[port]
+            else { return }
 
-            if sensor.update(rawValue: data.value) {
-                notifySensorListenersAboutUpdate(of: sensor, on: port)
-            }
+            updatable.update(rawValue: data.value)
         }
     }
 
@@ -177,153 +180,5 @@ public class Tetra {
         if self.debug {
             print(message)
         }
-    }
-
-    // MARK: - Commands and conditions
-
-    private struct SensorListener {
-        var id: UUID = UUID()
-
-        var sensor: Sensing
-        var port: IOPort
-        var condition: (Sensing) -> Bool
-        var action: () -> Void
-        var executeOnlyOnce: Bool
-
-        var semaphore: DispatchSemaphore?
-    }
-
-    private var sensorListeners: [SensorListener] = []
-
-    private func listen(
-        for sensor: Sensing, on port: IOPort, condition: @escaping (Sensing) -> Bool, action: @escaping () -> Void,
-        waitUntilDone: Bool, executedOnlyOnce: Bool
-    ) {
-        var listener = SensorListener(sensor: sensor, port: port, condition: condition, action: action, executeOnlyOnce: executedOnlyOnce)
-        sensorListeners.append(listener)
-
-        log(message: " + Condition for \(sensor) added")
-        if waitUntilDone {
-            listener.semaphore = DispatchSemaphore(value: 0)
-            log(message: " . Waiting for \(sensor) event")
-            listener.semaphore?.wait()
-        }
-    }
-
-    private func notifySensorListenersAboutUpdate(of sensor: Sensing, on port: IOPort) {
-        var listenerIdsToRemove: [UUID] = []
-        sensorListeners.forEach { listener in
-            if listener.port == port, listener.condition(sensor) {
-                eventQueue.async {
-                    self.log(message: " ! Condition for \(sensor) executed")
-                    listener.action()
-                    listener.semaphore?.signal()
-                }
-                if listener.executeOnlyOnce {
-                    self.log(message: " - Condition for \(sensor) removed")
-                    listenerIdsToRemove.append(listener.id)
-                }
-            }
-        }
-
-        sensorListeners = sensorListeners.filter { !listenerIdsToRemove.contains($0.id) }
-    }
-}
-
-extension Tetra {
-    private func sleep(
-        until sensor: AnalogSensing, on port: IOPort? = nil,
-        matches condition: @escaping (AnalogSensing) -> Bool,
-        then: @escaping () -> Void
-    ) {
-        guard let port = port ?? findPort(for: sensor) else { fatalError("Can't find port for \(sensor)") }
-
-        let condition: (Sensing) -> Bool = { ($0 as? AnalogSensing).map(condition) ?? false }
-        listen(for: sensor, on: port, condition: condition, action: then, waitUntilDone: true, executedOnlyOnce: true)
-    }
-
-    private func sleep(
-        until sensor: DigitalSensing, on port: IOPort? = nil,
-        matches condition: @escaping (DigitalSensing) -> Bool,
-        then: @escaping () -> Void
-    ) {
-        guard let port = port ?? findPort(for: sensor) else { fatalError("Can't find port for \(sensor)") }
-
-        let condition: (Sensing) -> Bool = { ($0 as? DigitalSensing).map(condition) ?? false }
-        listen(for: sensor, on: port, condition: condition, action: then, waitUntilDone: true, executedOnlyOnce: true)
-    }
-
-    private func when(
-        _ sensor: AnalogSensing, on port: IOPort? = nil,
-        matches condition: @escaping (AnalogSensing) -> Bool,
-        do action: @escaping () -> Void
-    ) {
-        guard let port = port ?? findPort(for: sensor) else { fatalError("Can't find port for \(sensor)") }
-
-        let condition: (Sensing) -> Bool = { ($0 as? AnalogSensing).map(condition) ?? false }
-        listen(for: sensor, on: port, condition: condition, action: action, waitUntilDone: false, executedOnlyOnce: false)
-    }
-
-    private func when(
-        _ sensor: DigitalSensing, on port: IOPort? = nil,
-        matches condition: @escaping (DigitalSensing) -> Bool,
-        do action: @escaping () -> Void
-    ) {
-        guard let port = port ?? findPort(for: sensor) else { fatalError("Can't find port for \(sensor)") }
-
-        let condition: (Sensing) -> Bool = { ($0 as? DigitalSensing).map(condition) ?? false }
-        listen(for: sensor, on: port, condition: condition, action: action, waitUntilDone: false, executedOnlyOnce: false)
-    }
-
-    private func findPort(for sensor: Sensing) -> IOPort? {
-        sensors.first { $1.id == sensor.id }?.key
-    }
-}
-
-public extension Tetra {
-    func sleep(untilIsOn sensor: DigitalSensing, on port: IOPort? = nil, then action: @escaping () -> Void) {
-        sleep(until: sensor, on: port, matches: { _ in sensor.value }, then: action)
-    }
-
-    func sleep(untilIsOff sensor: DigitalSensing, on port: IOPort? = nil, then action: @escaping () -> Void) {
-        sleep(until: sensor, on: port, matches: { _ in !sensor.value }, then: action)
-    }
-
-    func sleep(until sensor: AnalogSensing, on port: IOPort? = nil, is value: Double, delta: Double, then action: @escaping () -> Void) {
-        sleep(until: sensor, on: port, matches: { abs($0.value - value) < delta }, then: action)
-    }
-
-    func sleep(until sensor: AnalogSensing, on port: IOPort? = nil, isLessThan value: Double, then action: @escaping () -> Void) {
-        sleep(until: sensor, on: port, matches: { $0.value < value }, then: action)
-    }
-
-    func sleep(until sensor: AnalogSensing, on port: IOPort? = nil, isGreaterThan value: Double, then action: @escaping () -> Void) {
-        sleep(until: sensor, on: port, matches: { $0.value > value }, then: action)
-    }
-
-    func whenOn(_ sensor: BooleanDigitalSensor, on port: IOPort? = nil, action: @escaping () -> Void) {
-        when(sensor, on: port, matches: { _ in sensor.value }, do: action)
-    }
-
-    func whenSensorIsOff(_ sensor: BooleanDigitalSensor, on port: IOPort? = nil, action: @escaping () -> Void) {
-        when(sensor, on: port, matches: { _ in !sensor.value }, do: action)
-    }
-
-    func when(_ sensor: AnalogSensing, on port: IOPort? = nil, is value: Double, delta: Double, action: @escaping () -> Void) {
-        when(sensor, on: port, matches: { abs($0.value - value) < delta }, do: action)
-    }
-
-    func when(_ sensor: AnalogSensing, on port: IOPort? = nil, isLessThan value: Double, action: @escaping () -> Void) {
-        when(sensor, on: port, matches: { $0.value < value }, do: action)
-    }
-
-    func when(_ sensor: AnalogSensing, on port: IOPort? = nil, isGreaterThan value: Double, action: @escaping () -> Void) {
-        when(sensor, on: port, matches: { $0.value > value }, do: action)
-    }
-
-    func on(_ sensor: Sensing, on port: IOPort? = nil, action: @escaping () -> Void) {
-        guard let port = port ?? findPort(for: sensor) else { fatalError("Can't find port for \(sensor)") }
-
-        listen(for: sensor, on: port, condition: { _ in true }, action: action, waitUntilDone: false, executedOnlyOnce: false)
     }
 }

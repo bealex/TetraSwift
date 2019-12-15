@@ -22,7 +22,7 @@ open class TetraInterface {
 
     public init(
         pathToSerialPort: String, useTetraProtocol: Bool, eventQueue: DispatchQueue = DispatchQueue.global(),
-        sensors: [IOPort: IdentifiableDevice & UpdatableSensor],
+        sensors: [IOPort: UpdatableSensor],
         actuators: [IOPort: Actuator]
     ) {
         self.eventQueue = eventQueue
@@ -40,7 +40,7 @@ open class TetraInterface {
         install(actuators: actuators)
     }
 
-    public func install(sensors: [IOPort: IdentifiableDevice & UpdatableSensor]) {
+    public func install(sensors: [IOPort: UpdatableSensor]) {
         for (port, sensor) in sensors {
             self.sensors[port] = sensor
         }

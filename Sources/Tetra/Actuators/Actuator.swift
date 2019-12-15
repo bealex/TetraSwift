@@ -9,6 +9,7 @@
 import Foundation
 
 public protocol Actuator: class {
+    // TODO: Generify Actuator by this value type. It can differ (generic - quadDisplay - ledMatrix, for example, and more)
     var rawValue: UInt { get }
 
     var changedListener: () -> Void { get set }

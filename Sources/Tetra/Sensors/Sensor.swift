@@ -14,9 +14,10 @@ public protocol UpdatableSensor {
     func update(rawValue: UInt)
 }
 
-public protocol Sensor: IdentifiableDevice, UpdatableSensor {
+public protocol Sensor: UpdatableSensor {
     associatedtype ValueType
 
+    // TODO: Think what if raw value is not UInt, but String, for example?
     var rawValue: UInt { get }
     var value: ValueType { get }
 }

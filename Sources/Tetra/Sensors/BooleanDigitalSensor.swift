@@ -7,7 +7,7 @@
 
 import Foundation
 
-public class BooleanDigitalSensor: DigitalSensor, CustomDebugStringConvertible {
+public class BooleanDigitalSensor: DigitalSensor {
     public let id: UUID = UUID()
     public let kind: DeviceKind
     public private(set) var rawValue: UInt = 0
@@ -39,6 +39,4 @@ public class BooleanDigitalSensor: DigitalSensor, CustomDebugStringConvertible {
     public func whenOff(listener: @escaping () -> Void) {
         _value.whenOff { _ in listener() }
     }
-
-    public var debugDescription: String { "\(kind) ~> \(value) (\(rawValue))" }
 }

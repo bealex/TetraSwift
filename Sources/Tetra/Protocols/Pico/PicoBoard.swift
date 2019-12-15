@@ -14,7 +14,7 @@ import Foundation
 
     1. There are two parts: Arduino port index and value (that is being read or being written).
     2. Every protocol packet is 2 bytes. Bits in these are: 1 PPPP 0 VVVVVVVVVV, where
-       - 1/0 — reserved bits. Don't know why do we need them
+       - 1/0 — reserved bits. Don't know why do we need them (but they can be used for error checking)
        - PPPP — port index (4 bits, 16 ports)
        — VVVVVVVVVV — value (10 bits, values 0–1023)
     3. Port indexes mapping is below. It is defined in the Sketch, but here is default one for Tetra.
@@ -77,7 +77,7 @@ class PicoBoard: ArduinoBoard {
         let currentTime = Date.timeIntervalSinceReferenceDate
         if currentTime - lastActuatorsUpdateTime > 0.01 {
             lastActuatorsUpdateTime = currentTime
-            lastActuatorRawValues.values.forEach { sendActuator(portId: $0.portId, rawValue: $0.value) }
+            lastActuatorRawValues.values.forEach { sendRawActuatorValue(portId: $0.portId, rawValue: $0.value) }
         }
     }
 
@@ -93,19 +93,11 @@ class PicoBoard: ArduinoBoard {
         handleError("LED Matrix is not implemented")
     }
 
-    func sendActuator(portId: UInt8, rawValue: UInt) {
+    func sendRawActuatorValue(portId: UInt8, rawValue: UInt) {
         guard started else { return }
 
         lastActuatorRawValues[portId] = (portId, rawValue)
         send(encode(id: portId, value: rawValue))
-    }
-
-    func sendAllActuators(analog: [(portId: UInt8, value: UInt)], digital: [(portId: UInt8, value: UInt)]) {
-        guard started else { return }
-
-        let data = analog + digital
-        data.forEach { lastActuatorRawValues[$0.portId] = $0 }
-        send(data.flatMap { encode(id: $0.portId, value: $0.value) })
     }
 
     private func send(_ data: [UInt8]) {

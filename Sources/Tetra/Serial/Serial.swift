@@ -84,13 +84,11 @@ enum ParityType {
     }
 }
 
-enum PortError: Int32, Error {
-    case failedToOpen = -1 // refer to open()
+enum PortError: Error {
+    case failedToOpen
     case invalidPath
     case mustReceiveOrTransmit
     case mustBeOpen
-    case stringsMustBeUTF8
-    case unableToConvertByteToCharacter
     case deviceNotConnected
 }
 
@@ -98,17 +96,6 @@ protocol SerialPort {
     var isOpened: Bool { get }
 
     func openPort(toReceive receive: Bool, andTransmit transmit: Bool) throws
-    func setSettings(receiveRate: BaudRate,
-        transmitRate: BaudRate,
-        minimumBytesToRead: Int,
-        timeout: Int,
-        parityType: ParityType,
-        sendTwoStopBits: Bool,
-        dataBitsSize: DataBitsSize,
-        useHardwareFlowControl: Bool,
-        useSoftwareFlowControl: Bool,
-        processOutput: Bool
-    )
     func closePort()
     func readBytes(into buffer: UnsafeMutablePointer<UInt8>, size: Int) throws -> Int
     func writeBytes(from buffer: UnsafePointer<UInt8>, size: Int) throws -> Int
@@ -118,8 +105,28 @@ extension SerialPort {
     func openPort() throws {
         try openPort(toReceive: true, andTransmit: true)
     }
+}
 
-    func setSettings(receiveRate: BaudRate,
+class HardwareSerialPort: SerialPort {
+    private var path: String
+
+    private var receiveRate: BaudRate
+    private var transmitRate: BaudRate
+    private var minimumBytesToRead: Int
+    private var timeout: Int
+    private var parityType: ParityType
+    private var sendTwoStopBits: Bool
+    private var dataBitsSize: DataBitsSize
+    private var useHardwareFlowControl: Bool
+    private var useSoftwareFlowControl: Bool
+    private var processOutput: Bool
+
+    private var fileDescriptor: Int32?
+    var isOpened: Bool { fileDescriptor ?? 0 > 0 }
+
+    init(
+        path: String,
+        receiveRate: BaudRate,
         transmitRate: BaudRate,
         minimumBytesToRead: Int,
         timeout: Int = 0, /* 0 means wait indefinitely */
@@ -130,30 +137,17 @@ extension SerialPort {
         useSoftwareFlowControl: Bool = false,
         processOutput: Bool = false
     ) {
-        setSettings(
-            receiveRate: receiveRate,
-            transmitRate: transmitRate,
-            minimumBytesToRead: minimumBytesToRead,
-            timeout: timeout,
-            parityType: parityType,
-            sendTwoStopBits: sendTwoStopBits,
-            dataBitsSize: dataBitsSize,
-            useHardwareFlowControl: useHardwareFlowControl,
-            useSoftwareFlowControl: useSoftwareFlowControl,
-            processOutput: processOutput
-        )
-    }
-
-}
-
-class HardwareSerialPort: SerialPort {
-    var path: String
-    var fileDescriptor: Int32?
-
-    var isOpened: Bool { fileDescriptor ?? 0 > 0 }
-
-    init(path: String) {
         self.path = path
+        self.receiveRate = receiveRate
+        self.transmitRate = transmitRate
+        self.minimumBytesToRead = minimumBytesToRead
+        self.timeout = timeout
+        self.parityType = parityType
+        self.sendTwoStopBits = sendTwoStopBits
+        self.dataBitsSize = dataBitsSize
+        self.useHardwareFlowControl = useHardwareFlowControl
+        self.useSoftwareFlowControl = useSoftwareFlowControl
+        self.processOutput = processOutput
     }
 
     func openPort(toReceive receive: Bool, andTransmit transmit: Bool) throws {
@@ -175,23 +169,15 @@ class HardwareSerialPort: SerialPort {
         #endif
 
         // Throw error if open() failed
-        if fileDescriptor == PortError.failedToOpen.rawValue {
+        if fileDescriptor == -1 {
             print("Error opening port, errno: \(errno)")
             throw PortError.failedToOpen
         }
+
+        updatePortSettings()
     }
 
-    func setSettings(receiveRate: BaudRate,
-        transmitRate: BaudRate,
-        minimumBytesToRead: Int,
-        timeout: Int = 0, /* 0 means wait indefinitely */
-        parityType: ParityType = .none,
-        sendTwoStopBits: Bool = false, /* 1 stop bit is the default */
-        dataBitsSize: DataBitsSize = .bits8,
-        useHardwareFlowControl: Bool = false,
-        useSoftwareFlowControl: Bool = false,
-        processOutput: Bool = false
-    ) {
+    private func updatePortSettings() {
         guard let fileDescriptor = fileDescriptor else { return }
 
         // Set up the control structure

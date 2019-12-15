@@ -7,7 +7,7 @@
 
 import Foundation
 
-public enum DeviceKind: Hashable, CustomDebugStringConvertible {
+public enum DeviceKind: Hashable {
     // MARK: - Sensors
 
     case lightSensor
@@ -18,18 +18,10 @@ public enum DeviceKind: Hashable, CustomDebugStringConvertible {
 
     // MARK: - Actuators
 
-    public enum LEDColor: Hashable, CustomDebugStringConvertible {
+    public enum LEDColor: Hashable {
         case red
         case yellow
         case green
-
-        public var debugDescription: String {
-            switch self {
-                case .red: return "Red"
-                case .yellow: return "Yellow"
-                case .green: return "Green"
-            }
-        }
     }
 
     case motor
@@ -42,23 +34,4 @@ public enum DeviceKind: Hashable, CustomDebugStringConvertible {
     // MARK: - Combined Devices
 
     case button
-
-    public var debugDescription: String {
-        switch self {
-            case .lightSensor: return "Light Sensor"
-            case .magneticSensor: return "Magnetic Sensor"
-            case .temperatureSensor: return "Temperature Sensor"
-            case .infraredSensor: return "Infrared Sensor"
-            case .potentiometer: return "Potentiometer"
-
-            case .motor: return "Motor"
-            case .buzzer: return "Buzzer"
-            case .analogLED(let color): return "Analog LED, \(color)"
-            case .digitalLED(let color): return "Digital LED, \(color)"
-            case .quadDisplay: return "QuadDisplay"
-            case .ledMatrix: return "Led Matrix"
-
-            case .button: return "Button"
-        }
-    }
 }

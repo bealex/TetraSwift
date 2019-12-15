@@ -7,7 +7,7 @@
 
 import Foundation
 
-public class BooleanDigitalActuator: DigitalActuator, CustomDebugStringConvertible {
+public class BooleanDigitalActuator: DigitalActuator {
     public let kind: DeviceKind
     public private(set) var rawValue: UInt
     private let onValue: UInt
@@ -37,6 +37,4 @@ public class BooleanDigitalActuator: DigitalActuator, CustomDebugStringConvertib
         self.offValue = offValue
         rawValue = offValue
     }
-
-    public var debugDescription: String { "\(kind) ~> \(value) (\(rawValue))" }
 }

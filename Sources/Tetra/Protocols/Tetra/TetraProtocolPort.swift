@@ -18,20 +18,20 @@ extension TetraBoard {
 
             init?(from code: UInt8) {
                 switch code {
-                    case 0b00000000: self = .analogInput
-                    case 0b00000001: self = .analogOutput
-                    case 0b00000010: self = .digitalInput
-                    case 0b00000011: self = .digitalOutput
+                    case 0: self = .analogInput
+                    case 1: self = .analogOutput
+                    case 2: self = .digitalInput
+                    case 3: self = .digitalOutput
                     default: return nil
                 }
             }
 
             var code: UInt8 {
                 switch self {
-                    case .analogInput: return 0b00000000
-                    case .analogOutput: return 0b00000001
-                    case .digitalInput: return 0b00000010
-                    case .digitalOutput: return 0b00000011
+                    case .analogInput: return 0
+                    case .analogOutput: return 1
+                    case .digitalInput: return 2
+                    case .digitalOutput: return 3
                 }
             }
         }

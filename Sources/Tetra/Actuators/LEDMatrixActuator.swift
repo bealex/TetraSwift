@@ -7,7 +7,7 @@
 
 import Foundation
 
-public class LEDMatrixActuator: CharacterActuator, CustomDebugStringConvertible {
+public class LEDMatrixActuator: CharacterActuator {
     public let kind: DeviceKind
     public private(set) var rawValue: UInt = 0
     public var changedListener: () -> Void = {}
@@ -20,6 +20,4 @@ public class LEDMatrixActuator: CharacterActuator, CustomDebugStringConvertible 
     public init() {
         self.kind = .ledMatrix
     }
-
-    public var debugDescription: String { "\(kind) ~> \(value)" }
 }

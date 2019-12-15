@@ -7,7 +7,7 @@
 
 import Foundation
 
-public class AnalogSensorWithFiltering: AnalogSensor, CustomDebugStringConvertible {
+public class AnalogSensorWithFiltering: AnalogSensor {
     public let id: UUID = UUID()
     public let kind: DeviceKind
     public private(set) var rawValue: UInt = 0
@@ -71,6 +71,4 @@ public class AnalogSensorWithFiltering: AnalogSensor, CustomDebugStringConvertib
     public func when(greaterThan compareValue: Double, listener: @escaping () -> Void) {
         _value.when(greaterThan: compareValue, do: { _ in listener() })
     }
-
-    public var debugDescription: String { "\(kind) ~> \(value) (\(rawValue))" }
 }

@@ -7,7 +7,7 @@
 
 import Foundation
 
-public class LimitedAnalogActuator: AnalogActuator, CustomDebugStringConvertible {
+public class LimitedAnalogActuator: AnalogActuator {
     public let kind: DeviceKind
     public var changedListener: () -> Void = {}
     public internal(set) var rawValue: UInt = 0
@@ -28,6 +28,4 @@ public class LimitedAnalogActuator: AnalogActuator, CustomDebugStringConvertible
         self.kind = kind
         self.maxValue = maxValue
     }
-
-    public var debugDescription: String { "\(kind) ~> \(value) (\(rawValue))" }
 }

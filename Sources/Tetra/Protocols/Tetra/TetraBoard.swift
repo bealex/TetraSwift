@@ -150,12 +150,12 @@ class TetraBoard: ArduinoBoard {
         value.forEach { character in
             if character == "." {
                 if bytes.count > 2 {
-                    bytes[bytes.count - 1] &= QuadDisplay.digit_dot
+                    bytes[bytes.count - 1] &= QuadDisplayHelper.digit_dot
                 } else {
-                    bytes.append(QuadDisplay.digit_dot)
+                    bytes.append(QuadDisplayHelper.digit_dot)
                 }
             } else {
-                if let encoded = QuadDisplay.encode(character: character) {
+                if let encoded = QuadDisplayHelper.encode(character: character) {
                     bytes.append(encoded)
                 }
             }
@@ -166,35 +166,19 @@ class TetraBoard: ArduinoBoard {
 
     // Brightness can be from 0 to 1, character — ASCII from 0 to 0x7f
     func showOnLEDMatrix(portId: UInt8, brightness: Double, character: Character) {
-        let bytes: [UInt8] = [ Packet.Command.ledMatrix.rawValue, portId, LEDMatrix.brightness(value: brightness) ] +
-            LEDMatrix.data(for: character)
+        let bytes: [UInt8] = [ Packet.Command.ledMatrix.rawValue, portId, LEDMatrixHelper.brightness(value: brightness) ] +
+            LEDMatrixHelper.data(for: character)
         self.send(data: bytes)
         log(message: "Sent data to LED Matrix \(portId)")
     }
 
-    func sendActuator(portId: UInt8, rawValue: UInt) {
+    func sendRawActuatorValue(portId: UInt8, rawValue: UInt) {
         let rawValue = min(255, rawValue)
         let data: [UInt8] =
             [ Packet.Command.singleActuator.rawValue ] +
             [ portId, UInt8(rawValue & 0b11111111) ]
         self.send(data: data)
         log(message: "Sent actuator \(portId)")
-    }
-
-    func sendAllActuators(analog: [(portId: UInt8, value: UInt)], digital: [(portId: UInt8, value: UInt)]) {
-        guard
-            configuration.areConfigured(kind: .analogInput, ids: analog.map { $0.portId }),
-            configuration.areConfigured(kind: .digitalInput, ids: digital.map { $0.portId })
-        else {
-            fatalError("Can't send actuator data, because it does not correspond to port configuration")
-        }
-
-        let data: [UInt8] =
-            [ Packet.Command.allActuators.rawValue ] +
-            analog.flatMap { [ UInt8($0.value & 0b11111111) ] } +
-            digital.flatMap { [ $0.value == 0 ? 0 : 1 ] }
-        workQueue.async { self.send(data: data) }
-        log(message: "Sent all actuators")
     }
 
     private func send(data: [UInt8], completion: @escaping () -> Void = {}) {

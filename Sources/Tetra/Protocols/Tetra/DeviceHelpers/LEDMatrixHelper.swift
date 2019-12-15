@@ -1,5 +1,5 @@
 //
-// LEDMatrix
+// LEDMatrixHelper
 // TetraSwift
 //
 // Created by Alex Babaev on 29 November 2019.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct LEDMatrix {
+struct LEDMatrixHelper {
     static let ascii: [[UInt8]] = [
         [ 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 ],   // U+0000 (nul)
         [ 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 ],   // U+0001
@@ -163,8 +163,8 @@ struct LEDMatrix {
     }
 
     static func data(for asciiSymbol: Character) -> [UInt8] {
-        guard let ascii = asciiSymbol.asciiValue.map(Int.init), ascii < LEDMatrix.ascii.count else { return LEDMatrix.ascii[0] }
+        guard let ascii = asciiSymbol.asciiValue.map(Int.init), ascii < LEDMatrixHelper.ascii.count else { return LEDMatrixHelper.ascii[0] }
 
-        return LEDMatrix.ascii[ascii]
+        return LEDMatrixHelper.ascii[ascii]
     }
 }

@@ -26,7 +26,12 @@ open class TetraInterface {
         actuators: [IOPort: Actuator]
     ) {
         self.eventQueue = eventQueue
-        serialPort = HardwareSerialPort(path: pathToSerialPort)
+        serialPort = HardwareSerialPort(
+            path: pathToSerialPort,
+            receiveRate: .baud38400,
+            transmitRate: .baud38400,
+            minimumBytesToRead: 0
+        )
 
         arduinoBoard = useTetraProtocol
             ? TetraBoard(serialPort: serialPort, errorHandler: log, sensorDataHandler: process(sensorData:))
@@ -44,10 +49,10 @@ open class TetraInterface {
     public func install(actuators: [IOPort: Actuator]) {
         for (port, actuator) in actuators {
             if let actuator = actuator as? LimitedAnalogActuator {
-                actuator.changedListener = { self.arduinoBoard.sendActuator(portId: port.tetraId, rawValue: actuator.rawValue) }
+                actuator.changedListener = { self.arduinoBoard.sendRawActuatorValue(portId: port.tetraId, rawValue: actuator.rawValue) }
             } else if let actuator = actuator as? BooleanDigitalActuator {
                 actuator.changedListener = {
-                    self.arduinoBoard.sendActuator(portId: port.tetraId, rawValue: actuator.rawValue)
+                    self.arduinoBoard.sendRawActuatorValue(portId: port.tetraId, rawValue: actuator.rawValue)
                 }
             } else if let actuator = actuator as? QuadNumericDisplayActuator {
                 actuator.changedListener = { self.arduinoBoard.showOnQuadDisplay(portId: port.tetraId, value: actuator.value) }
@@ -99,7 +104,6 @@ open class TetraInterface {
         do {
             try serialPort.openPort()
             opened = true
-            serialPort.setSettings(receiveRate: .baud38400, transmitRate: .baud38400, minimumBytesToRead: 0)
             log(message: "Port opened")
         } catch {
             log(message: "Error opening: \(error)")

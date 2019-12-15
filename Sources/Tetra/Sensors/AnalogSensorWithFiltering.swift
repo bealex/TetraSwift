@@ -9,7 +9,6 @@ import Foundation
 
 public class AnalogSensorWithFiltering: AnalogSensor {
     public let id: UUID = UUID()
-    public let kind: DeviceKind
     public private(set) var rawValue: UInt = 0
 
     @SensorValue
@@ -22,8 +21,7 @@ public class AnalogSensorWithFiltering: AnalogSensor {
     private let sampleTimes: UInt
     private let calculate: (Double) -> Double
 
-    public init(kind: DeviceKind, sampleTimes: UInt = 1, tolerance: Double = 0.1, calculate: @escaping (Double) -> Double = { $0 / 1023 }) {
-        self.kind = kind
+    public init(sampleTimes: UInt = 1, tolerance: Double = 0.1, calculate: @escaping (Double) -> Double = { $0 / 1023 }) {
         self.sampleTimes = sampleTimes
         self.tolerance = tolerance
         self.calculate = calculate

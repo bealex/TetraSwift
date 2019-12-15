@@ -8,7 +8,6 @@
 import Foundation
 
 public class BooleanDigitalActuator: DigitalActuator {
-    public let kind: DeviceKind
     public private(set) var rawValue: UInt
     private let onValue: UInt
     private let offValue: UInt
@@ -31,8 +30,7 @@ public class BooleanDigitalActuator: DigitalActuator {
         value = false
     }
 
-    public init(kind: DeviceKind, onValue: UInt, offValue: UInt = 0) {
-        self.kind = kind
+    public init(onValue: UInt, offValue: UInt = 0) {
         self.onValue = onValue
         self.offValue = offValue
         rawValue = offValue

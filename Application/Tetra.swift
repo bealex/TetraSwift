@@ -23,13 +23,13 @@ class Tetra: TetraInterface {
     let quadDisplay = QuadNumericDisplayActuator()
     let ledMatrix = LEDMatrixActuator()
 
-    let redAnalogLED = AnalogLED(color: .red)
-    let greenAnalogLED = AnalogLED(color: .green)
+    let redAnalogLED = AnalogLED()
+    let greenAnalogLED = AnalogLED()
 
-    let redDigitalLED = DigitalLED(color: .red)
-    let yellowDigitalLED = DigitalLED(color: .yellow)
-    let yellowDigitalOtherLED = DigitalLED(color: .yellow)
-    let greenDigitalLED = DigitalLED(color: .green)
+    let redDigitalLED = DigitalLED()
+    let yellowDigitalLED = DigitalLED()
+    let yellowDigitalOtherLED = DigitalLED()
+    let greenDigitalLED = DigitalLED()
 
     init(serialPort: String) {
         super.init(

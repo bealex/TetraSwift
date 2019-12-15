@@ -8,7 +8,6 @@
 import Foundation
 
 public class LimitedAnalogActuator: AnalogActuator {
-    public let kind: DeviceKind
     public var changedListener: () -> Void = {}
     public internal(set) var rawValue: UInt = 0
 
@@ -24,8 +23,7 @@ public class LimitedAnalogActuator: AnalogActuator {
         }
     }
 
-    public init(kind: DeviceKind, maxValue: UInt) {
-        self.kind = kind
+    public init(maxValue: UInt) {
         self.maxValue = maxValue
     }
 }

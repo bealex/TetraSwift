@@ -8,7 +8,6 @@
 import Foundation
 
 public class LEDMatrixActuator: CharacterActuator {
-    public let kind: DeviceKind
     public private(set) var rawValue: UInt = 0
     public var changedListener: () -> Void = {}
     public var value: Character = " " { // Make this custom matrix
@@ -17,7 +16,5 @@ public class LEDMatrixActuator: CharacterActuator {
         }
     }
 
-    public init() {
-        self.kind = .ledMatrix
-    }
+    public init() {}
 }

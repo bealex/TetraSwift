@@ -9,7 +9,6 @@
 import Foundation
 
 public protocol Actuator: class {
-    var kind: DeviceKind { get }
     var rawValue: UInt { get }
 
     var changedListener: () -> Void { get set }

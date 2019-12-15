@@ -17,7 +17,6 @@ public protocol UpdatableSensor {
 public protocol Sensor: IdentifiableDevice, UpdatableSensor {
     associatedtype ValueType
 
-    var kind: DeviceKind { get }
     var rawValue: UInt { get }
     var value: ValueType { get }
 }

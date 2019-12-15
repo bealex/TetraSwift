@@ -33,7 +33,6 @@
 		2DBA1AF6B01C8AA6C7282366 /* SensorValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA10DF047A2327B7814D24 /* SensorValue.swift */; };
 		2DBA1BFEBAB6DB44B453C33E /* IdentifiableDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA1ACEB5E5822DB7555A10 /* IdentifiableDevice.swift */; };
 		2DBA1CEAAAB0F68DE298EB67 /* Tetra.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA1BDF1E99FF855679096D /* Tetra.swift */; };
-		2DBA1DB25BD63B976C8D6063 /* DeviceKind.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA10323CEAE78BD97478C6 /* DeviceKind.swift */; };
 		2DBA1FD28E8F39462ED09F9C /* BooleanDigitalActuator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA1E63C4C19053A7257592 /* BooleanDigitalActuator.swift */; };
 		FA1BF79F23A3C7F400C5963A /* IOPort.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA1BF78823A3C7F400C5963A /* IOPort.swift */; };
 		FA1BF7A123A3C7F400C5963A /* List.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA1BF78B23A3C7F400C5963A /* List.swift */; };
@@ -69,7 +68,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		2DBA10323CEAE78BD97478C6 /* DeviceKind.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeviceKind.swift; sourceTree = "<group>"; };
 		2DBA10DF047A2327B7814D24 /* SensorValue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SensorValue.swift; sourceTree = "<group>"; };
 		2DBA11E9F4376C9A714DD86B /* LEDMatrixActuator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LEDMatrixActuator.swift; sourceTree = "<group>"; };
 		2DBA1482499018FD924874A4 /* AnalogSensorWithFiltering.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnalogSensorWithFiltering.swift; sourceTree = "<group>"; };
@@ -139,7 +137,6 @@
 			children = (
 				2DBA1D4B9627C339A73D16AB /* Sensors.swift */,
 				2DBA1B03BEEE82EC23DAC1AC /* Actuators.swift */,
-				2DBA10323CEAE78BD97478C6 /* DeviceKind.swift */,
 			);
 			path = Devices;
 			sourceTree = "<group>";
@@ -387,7 +384,6 @@
 				2DBA1228902508767203BCAD /* LEDMatrixActuator.swift in Sources */,
 				2DBA19B236914BEDC5C8660E /* Sensors.swift in Sources */,
 				2DBA1AD990DF13B973D67577 /* Actuators.swift in Sources */,
-				2DBA1DB25BD63B976C8D6063 /* DeviceKind.swift in Sources */,
 				2DBA1BFEBAB6DB44B453C33E /* IdentifiableDevice.swift in Sources */,
 				2DBA1AF6B01C8AA6C7282366 /* SensorValue.swift in Sources */,
 			);

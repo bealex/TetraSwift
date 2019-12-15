@@ -8,7 +8,6 @@
 import Foundation
 
 public class QuadNumericDisplayActuator: StringActuator {
-    public let kind: DeviceKind
     public private(set) var rawValue: UInt = 0
     public var changedListener: () -> Void = {}
     public var value: String = "" {
@@ -17,7 +16,5 @@ public class QuadNumericDisplayActuator: StringActuator {
         }
     }
 
-    public init() {
-        self.kind = .quadDisplay
-    }
+    public init() {}
 }

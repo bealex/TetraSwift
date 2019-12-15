@@ -9,16 +9,13 @@ import Foundation
 
 public class BooleanDigitalSensor: DigitalSensor {
     public let id: UUID = UUID()
-    public let kind: DeviceKind
     public private(set) var rawValue: UInt = 0
 
     @SensorValue
     public private(set) var value: Bool = false
     public var hasListeners: Bool { _value.hasListeners }
 
-    public init(kind: DeviceKind) {
-        self.kind = kind
-    }
+    public init() {}
 
     /// Returns whether the value was changed.
     public func update(rawValue: UInt) {

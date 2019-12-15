@@ -111,13 +111,11 @@ open class Tetra {
         }
     }
 
-    public func run<T: Tetra>(execute: @escaping (T) -> Void) {
-        guard let tetra = self as? T else { fatalError("Can't run one Tetra from another") }
-
+    public func run(execute: @escaping (Tetra) -> Void) {
         start()
         guard opened else { return stop() }
 
-        execute(tetra)
+        execute(self)
 
         while portToUpdatableSensor.values.contains(where: { $0.hasListeners }) {
             if !serialPort.isOpened {

@@ -55,6 +55,7 @@ identifier_name:
   min_length:
     error: 3
   excluded:
+    - æ
     - x
     - y
     - dx

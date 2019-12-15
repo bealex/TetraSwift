@@ -107,9 +107,12 @@ class TetraBoard: ArduinoBoard {
     private var configuration: Configuration = Configuration(ports: [])
     private let workQueue: DispatchQueue = DispatchQueue(label: "tetra.protocol", qos: .default)
 
-    func start() {
+    private var startedHandler: (() -> Void)?
+
+    func start(completion: @escaping () -> Void) {
         guard state == .initial else { fatalError("Can't start protocol from non-initial state") }
 
+        startedHandler = completion
         buffer = []
         handshake()
         loop()
@@ -141,6 +144,10 @@ class TetraBoard: ArduinoBoard {
     // MARK: - Sending
 
     func showOnQuadDisplay(portId: UInt8, value: String) {
+        let isDigitalInput = configuration.digitalInputs.contains { $0.id == portId }
+        let isAnalogInput = configuration.analogInputs.contains { $0.id == portId }
+        guard isDigitalInput || isAnalogInput else { return handleError("Can't send value to other than input") }
+
         var value = value
         while value.replacingOccurrences(of: ".", with: "").count < 4 {
             value = " \(value)"
@@ -166,6 +173,10 @@ class TetraBoard: ArduinoBoard {
 
     // Brightness can be from 0 to 1, character — ASCII from 0 to 0x7f
     func showOnLEDMatrix(portId: UInt8, brightness: Double, character: Character) {
+        let isDigitalInput = configuration.digitalInputs.contains { $0.id == portId }
+        let isAnalogInput = configuration.analogInputs.contains { $0.id == portId }
+        guard isDigitalInput || isAnalogInput else { return handleError("Can't send value to other than input") }
+
         let bytes: [UInt8] = [ Packet.Command.ledMatrix.rawValue, portId, LEDMatrixHelper.brightness(value: brightness) ] +
             LEDMatrixHelper.data(for: character)
         self.send(data: bytes)
@@ -173,6 +184,10 @@ class TetraBoard: ArduinoBoard {
     }
 
     func sendRawActuatorValue(portId: UInt8, rawValue: UInt) {
+        let isDigitalInput = configuration.digitalInputs.contains { $0.id == portId }
+        let isAnalogInput = configuration.analogInputs.contains { $0.id == portId }
+        guard isDigitalInput || isAnalogInput else { return handleError("Can't send value to other than input") }
+
         let rawValue = min(255, rawValue)
         let data: [UInt8] =
             [ Packet.Command.singleActuator.rawValue ] +
@@ -264,6 +279,11 @@ class TetraBoard: ArduinoBoard {
 
             log(message: "Got configuration")
         }
+
+        if state == .receivingData {
+            startedHandler?()
+            startedHandler = nil
+        }
     }
 
     private func processSensorDataPayload() {
@@ -274,11 +294,17 @@ class TetraBoard: ArduinoBoard {
 
         let analogValues = configuration.analogOutputs
             .enumerated()
+            .filter { _, port in
+                configuration.analogOutputs.contains { $0.id == port.id }
+            }
             .map { index, port in
                 (portId: port.id, value: (UInt(buffer[1 + index * 2]) << 8) | UInt(buffer[1 + index * 2 + 1]))
             }
         let digitalValues = configuration.digitalOutputs
             .enumerated()
+            .filter { _, port in
+                configuration.digitalOutputs.contains { $0.id == port.id }
+            }
             .map { index, port in
                 (portId: port.id, value: UInt(buffer[digitalFirstIndex + index] > 0 ? 1023 : 0))
             }

@@ -15,7 +15,7 @@ protocol ArduinoBoard: class {
         sensorDataHandler: @escaping ([(portId: UInt8, value: UInt)]) -> Void
     )
 
-    func start()
+    func start(completion: @escaping () -> Void)
     func stop()
 
     func showOnQuadDisplay(portId: UInt8, value: String)

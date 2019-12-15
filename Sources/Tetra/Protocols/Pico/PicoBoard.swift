@@ -56,9 +56,10 @@ class PicoBoard: ArduinoBoard {
     private let workQueue: DispatchQueue = DispatchQueue(label: "picoBoard.protocol", qos: .default)
     private var started: Bool = false
 
-    func start() {
+    func start(completion: @escaping () -> Void) {
         started = true
         workQueue.async(execute: loop)
+        completion()
     }
 
     func stop() {

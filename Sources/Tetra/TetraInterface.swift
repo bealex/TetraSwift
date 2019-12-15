@@ -12,7 +12,6 @@ open class TetraInterface {
     private let serialPort: SerialPort
     private var opened = false
 
-    private let workQueue: DispatchQueue = DispatchQueue(label: "tetra", qos: .default)
     private let eventQueue: DispatchQueue
 
     private var debug: Bool = true // TODO: Expose somehow
@@ -65,18 +64,33 @@ open class TetraInterface {
     }
 
     public func run(execute: @escaping (TetraInterface) -> Void) {
-        start()
-        guard opened else { return stop() }
+        openSerialPort()
+        guard opened else { return }
 
-        execute(self)
+        var started: Bool = false
 
-        while sensors.values.contains(where: { $0.hasListeners }) {
-            if !serialPort.isOpened {
+        DispatchQueue.global().async {
+            self.arduinoBoard.start {
+                self.log(message: "Started")
+                started = true
+            }
+        }
+
+        while !started {
+            if !self.serialPort.isOpened {
                 break
             }
             Thread.sleep(forTimeInterval: 0.1)
         }
-        stop()
+
+        execute(self)
+        while self.sensors.values.contains(where: { $0.hasListeners }) {
+            if !self.serialPort.isOpened {
+                break
+            }
+            Thread.sleep(forTimeInterval: 0.1)
+        }
+        self.stop()
     }
 
     public func sleep(_ time: TimeInterval) {
@@ -85,14 +99,6 @@ open class TetraInterface {
     }
 
     // MARK: - Lifecycle methods
-
-    private func start() {
-        openSerialPort()
-        guard opened else { return }
-
-        arduinoBoard.start()
-        log(message: "Started")
-    }
 
     private func stop() {
         arduinoBoard.stop()

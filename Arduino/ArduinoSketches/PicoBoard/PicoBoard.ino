@@ -47,7 +47,6 @@ typedef enum {
 typedef struct pin {
     pinType type;       //Type of pin
     int state;         //State of an output
-    //byte value;       //Value of an input. Not used by now. TODO
 };
 
 pin arduinoPins[14];  //Array of struct holding 0-13 pins information

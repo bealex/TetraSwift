@@ -47,7 +47,7 @@ pinType;
 typedef struct pin {
   pinType type;       //Type of pin
   int state;         //State of an output
-  //byte value;       //Value of an input. Not used by now. TODO
+  //byte value;       //Value of an input. Not used by now.
 };
 
 pin arduinoPins[14];  //Array of struct holding 0-13 pins information
@@ -181,7 +181,7 @@ void readSerialPort()
 
     if (readingSM == 2)
     {
-      lastDataReceivedTime = millis();  
+      lastDataReceivedTime = millis();
       pin = ((actuatorHighByte >> 3) & 0x0F);
       newVal = ((actuatorHighByte & 0x07) << 7) | (actuatorLowByte & 0x7F);
 

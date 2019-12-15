@@ -11,17 +11,16 @@ import Foundation
 class MyTetra: Tetra {
     let button2 = Button()
     let button3 = Button()
+
     let redAnalogLED = AnalogLED(color: .red)
     let greenAnalogLED = AnalogLED(color: .green)
+
     let redDigitalLED = DigitalLED(color: .red)
     let yellowDigitalLED = DigitalLED(color: .yellow)
     let yellowDigitalOtherLED = DigitalLED(color: .yellow)
     let greenDigitalLED = DigitalLED(color: .green)
 
-    let runActions: (MyTetra) -> Void
-
-    init(serialPort: String, runActions: @escaping (MyTetra) -> Void) {
-        self.runActions = runActions
+    init(serialPort: String) {
         super.init(
             pathToSerialPort: serialPort,
             useTetraProtocol: true,
@@ -47,9 +46,5 @@ class MyTetra: Tetra {
                 .digital8: QuadNumericDisplayActuator(),
             ]
         )
-    }
-
-    override func run() {
-        runActions(self)
     }
 }

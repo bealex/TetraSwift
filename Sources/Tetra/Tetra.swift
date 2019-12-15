@@ -61,14 +61,12 @@ open class Tetra {
     ) {
         self.eventQueue = eventQueue
         serialPort = HardwareSerialPort(path: pathToSerialPort)
+
         arduinoBoard = useTetraProtocol
             ? TetraBoard(serialPort: serialPort, errorHandler: log, sensorDataHandler: process(sensorData:))
             : PicoBoard(serialPort: serialPort, errorHandler: log, sensorDataHandler: process(sensorData:))
-
         install(sensors: sensors)
         install(actuators: actuators)
-
-        executeProgram()
     }
 
     private var portToIdentifiable: [IOPort: IdentifiableDevice] = [:]
@@ -113,11 +111,13 @@ open class Tetra {
         }
     }
 
-    public func executeProgram() {
+    public func run<T: Tetra>(execute: @escaping (T) -> Void) {
+        guard let tetra = self as? T else { fatalError("Can't run one Tetra from another") }
+
         start()
         guard opened else { return stop() }
 
-        run()
+        execute(tetra)
 
         while portToUpdatableSensor.values.contains(where: { $0.hasListeners }) {
             if !serialPort.isOpened {
@@ -126,10 +126,6 @@ open class Tetra {
             Thread.sleep(forTimeInterval: 0.1)
         }
         stop()
-    }
-
-    open func run() {
-        // To override
     }
 
     public func sleep(_ time: TimeInterval) {

@@ -13,7 +13,8 @@ guard let serialPort = CommandLine.arguments.dropFirst().first else {
     exit(1)
 }
 
-_ = MyTetra(serialPort: serialPort) { tetra in
+let tetra = MyTetra(serialPort: serialPort)
+tetra.run { (tetra: MyTetra) in
     tetra.potentiometer.whenValueChanged { value in
         if value < 0.5 {
             tetra.greenAnalogLED.value = 0

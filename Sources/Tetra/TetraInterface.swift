@@ -40,8 +40,11 @@ open class TetraInterface {
 
     public func add<SensorType: Sensor>(sensor: SensorType, on port: IOPort) {
         self.sensorHandlers[port] = {
-            // TODO: Catch error
-            try? sensor.update(rawValue: $0)
+            do {
+                try sensor.update(rawValue: $0)
+            } catch {
+                self.log(message: "Error updating sensor value on port \(port): \(error)")
+            }
         }
     }
 

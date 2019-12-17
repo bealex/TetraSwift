@@ -87,13 +87,13 @@ class TetraBoard: ArduinoBoard {
     private let debug: Bool = true
 
     private let serialPort: SerialPort
-    private let handleSensorData: ([(portId: UInt8, value: UInt)]) -> Void
+    private let handleSensorData: (_ portId: UInt8, _ value: Any) -> Void
     private let handleError: (String) -> Void
 
     required init(
         serialPort: SerialPort,
         errorHandler: @escaping (String) -> Void,
-        sensorDataHandler: @escaping ([(portId: UInt8, value: UInt)]) -> Void
+        sensorDataHandler: @escaping (_ portId: UInt8, _ value: Any) -> Void
     ) {
         self.serialPort = serialPort
         self.handleSensorData = sensorDataHandler
@@ -292,7 +292,7 @@ class TetraBoard: ArduinoBoard {
 
         let digitalFirstIndex = 1 + configuration.analogOutputs.count * 2
 
-        let analogValues = configuration.analogOutputs
+        configuration.analogOutputs
             .enumerated()
             .filter { _, port in
                 configuration.analogOutputs.contains { $0.id == port.id }
@@ -300,7 +300,9 @@ class TetraBoard: ArduinoBoard {
             .map { index, port in
                 (portId: port.id, value: (UInt(buffer[1 + index * 2]) << 8) | UInt(buffer[1 + index * 2 + 1]))
             }
-        let digitalValues = configuration.digitalOutputs
+            .forEach(handleSensorData)
+
+        configuration.digitalOutputs
             .enumerated()
             .filter { _, port in
                 configuration.digitalOutputs.contains { $0.id == port.id }
@@ -308,8 +310,8 @@ class TetraBoard: ArduinoBoard {
             .map { index, port in
                 (portId: port.id, value: UInt(buffer[digitalFirstIndex + index] > 0 ? 1023 : 0))
             }
+            .forEach(handleSensorData)
 
-        handleSensorData(analogValues + digitalValues)
         buffer = Array(buffer.dropFirst(fullPayloadSize))
     }
 

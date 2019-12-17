@@ -12,7 +12,7 @@ protocol ArduinoBoard: class {
     init(
         serialPort: SerialPort,
         errorHandler: @escaping (String) -> Void,
-        sensorDataHandler: @escaping ([(portId: UInt8, value: UInt)]) -> Void
+        sensorDataHandler: @escaping (_ portId: UInt8, _ value: Any) -> Void
     )
 
     func start(completion: @escaping () -> Void)

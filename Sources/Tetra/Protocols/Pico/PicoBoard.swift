@@ -38,13 +38,13 @@ import Foundation
 // This is PicoBoard protocol, essentially all of it :-)
 class PicoBoard: ArduinoBoard {
     private let serialPort: SerialPort
-    private let handleSensorData: ([(portId: UInt8, value: UInt)]) -> Void
+    private let handleSensorData: (_ portId: UInt8, _ value: Any) -> Void
     private let handleError: (String) -> Void
 
     required init(
         serialPort: SerialPort,
         errorHandler: @escaping (String) -> Void,
-        sensorDataHandler: @escaping ([(portId: UInt8, value: UInt)]) -> Void
+        sensorDataHandler: @escaping (_ portId: UInt8, _ value: Any) -> Void
     ) {
         self.serialPort = serialPort
         self.handleSensorData = sensorDataHandler
@@ -137,7 +137,8 @@ class PicoBoard: ArduinoBoard {
             }
 
             if bytes.count == 2 {
-                self.handleSensorData([self.decode(from: bytes)])
+                let decoded = self.decode(from: bytes)
+                self.handleSensorData(decoded.portId, decoded.value)
                 bytes = []
             }
         } catch {

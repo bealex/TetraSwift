@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import TetraSwift
 
 guard let serialPort = CommandLine.arguments.dropFirst().first else {
     print("Please specify path to the Tetra serial port as a parameter")

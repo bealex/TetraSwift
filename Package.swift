@@ -6,14 +6,14 @@ import PackageDescription
 let package = Package(
     name: "TetraSwift",
 
+    platforms: [
+        .macOS(.v10_15),
+    ],
     products: [
-        .library(name: "TetraSwift", targets: ["TetraSwift"]),
-        .executable(name: "tetracli", targets: ["TetraCLI"])
+        .executable(name: "tetra", targets: ["tetra"]),
+        .library(name: "TetraSwift", type: .static, targets: ["TetraSwift"]),
     ],
-    dependencies: [
-        // Dependencies declare other packages that this package depends on.
-        // .package(url: /* package url */, from: "1.0.0"),
-    ],
+    dependencies: [],
     targets: [
         .target(
             name: "TetraSwift",
@@ -21,9 +21,10 @@ let package = Package(
             path: "Sources"
         ),
         .target(
-            name: "TetraCLI",
+            name: "tetra",
             dependencies: [ "TetraSwift" ],
             path: "Application"
         )
-    ]
+    ],
+    swiftLanguageVersions: [.v5]
 )

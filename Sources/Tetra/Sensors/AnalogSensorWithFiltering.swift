@@ -7,66 +7,27 @@
 
 import Foundation
 
-public class AnalogSensorWithFiltering: AnalogSensor {
-    public let id: UUID = UUID()
-    public private(set) var rawValue: UInt = 0
-
-    @SensorValue
-    public private(set) var value: Double = 0
-    public var hasListeners: Bool { _value.hasListeners }
-
-    private var rawAverage: Double = 0
+public class AnalogSensorWithFiltering: Sensor {
+    private let decoder: Analog10bitDecoder
+    public let sensorValue: SensorValue<Double> = SensorValue(value: 0)
 
     private let tolerance: Double
-    private let sampleTimes: UInt
     private let calculate: (Double) -> Double
 
     public init(sampleTimes: UInt = 1, tolerance: Double = 0.1, calculate: @escaping (Double) -> Double = { $0 / 1023 }) {
-        self.sampleTimes = sampleTimes
+        decoder = Analog10bitDecoder(samplesCount: sampleTimes)
         self.tolerance = tolerance
         self.calculate = calculate
     }
 
-    private var samples: [UInt] = []
+    private var lastValue: Double = 0
 
     /// Returns whether the value was changed.
-    public func update(rawValue: UInt) {
-        samples.append(rawValue)
-        while samples.count > sampleTimes {
-            samples.remove(at: 0)
-        }
+    public func update(rawValue: Any) throws {
+        let decodedValue = try decoder.decode(value: rawValue)
+        guard abs(lastValue - decodedValue) > tolerance else { return }
 
-        guard samples.count == sampleTimes else { return }
-
-        let averageRawValue: Double = samples.reduce(Double(0)) { $0 + Double($1) } / Double(sampleTimes)
-        guard abs(rawAverage - averageRawValue) > tolerance else { return }
-
-        self.rawValue = UInt(averageRawValue)
-        self.rawAverage = averageRawValue
-        value = calculate(averageRawValue)
-    }
-
-    public func whenValueChanged(listener: @escaping (_ value: Double) -> Void) {
-        _value.whenValueChanged(do: listener)
-    }
-
-    public func when(lessThan compareValue: Double, listener: @escaping (_ value: Double) -> Void) {
-        _value.when(lessThan: compareValue, do: listener)
-    }
-
-    public func when(greaterThan compareValue: Double, listener: @escaping (_ value: Double) -> Void) {
-        _value.when(greaterThan: compareValue, do: listener)
-    }
-
-    public func whenValueChanged(listener: @escaping () -> Void) {
-        _value.whenValueChanged(do: { _ in listener() })
-    }
-
-    public func when(lessThan compareValue: Double, listener: @escaping () -> Void) {
-        _value.when(lessThan: compareValue, do: { _ in listener() })
-    }
-
-    public func when(greaterThan compareValue: Double, listener: @escaping () -> Void) {
-        _value.when(greaterThan: compareValue, do: { _ in listener() })
+        lastValue = decodedValue
+        sensorValue.value = calculate(lastValue)
     }
 }

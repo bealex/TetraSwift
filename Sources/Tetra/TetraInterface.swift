@@ -17,13 +17,9 @@ open class TetraInterface {
     private var debug: Bool = true // TODO: Expose somehow
 
     private var arduinoBoard: ArduinoBoard!
-    private var sensors: [IOPort: UpdatableSensor] = [:]
+    private var sensorHandlers: [IOPort: (_ value: Any) -> Void] = [:]
 
-    public init(
-        pathToSerialPort: String, useTetraProtocol: Bool, eventQueue: DispatchQueue = DispatchQueue.global(),
-        sensors: [IOPort: UpdatableSensor],
-        actuators: [IOPort: Actuator]
-    ) {
+    public init(pathToSerialPort: String, useTetraProtocol: Bool, eventQueue: DispatchQueue = DispatchQueue.global()) {
         self.eventQueue = eventQueue
         serialPort = HardwareSerialPort(
             path: pathToSerialPort,
@@ -32,16 +28,20 @@ open class TetraInterface {
             minimumBytesToRead: 0
         )
 
+        let sensorDataHandler: (UInt8, Any) -> Void = { id, value in
+            guard let port = IOPort(sensorTetraId: id) else { return }
+
+            self.sensorHandlers[port]?(value)
+        }
         arduinoBoard = useTetraProtocol
-            ? TetraBoard(serialPort: serialPort, errorHandler: log, sensorDataHandler: process(sensorData:))
-            : PicoBoard(serialPort: serialPort, errorHandler: log, sensorDataHandler: process(sensorData:))
-        install(sensors: sensors)
-        install(actuators: actuators)
+            ? TetraBoard(serialPort: serialPort, errorHandler: log, sensorDataHandler: sensorDataHandler)
+            : PicoBoard(serialPort: serialPort, errorHandler: log, sensorDataHandler: sensorDataHandler)
     }
 
-    public func install(sensors: [IOPort: UpdatableSensor]) {
-        for (port, sensor) in sensors {
-            self.sensors[port] = sensor
+    public func add<SensorType: Sensor>(sensor: SensorType, on port: IOPort) {
+        self.sensorHandlers[port] = {
+            // TODO: Catch error
+            try? sensor.update(rawValue: $0)
         }
     }
 
@@ -84,10 +84,9 @@ open class TetraInterface {
         }
 
         execute(self)
-        while self.sensors.values.contains(where: { $0.hasListeners }) {
-            if !self.serialPort.isOpened {
-                break
-            }
+        while true {
+            guard self.serialPort.isOpened else { break }
+
             Thread.sleep(forTimeInterval: 0.1)
         }
         self.stop()
@@ -119,19 +118,6 @@ open class TetraInterface {
     private func closeSerialPort() {
         serialPort.closePort()
         opened = false
-    }
-
-    // MARK: - Input and output
-
-    private func process(sensorData: [(portId: UInt8, value: UInt)]) {
-        sensorData.forEach { data in
-            guard
-                let port = IOPort(sensorTetraId: data.portId),
-                let updatable = sensors[port]
-            else { return }
-
-            updatable.update(rawValue: data.value)
-        }
     }
 
     // MARK: - Utility methods

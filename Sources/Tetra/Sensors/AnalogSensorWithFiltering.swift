@@ -14,8 +14,8 @@ public class AnalogSensorWithFiltering: Sensor {
     private let tolerance: Double
     private let calculate: (Double) -> Double
 
-    public init(sampleTimes: UInt = 1, tolerance: Double = 0.1, calculate: @escaping (Double) -> Double = { $0 / 1023 }) {
-        decoder = Analog10bitDecoder(samplesCount: sampleTimes)
+    public init(samplesCount: Int = 1, tolerance: Double = 0.1, calculate: @escaping (Double) -> Double = { $0 / 1023.0 }) {
+        decoder = Analog10bitDecoder(samplesCount: samplesCount)
         self.tolerance = tolerance
         self.calculate = calculate
     }

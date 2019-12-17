@@ -8,8 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		2DBA13B3C77FB308D7E21D75 /* Digital10bitDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA19767179AED9CC3E20B9 /* Digital10bitDecoder.swift */; };
+		2DBA15051963AB933E65E06E /* HardwareSerialPort.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA11DBA4BB1E357AE13525 /* HardwareSerialPort.swift */; };
 		2DBA15537B9052959D9B5674 /* RawValueDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA1015AF82EB1293027EA5 /* RawValueDecoder.swift */; };
 		2DBA16EFBC6CE14C174DF26C /* Analog10bitDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA13F92D8F3F2D38F1756A /* Analog10bitDecoder.swift */; };
+		2DBA1E0A5C09B0C5A22BA9B7 /* MockSerialPort.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA18A5842CB01D198EB0D6 /* MockSerialPort.swift */; };
 		OBJ_59 /* Actuator.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_11 /* Actuator.swift */; };
 		OBJ_60 /* BooleanDigitalActuator.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_12 /* BooleanDigitalActuator.swift */; };
 		OBJ_61 /* LEDMatrixActuator.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_13 /* LEDMatrixActuator.swift */; };
@@ -50,7 +52,9 @@
 
 /* Begin PBXFileReference section */
 		2DBA1015AF82EB1293027EA5 /* RawValueDecoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RawValueDecoder.swift; sourceTree = "<group>"; };
+		2DBA11DBA4BB1E357AE13525 /* HardwareSerialPort.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HardwareSerialPort.swift; sourceTree = "<group>"; };
 		2DBA13F92D8F3F2D38F1756A /* Analog10bitDecoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Analog10bitDecoder.swift; sourceTree = "<group>"; };
+		2DBA18A5842CB01D198EB0D6 /* MockSerialPort.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockSerialPort.swift; sourceTree = "<group>"; };
 		2DBA19767179AED9CC3E20B9 /* Digital10bitDecoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Digital10bitDecoder.swift; sourceTree = "<group>"; };
 		OBJ_11 /* Actuator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Actuator.swift; sourceTree = "<group>"; };
 		OBJ_12 /* BooleanDigitalActuator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BooleanDigitalActuator.swift; sourceTree = "<group>"; };
@@ -198,6 +202,8 @@
 			isa = PBXGroup;
 			children = (
 				OBJ_37 /* Serial.swift */,
+				2DBA11DBA4BB1E357AE13525 /* HardwareSerialPort.swift */,
+				2DBA18A5842CB01D198EB0D6 /* MockSerialPort.swift */,
 			);
 			path = Serial;
 			sourceTree = "<group>";
@@ -395,6 +401,8 @@
 				2DBA15537B9052959D9B5674 /* RawValueDecoder.swift in Sources */,
 				2DBA16EFBC6CE14C174DF26C /* Analog10bitDecoder.swift in Sources */,
 				2DBA13B3C77FB308D7E21D75 /* Digital10bitDecoder.swift in Sources */,
+				2DBA15051963AB933E65E06E /* HardwareSerialPort.swift in Sources */,
+				2DBA1E0A5C09B0C5A22BA9B7 /* MockSerialPort.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

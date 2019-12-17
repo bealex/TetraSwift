@@ -23,8 +23,8 @@ open class TetraInterface {
         self.eventQueue = eventQueue
         serialPort = HardwareSerialPort(
             path: pathToSerialPort,
-            receiveRate: .baud38400,
-            transmitRate: .baud38400,
+            receiveRate: useTetraProtocol ? .baud38400 : .baud38400, // TODO: Speed up Tetra protocol, PICO protocol stays the same
+            transmitRate: useTetraProtocol ? .baud38400 : .baud38400,
             minimumBytesToRead: 0
         )
 

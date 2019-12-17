@@ -8,12 +8,12 @@
 import Foundation
 
 public class Analog10bitDecoder: RawValueDecoder {
-    private let samplesCount: UInt
+    private let samplesCount: Int
 
     private var samples: [UInt] = []
     private var average: Double = 0
 
-    init(samplesCount: UInt = 1) {
+    init(samplesCount: Int = 1) {
         self.samplesCount = samplesCount
     }
 

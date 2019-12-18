@@ -9,6 +9,14 @@ import Foundation
 
 /// This is simplified implementation, with parameters that are required for the Tetra.
 public class HardwareSerialPort: SerialPort {
+    public enum HardwareSerialPortError: Error {
+        case invalidPath
+        case failedToOpen
+        case mustBeOpen
+        case deviceNotConnected
+        case noData
+    }
+
     public enum Rate {
         case baud1200
         case baud2400
@@ -116,7 +124,7 @@ public class HardwareSerialPort: SerialPort {
     }
 
     public func open() throws {
-        guard !path.isEmpty else { throw SerialPortError.invalidPath }
+        guard !path.isEmpty else { throw SerialPortError.open(HardwareSerialPortError.invalidPath) }
 
         #if os(Linux)
         fileDescriptor = Darwin.open(path, O_RDWR | O_NOCTTY)
@@ -124,13 +132,11 @@ public class HardwareSerialPort: SerialPort {
         fileDescriptor = Darwin.open(path, O_RDWR | O_NOCTTY | O_EXLOCK | O_NONBLOCK)
         #endif
 
-        // Throw error if open() failed
         if fileDescriptor == -1 {
-            print("Error opening port, errno: \(errno)")
-            throw SerialPortError.failedToOpen
+            throw SerialPortError.open(HardwareSerialPortError.failedToOpen)
+        } else {
+            setup()
         }
-
-        setup()
     }
 
     private func setup() {
@@ -205,7 +211,7 @@ public class HardwareSerialPort: SerialPort {
             buffer = buffer.suffix(max(0, buffer.count - count))
             return Array(result)
         } else {
-            throw SerialPortError.noData
+            throw SerialPortError.read(HardwareSerialPortError.noData)
         }
     }
 
@@ -223,12 +229,14 @@ public class HardwareSerialPort: SerialPort {
     }
 
     func readBytes(into buffer: UnsafeMutablePointer<UInt8>, size: Int) throws -> Int {
-        guard let fileDescriptor = fileDescriptor else { throw SerialPortError.mustBeOpen }
+        guard let fileDescriptor = fileDescriptor else {
+            throw SerialPortError.read(HardwareSerialPortError.mustBeOpen)
+        }
 
         var statistics: stat = stat()
         fstat(fileDescriptor, &statistics)
         if statistics.st_nlink != 1 {
-            throw SerialPortError.deviceNotConnected
+            throw SerialPortError.read(HardwareSerialPortError.deviceNotConnected)
         }
 
         return read(fileDescriptor, buffer, size)
@@ -242,8 +250,10 @@ public class HardwareSerialPort: SerialPort {
         }
     }
 
-    func writeBytes(from buffer: UnsafePointer<UInt8>, size: Int) throws -> Int {
-        guard let fileDescriptor = fileDescriptor else { throw SerialPortError.mustBeOpen }
+    private func writeBytes(from buffer: UnsafePointer<UInt8>, size: Int) throws -> Int {
+        guard let fileDescriptor = fileDescriptor else {
+            throw SerialPortError.write(HardwareSerialPortError.mustBeOpen)
+        }
 
         return write(fileDescriptor, buffer, size)
     }

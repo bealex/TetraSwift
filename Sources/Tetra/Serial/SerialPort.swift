@@ -9,14 +9,11 @@
 import Foundation
 
 public enum SerialPortError: Error {
-    case failedToOpen
-    case invalidPath
-    case mustBeOpen
-    case deviceNotConnected
-    case noData
+    case open(Error?)
+    case read(Error?)
+    case write(Error?)
 }
 
-// TODO: Generify this more, it must not be only Serial Port
 public protocol SerialPort {
     var isOpened: Bool { get }
 

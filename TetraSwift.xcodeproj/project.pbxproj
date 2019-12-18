@@ -108,6 +108,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2DBA1DE52E487DAF51B07651 /* ArduinoMockImplementation */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = ArduinoMockImplementation;
+			sourceTree = "<group>";
+		};
 		OBJ_10 /* Actuators */ = {
 			isa = PBXGroup;
 			children = (
@@ -184,6 +191,7 @@
 				OBJ_40 /* HardwareSerialPort.swift */,
 				OBJ_41 /* MockSerialPort.swift */,
 				OBJ_42 /* SerialPort.swift */,
+				2DBA1DE52E487DAF51B07651 /* ArduinoMockImplementation */,
 			);
 			path = Serial;
 			sourceTree = "<group>";

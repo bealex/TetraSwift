@@ -8,29 +8,36 @@
 import Foundation
 
 class MockSerialPort: SerialPort {
-    private(set) var isOpened: Bool = true
+    private(set) var isOpened: Bool = false
 
-    func open() throws {}
+    func open() throws {
+        isOpened = true
+    }
 
-    func close() {}
+    func close() {
+        isOpened = false
+    }
 
     private let mockDataBuffer: [UInt8] = [
         // TODO: ...
     ]
 
     func readBytes(exact count: Int) throws -> [UInt8] {
-        []
+        guard isOpened else { throw SerialPortError.read(nil) }
+
+        return []
     }
 
     func readBytes(upTo count: Int) throws -> [UInt8] {
-        []
-    }
-
-    func readBytes(into buffer: UnsafeMutablePointer<UInt8>, size: Int) throws -> Int {
         // TODO: get random bytes up to size from cyclic buffer
-        0
+        guard isOpened else { throw SerialPortError.write(nil) }
+
+        return []
     }
 
     func writeBytes(_ data: [UInt8]) throws {
+        guard isOpened else { throw SerialPortError.write(nil) }
+
+
     }
 }

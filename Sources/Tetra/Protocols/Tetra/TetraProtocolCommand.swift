@@ -18,6 +18,10 @@ extension TetraBoard {
             case allActuators = 4
             case quadDisplay = 5
             case ledMatrix = 6
+
+            case uIntValue = 10
+            case stringValue = 11
+            case characterValue = 12
         }
 
         let command: Command

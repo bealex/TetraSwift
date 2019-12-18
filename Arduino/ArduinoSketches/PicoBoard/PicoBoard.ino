@@ -1,4 +1,4 @@
-          // NEW IN VERSION 1.6c (by Jorge Gomez):
+// NEW IN VERSION 1.6c (by Jorge Gomez):
 // Fixed variable type in pin structure: pin.state should be int, not byte
 // Optimized speed of execution while receiving data from computer in readSerialPort()
 

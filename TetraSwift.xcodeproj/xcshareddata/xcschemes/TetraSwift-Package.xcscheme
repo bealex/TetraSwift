@@ -28,9 +28,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "TetraSwift::TetraSwift"
-               BuildableName = "TetraSwift.framework"
-               BlueprintName = "TetraSwift"
+               BlueprintIdentifier = "TetraSwift::tetra"
+               BuildableName = "tetra"
+               BlueprintName = "tetra"
                ReferencedContainer = "container:TetraSwift.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>

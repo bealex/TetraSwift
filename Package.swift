@@ -13,11 +13,13 @@ let package = Package(
         .executable(name: "tetra", targets: ["tetra"]),
         .library(name: "TetraSwift", type: .static, targets: ["TetraSwift"]),
     ],
-    dependencies: [],
+    dependencies: [
+        .package(url: "https://github.com/apple/swift-protobuf.git", from: "1.6.0"),
+    ],
     targets: [
         .target(
             name: "TetraSwift",
-            dependencies: [],
+            dependencies: [ "SwiftProtobuf" ],
             path: "Sources"
         ),
         .target(

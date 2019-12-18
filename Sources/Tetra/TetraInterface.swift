@@ -19,14 +19,9 @@ open class TetraInterface {
     private var arduinoBoard: ArduinoBoard!
     private var sensorHandlers: [IOPort: (_ value: Any) -> Void] = [:]
 
-    public init(pathToSerialPort: String, useTetraProtocol: Bool, eventQueue: DispatchQueue = DispatchQueue.global()) {
+    public init(serialPort: SerialPort, useTetraProtocol: Bool, eventQueue: DispatchQueue = DispatchQueue.global()) {
         self.eventQueue = eventQueue
-        serialPort = HardwareSerialPort(
-            path: pathToSerialPort,
-            receiveRate: useTetraProtocol ? .baud38400 : .baud38400, // TODO: Speed up Tetra protocol, PICO protocol stays the same
-            transmitRate: useTetraProtocol ? .baud38400 : .baud38400,
-            minimumBytesToRead: 0
-        )
+        self.serialPort = serialPort
 
         let sensorDataHandler: (UInt8, Any) -> Void = { id, value in
             guard let port = IOPort(sensorTetraId: id) else { return }
@@ -102,7 +97,7 @@ open class TetraInterface {
 
     private func openSerialPort() {
         do {
-            try serialPort.openPort()
+            try serialPort.open()
             opened = true
             log(message: "Port opened")
         } catch {
@@ -111,7 +106,7 @@ open class TetraInterface {
     }
 
     private func closeSerialPort() {
-        serialPort.closePort()
+        serialPort.close()
         opened = false
     }
 

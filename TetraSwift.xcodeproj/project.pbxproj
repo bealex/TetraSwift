@@ -34,7 +34,7 @@
 		OBJ_83 /* SensorValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_38 /* SensorValue.swift */; };
 		OBJ_84 /* HardwareSerialPort.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_40 /* HardwareSerialPort.swift */; };
 		OBJ_85 /* MockSerialPort.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_41 /* MockSerialPort.swift */; };
-		OBJ_86 /* Serial.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_42 /* Serial.swift */; };
+		OBJ_86 /* SerialPort.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_42 /* SerialPort.swift */; };
 		OBJ_87 /* TetraInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_43 /* TetraInterface.swift */; };
 		OBJ_88 /* List.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_45 /* List.swift */; };
 		OBJ_95 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_6 /* Package.swift */; };
@@ -45,7 +45,7 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = "TetraSwift::TetraSwift";
+			remoteGlobalIDString = TetraSwift::TetraSwift;
 			remoteInfo = TetraSwift;
 		};
 /* End PBXContainerItemProxy section */
@@ -75,7 +75,7 @@
 		OBJ_38 /* SensorValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SensorValue.swift; sourceTree = "<group>"; };
 		OBJ_40 /* HardwareSerialPort.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HardwareSerialPort.swift; sourceTree = "<group>"; };
 		OBJ_41 /* MockSerialPort.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockSerialPort.swift; sourceTree = "<group>"; };
-		OBJ_42 /* Serial.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Serial.swift; sourceTree = "<group>"; };
+		OBJ_42 /* SerialPort.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SerialPort.swift; sourceTree = "<group>"; };
 		OBJ_43 /* TetraInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TetraInterface.swift; sourceTree = "<group>"; };
 		OBJ_45 /* List.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = List.swift; sourceTree = "<group>"; };
 		OBJ_47 /* Tetra.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tetra.swift; sourceTree = "<group>"; };
@@ -183,7 +183,7 @@
 			children = (
 				OBJ_40 /* HardwareSerialPort.swift */,
 				OBJ_41 /* MockSerialPort.swift */,
-				OBJ_42 /* Serial.swift */,
+				OBJ_42 /* SerialPort.swift */,
 			);
 			path = Serial;
 			sourceTree = "<group>";
@@ -390,7 +390,7 @@
 				OBJ_83 /* SensorValue.swift in Sources */,
 				OBJ_84 /* HardwareSerialPort.swift in Sources */,
 				OBJ_85 /* MockSerialPort.swift in Sources */,
-				OBJ_86 /* Serial.swift in Sources */,
+				OBJ_86 /* SerialPort.swift in Sources */,
 				OBJ_87 /* TetraInterface.swift in Sources */,
 				OBJ_88 /* List.swift in Sources */,
 			);

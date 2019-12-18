@@ -21,7 +21,7 @@ TroykaLedMatrix ledMatrix;
 int state = 0;
 
 void setup() {
-    Serial.begin(38400);
+    Serial.begin(115200);
     Serial.flush();
     configurePins();
     resetPins();
@@ -30,7 +30,7 @@ void setup() {
 void loop() {
     static unsigned long timerCheckUpdate = millis();
 
-    if (millis() - timerCheckUpdate >= 20) {
+    if (millis() - timerCheckUpdate >= 10) {
         sendUpdateServomotors();
         sendSensorValues();
         timerCheckUpdate = millis();
@@ -69,7 +69,7 @@ void resetPins() {
             }
         }
     }
-    
+
     quadDisplay.begin();
     quadDisplay.displayClear();
 
@@ -124,7 +124,7 @@ void swap(unsigned int *array, unsigned int a, unsigned int b) {
 
 void exception() {
     state = 0;
-  
+
     Serial.end();
     Serial.begin(38400);
     Serial.flush();

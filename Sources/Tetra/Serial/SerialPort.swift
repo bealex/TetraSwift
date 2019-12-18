@@ -1,5 +1,5 @@
 //
-// Serial
+// SerialPort
 // TetraCode
 //
 // Created by Alex Babaev on 21 November 2019.
@@ -8,26 +8,19 @@
 
 import Foundation
 
-enum SerialPortError: Error {
+public enum SerialPortError: Error {
     case failedToOpen
     case invalidPath
-    case mustReceiveOrTransmit
     case mustBeOpen
     case deviceNotConnected
 }
 
 // TODO: Generify this more, it must not be only Serial Port
-protocol SerialPort {
+public protocol SerialPort {
     var isOpened: Bool { get }
 
-    func openPort(toReceive receive: Bool, andTransmit transmit: Bool) throws
-    func closePort()
+    func open() throws
+    func close()
     func readBytes(into buffer: UnsafeMutablePointer<UInt8>, size: Int) throws -> Int
     func writeBytes(from buffer: UnsafePointer<UInt8>, size: Int) throws -> Int
-}
-
-extension SerialPort {
-    func openPort() throws {
-        try openPort(toReceive: true, andTransmit: true)
-    }
 }

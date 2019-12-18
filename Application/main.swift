@@ -14,7 +14,7 @@ guard let serialPort = CommandLine.arguments.dropFirst().first else {
     exit(1)
 }
 
-Tetra(serialPort: serialPort).run {
+Tetra(pathToSerialPort: serialPort).run {
     guard let tetra = $0 as? Tetra else { return }
 
     tetra.potentiometer.whenValueChanged { value in

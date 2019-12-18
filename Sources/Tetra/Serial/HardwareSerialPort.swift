@@ -7,19 +7,9 @@
 
 import Foundation
 
-class HardwareSerialPort: SerialPort {
-    enum Rate {
-        case baud0
-        case baud50
-        case baud75
-        case baud110
-        case baud134
-        case baud150
-        case baud200
-        case baud300
-        case baud600
+public class HardwareSerialPort: SerialPort {
+    public enum Rate {
         case baud1200
-        case baud1800
         case baud2400
         case baud4800
         case baud9600
@@ -29,119 +19,108 @@ class HardwareSerialPort: SerialPort {
         case baud115200
         case baud230400
 
-        var speedValue: speed_t {
+        func apply(to settings: inout termios) {
+            let rate: speed_t
             switch self {
-                case .baud0: return speed_t(B0)
-                case .baud50: return speed_t(B50)
-                case .baud75: return speed_t(B75)
-                case .baud110: return speed_t(B110)
-                case .baud134: return speed_t(B134)
-                case .baud150: return speed_t(B150)
-                case .baud200: return speed_t(B200)
-                case .baud300: return speed_t(B300)
-                case .baud600: return speed_t(B600)
-                case .baud1200: return speed_t(B1200)
-                case .baud1800: return speed_t(B1800)
-                case .baud2400: return speed_t(B2400)
-                case .baud4800: return speed_t(B4800)
-                case .baud9600: return speed_t(B9600)
-                case .baud19200: return speed_t(B19200)
-                case .baud38400: return speed_t(B38400)
-                case .baud57600: return speed_t(B57600)
-                case .baud115200: return speed_t(B115200)
-                case .baud230400: return speed_t(B230400)
+                case .baud1200: rate = speed_t(B1200)
+                case .baud2400: rate = speed_t(B2400)
+                case .baud4800: rate = speed_t(B4800)
+                case .baud9600: rate = speed_t(B9600)
+                case .baud19200: rate = speed_t(B19200)
+                case .baud38400: rate = speed_t(B38400)
+                case .baud57600: rate = speed_t(B57600)
+                case .baud115200: rate = speed_t(B115200)
+                case .baud230400: rate = speed_t(B230400)
             }
+
+            cfsetispeed(&settings, rate)
+            cfsetospeed(&settings, rate)
         }
     }
 
-    enum DataBitsSize {
+    public enum DataSize {
         case bits5
         case bits6
         case bits7
         case bits8
 
-        var flagValue: tcflag_t {
+        func apply(to settings: inout termios) {
+            let size: tcflag_t
             switch self {
-                case .bits5: return tcflag_t(CS5)
-                case .bits6: return tcflag_t(CS6)
-                case .bits7: return tcflag_t(CS7)
-                case .bits8: return tcflag_t(CS8)
+                case .bits5: size = tcflag_t(CS5)
+                case .bits6: size = tcflag_t(CS6)
+                case .bits7: size = tcflag_t(CS7)
+                case .bits8: size = tcflag_t(CS8)
             }
+
+            settings.c_cflag &= ~tcflag_t(CSIZE)
+            settings.c_cflag |= size
         }
     }
 
-    enum Parity {
+    public enum Parity {
         case none
         case even
         case odd
 
-        var parityValue: tcflag_t {
+        func apply(to settings: inout termios) {
             switch self {
-                case .none: return 0
-                case .even: return tcflag_t(PARENB)
-                case .odd: return tcflag_t(PARENB | PARODD)
+                case .none:
+                    break
+                case .even:
+                    settings.c_cflag |= tcflag_t(PARENB)
+                case .odd:
+                    settings.c_cflag |= tcflag_t(PARENB | PARODD)
+            }
+        }
+    }
+
+    public enum StopBits {
+        case one
+        case two
+
+        func apply(to settings: inout termios) {
+            switch self {
+                case .one:
+                    settings.c_cflag &= ~tcflag_t(CSTOPB)
+                case .two:
+                    settings.c_cflag |= tcflag_t(CSTOPB)
             }
         }
     }
 
     private var path: String
 
-    private var receiveRate: Rate
-    private var transmitRate: Rate
-    private var minimumBytesToRead: Int
-    private var timeout: Int
-    private var parityType: Parity
-    private var sendTwoStopBits: Bool
-    private var dataBitsSize: DataBitsSize
-    private var useHardwareFlowControl: Bool
-    private var useSoftwareFlowControl: Bool
-    private var processOutput: Bool
+    private var dataRate: Rate
+    private var parity: Parity
+    private var stopBits: StopBits
+    private var dataSize: DataSize
 
     private var fileDescriptor: Int32?
-    var isOpened: Bool { fileDescriptor ?? 0 > 0 }
 
-    init(
+    public var isOpened: Bool { fileDescriptor ?? 0 > 0 }
+
+    public init(
         path: String,
-        receiveRate: Rate,
-        transmitRate: Rate,
-        minimumBytesToRead: Int,
-        timeout: Int = 0, /* 0 means wait indefinitely */
+        rate: Rate,
         parityType: Parity = .none,
-        sendTwoStopBits: Bool = false, /* 1 stop bit is the default */
-        dataBitsSize: DataBitsSize = .bits8,
-        useHardwareFlowControl: Bool = false,
-        useSoftwareFlowControl: Bool = false,
-        processOutput: Bool = false
+        stopBits: StopBits = .one,
+        dataBitsSize: DataSize = .bits8
     ) {
         self.path = path
-        self.receiveRate = receiveRate
-        self.transmitRate = transmitRate
-        self.minimumBytesToRead = minimumBytesToRead
-        self.timeout = timeout
-        self.parityType = parityType
-        self.sendTwoStopBits = sendTwoStopBits
-        self.dataBitsSize = dataBitsSize
-        self.useHardwareFlowControl = useHardwareFlowControl
-        self.useSoftwareFlowControl = useSoftwareFlowControl
-        self.processOutput = processOutput
+        self.dataRate = rate
+        self.parity = parityType
+        self.stopBits = stopBits
+        self.dataSize = dataBitsSize
     }
 
-    func openPort(toReceive receive: Bool, andTransmit transmit: Bool) throws {
+    public func open() throws {
         guard !path.isEmpty else { throw SerialPortError.invalidPath }
-        guard receive || transmit else { throw SerialPortError.mustReceiveOrTransmit }
-
-        var readWriteParam: Int32
-        switch (receive, transmit) {
-            case (true, true):   readWriteParam = O_RDWR
-            case (true, false):  readWriteParam = O_RDONLY
-            case (false, true):  readWriteParam = O_WRONLY
-            case (false, false): fatalError()
-        }
 
         #if os(Linux)
-        fileDescriptor = open(path, readWriteParam | O_NOCTTY)
+        fileDescriptor = Darwin.open(path, O_RDWR | O_NOCTTY)
         #else
-        fileDescriptor = open(path, readWriteParam | O_NOCTTY | O_EXLOCK | O_NONBLOCK)
+        fileDescriptor = Darwin.open(path, O_RDWR | O_NOCTTY | O_EXLOCK | O_NONBLOCK)
         #endif
 
         // Throw error if open() failed
@@ -150,72 +129,30 @@ class HardwareSerialPort: SerialPort {
             throw SerialPortError.failedToOpen
         }
 
-        updatePortSettings()
+        setup()
     }
 
-    private func updatePortSettings() {
+    private func setup() {
         guard let fileDescriptor = fileDescriptor else { return }
 
-        // Set up the control structure
-        var settings = termios()
+        var settings = termios() // Set up the control structure
+        tcgetattr(fileDescriptor, &settings) // Get options structure for the port
+        dataRate.apply(to: &settings)
+        parity.apply(to: &settings)
+        stopBits.apply(to: &settings)
 
-        // Get options structure for the port
-        tcgetattr(fileDescriptor, &settings)
-
-        // Set baud rates
-        cfsetispeed(&settings, receiveRate.speedValue)
-        cfsetospeed(&settings, transmitRate.speedValue)
-
-        // Enable parity (even/odd) if needed
-        settings.c_cflag |= parityType.parityValue
-
-        // Set stop bit flag
-        if sendTwoStopBits {
-            settings.c_cflag |= tcflag_t(CSTOPB)
-        } else {
-            settings.c_cflag &= ~tcflag_t(CSTOPB)
-        }
-
-        // Set data bits size flag
-        settings.c_cflag &= ~tcflag_t(CSIZE)
-        settings.c_cflag |= dataBitsSize.flagValue
-
+        // Disable Hardware flow control
         #if os(Linux)
-        if useHardwareFlowControl {
-            settings.c_cflag |= tcflag_t(CRTSCTS)
-        } else {
-            settings.c_cflag &= ~tcflag_t(CRTSCTS)
-        }
+        settings.c_cflag &= ~tcflag_t(CRTSCTS)
         #else
-        if useHardwareFlowControl {
-            settings.c_cflag |= tcflag_t(CRTS_IFLOW)
-            settings.c_cflag |= tcflag_t(CCTS_OFLOW)
-        } else {
-            settings.c_cflag &= ~tcflag_t(CRTS_IFLOW)
-            settings.c_cflag &= ~tcflag_t(CCTS_OFLOW)
-        }
+        settings.c_cflag &= ~tcflag_t(CRTS_IFLOW)
+        settings.c_cflag &= ~tcflag_t(CCTS_OFLOW)
         #endif
 
-        // Set software flow control flags
-        let softwareFlowControlFlags = tcflag_t(IXON | IXOFF | IXANY)
-        if useSoftwareFlowControl {
-            settings.c_iflag |= softwareFlowControlFlags
-        } else {
-            settings.c_iflag &= ~softwareFlowControlFlags
-        }
-
-        // Turn on the receiver of the serial port, and ignore modem control lines
-        settings.c_cflag |= tcflag_t(CREAD | CLOCAL)
-
-        // Turn off canonical mode
-        settings.c_lflag &= ~tcflag_t(ICANON | ECHO | ECHOE | ISIG)
-
-        // Set output processing flag
-        if processOutput {
-            settings.c_oflag |= tcflag_t(OPOST)
-        } else {
-            settings.c_oflag &= ~tcflag_t(OPOST)
-        }
+        settings.c_iflag &= ~tcflag_t(IXON | IXOFF | IXANY) // Disable software flow control flags
+        settings.c_cflag |= tcflag_t(CREAD | CLOCAL) // Turn on the receiver of the serial port, and ignore modem control lines
+        settings.c_lflag &= ~tcflag_t(ICANON | ECHO | ECHOE | ISIG) // Turn off canonical mode
+        settings.c_oflag &= ~tcflag_t(OPOST) // Set output processing flag
 
         // Special characters
         // We do this as c_cc is a C-fixed array which is imported as a tuple in Swift.
@@ -240,22 +177,20 @@ class HardwareSerialPort: SerialPort {
         var specialCharacters: SpecialCharactersTuple = (0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0) // NCCS = 20
         #endif
 
-        specialCharacters.VMIN = cc_t(minimumBytesToRead)
-        specialCharacters.VTIME = cc_t(timeout)
+        specialCharacters.VMIN = cc_t(0) // do not need data to start processing
+        specialCharacters.VTIME = cc_t(0) // indefinitely
         settings.c_cc = specialCharacters
 
         // Commit settings
         tcsetattr(fileDescriptor, TCSANOW, &settings)
     }
 
-    func closePort() {
-        if let fileDescriptor = fileDescriptor {
-            close(fileDescriptor)
-        }
+    public func close() {
+        _ = fileDescriptor.map { Darwin.close($0) }
         fileDescriptor = nil
     }
 
-    func readBytes(into buffer: UnsafeMutablePointer<UInt8>, size: Int) throws -> Int {
+    public func readBytes(into buffer: UnsafeMutablePointer<UInt8>, size: Int) throws -> Int {
         guard let fileDescriptor = fileDescriptor else { throw SerialPortError.mustBeOpen }
 
         var statistics: stat = stat()
@@ -267,7 +202,7 @@ class HardwareSerialPort: SerialPort {
         return read(fileDescriptor, buffer, size)
     }
 
-    func writeBytes(from buffer: UnsafePointer<UInt8>, size: Int) throws -> Int {
+    public func writeBytes(from buffer: UnsafePointer<UInt8>, size: Int) throws -> Int {
         guard let fileDescriptor = fileDescriptor else { throw SerialPortError.mustBeOpen }
 
         return write(fileDescriptor, buffer, size)

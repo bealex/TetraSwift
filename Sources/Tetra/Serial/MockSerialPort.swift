@@ -10,9 +10,9 @@ import Foundation
 class MockSerialPort: SerialPort {
     private(set) var isOpened: Bool = true
 
-    func openPort(toReceive receive: Bool, andTransmit transmit: Bool) throws {}
+    func open() throws {}
 
-    func closePort() {}
+    func close() {}
 
     private let mockDataBuffer: [UInt8] = [
         // TODO: ...

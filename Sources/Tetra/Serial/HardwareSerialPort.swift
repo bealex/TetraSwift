@@ -7,6 +7,7 @@
 
 import Foundation
 
+/// This is simplified implementation, with parameters that are required for the Tetra.
 public class HardwareSerialPort: SerialPort {
     public enum Rate {
         case baud1200
@@ -190,7 +191,38 @@ public class HardwareSerialPort: SerialPort {
         fileDescriptor = nil
     }
 
-    public func readBytes(into buffer: UnsafeMutablePointer<UInt8>, size: Int) throws -> Int {
+    private var buffer: [UInt8] = []
+
+    public func readBytes(exact count: Int) throws -> [UInt8] {
+        var readBuffer: [UInt8] = Array(repeating: 0, count: 32)
+        while buffer.count < count {
+            let readCount = try readBytes(into: &readBuffer, size: 32)
+            buffer.append(contentsOf: readBuffer.prefix(readCount))
+        }
+
+        if buffer.count >= count {
+            let result = buffer.prefix(count)
+            buffer = buffer.suffix(max(0, buffer.count - count))
+            return Array(result)
+        } else {
+            throw SerialPortError.noData
+        }
+    }
+
+    public func readBytes(upTo count: Int) throws -> [UInt8] {
+        let toRead = count - buffer.count
+        if toRead > 0 {
+            var readBuffer: [UInt8] = Array(repeating: 0, count: toRead)
+            let readCount = try readBytes(into: &readBuffer, size: toRead)
+            buffer.append(contentsOf: readBuffer.prefix(readCount))
+        }
+
+        let result = buffer.prefix(count)
+        buffer = buffer.suffix(max(0, buffer.count - count))
+        return Array(result)
+    }
+
+    func readBytes(into buffer: UnsafeMutablePointer<UInt8>, size: Int) throws -> Int {
         guard let fileDescriptor = fileDescriptor else { throw SerialPortError.mustBeOpen }
 
         var statistics: stat = stat()
@@ -202,7 +234,15 @@ public class HardwareSerialPort: SerialPort {
         return read(fileDescriptor, buffer, size)
     }
 
-    public func writeBytes(from buffer: UnsafePointer<UInt8>, size: Int) throws -> Int {
+    public func writeBytes(_ data: [UInt8]) throws {
+        var bytes = data
+        while !bytes.isEmpty {
+            let sent = try writeBytes(from: bytes, size: bytes.count)
+            bytes = Array(bytes.dropFirst(sent))
+        }
+    }
+
+    func writeBytes(from buffer: UnsafePointer<UInt8>, size: Int) throws -> Int {
         guard let fileDescriptor = fileDescriptor else { throw SerialPortError.mustBeOpen }
 
         return write(fileDescriptor, buffer, size)

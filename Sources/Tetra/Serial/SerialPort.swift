@@ -13,6 +13,7 @@ public enum SerialPortError: Error {
     case invalidPath
     case mustBeOpen
     case deviceNotConnected
+    case noData
 }
 
 // TODO: Generify this more, it must not be only Serial Port
@@ -21,6 +22,9 @@ public protocol SerialPort {
 
     func open() throws
     func close()
-    func readBytes(into buffer: UnsafeMutablePointer<UInt8>, size: Int) throws -> Int
-    func writeBytes(from buffer: UnsafePointer<UInt8>, size: Int) throws -> Int
+
+    func readBytes(exact count: Int) throws -> [UInt8]
+    func readBytes(upTo count: Int) throws -> [UInt8]
+
+    func writeBytes(_ data: [UInt8]) throws
 }

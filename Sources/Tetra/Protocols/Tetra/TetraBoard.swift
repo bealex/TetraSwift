@@ -220,16 +220,7 @@ class TetraBoard: ArduinoBoard {
     private func send(data: [UInt8], completion: @escaping () -> Void = {}) {
         workQueue.async {
             do {
-                var bytes = data
-                while !bytes.isEmpty {
-                    let sent = try self.serialPort.writeBytes(from: bytes, size: bytes.count)
-                    if sent > 0 {
-                        bytes = Array(bytes.dropFirst(sent))
-                    } else if sent < 0 {
-                        self.handleError("Error writing: writeBytes returned -1")
-                        break
-                    }
-                }
+                try self.serialPort.writeBytes(data)
                 completion()
             } catch {
                 self.handleError("Error writing: \(error)")
@@ -239,19 +230,14 @@ class TetraBoard: ArduinoBoard {
 
     // MARK: - Receiving
 
-    private let bufferSize: Int = 32
     private var buffer: [UInt8] = []
 
     private func receive() {
         guard state != .initial else { return }
 
-        var bytes: [UInt8] = Array(repeating: 0, count: bufferSize)
         do {
-            let readCount = try serialPort.readBytes(into: &bytes, size: bufferSize)
-            if readCount > 0 {
-                buffer.append(contentsOf: bytes[0 ..< readCount])
-                processBuffer()
-            }
+            buffer.append(contentsOf: try serialPort.readBytes(upTo: 32))
+            processBuffer()
         } catch {
             handleError("Error reading: \(error)")
         }

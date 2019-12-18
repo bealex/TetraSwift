@@ -18,13 +18,19 @@ class MockSerialPort: SerialPort {
         // TODO: ...
     ]
 
+    func readBytes(exact count: Int) throws -> [UInt8] {
+        []
+    }
+
+    func readBytes(upTo count: Int) throws -> [UInt8] {
+        []
+    }
+
     func readBytes(into buffer: UnsafeMutablePointer<UInt8>, size: Int) throws -> Int {
         // TODO: get random bytes up to size from cyclic buffer
         0
     }
 
-    func writeBytes(from buffer: UnsafePointer<UInt8>, size: Int) throws -> Int {
-        // Do nothing, I guess
-        0
+    func writeBytes(_ data: [UInt8]) throws {
     }
 }

@@ -112,11 +112,7 @@ class PicoBoard: ArduinoBoard {
     private func send(_ data: [UInt8]) {
         workQueue.async {
             do {
-                var bytes = data
-                while !bytes.isEmpty {
-                    let sent = try self.serialPort.writeBytes(from: bytes, size: bytes.count)
-                    bytes = Array(bytes.dropFirst(sent))
-                }
+                try self.serialPort.writeBytes(data)
             } catch {
                 self.handleError("Error writing \(error)")
             }
@@ -132,23 +128,13 @@ class PicoBoard: ArduinoBoard {
 
     // MARK: - Receiving
 
-    private var buffer: [UInt8] = [ 0, 0 ]
-    private var bytes: [UInt8] = []
-
     private func receive() {
         guard started else { return }
 
         do {
-            let readCount = try self.serialPort.readBytes(into: &buffer, size: 2 - bytes.count)
-            if readCount > 0 {
-                bytes.append(contentsOf: buffer[0 ..< readCount])
-            }
-
-            if bytes.count == 2 {
-                let decoded = self.decode(from: bytes)
-                self.handleSensorData(decoded.portId, decoded.value)
-                bytes = []
-            }
+            let bytes = try self.serialPort.readBytes(exact: 2)
+            let decoded = self.decode(from: bytes)
+            self.handleSensorData(decoded.portId, decoded.value)
         } catch {
             self.handleError("Error reading: \(error)")
             self.stop()

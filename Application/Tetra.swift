@@ -40,17 +40,16 @@ class Tetra: TetraInterface {
         add(sensor: infraredSensor, on: .analog4)
         add(sensor: button2, on: .digital6)
         add(sensor: button3, on: .digital7)
-        install(actuators: [
-            .digital4: motor,
-            .digital9: buzzer,
-            .digital5: greenAnalogLED,
-            .digital6: redAnalogLED,
-            .digital10: greenDigitalLED,
-            .digital11: yellowDigitalLED,
-            .digital12: yellowDigitalOtherLED,
-            .digital13: redDigitalLED,
-            .digital7: ledMatrix,
-            .digital8: quadDisplay,
-        ])
+
+        add(actuator: motor, on: .digital4)
+        add(actuator: buzzer, on: .digital9)
+        add(actuator: greenAnalogLED, on: .digital5)
+        add(actuator: redAnalogLED, on: .digital6)
+        add(actuator: greenDigitalLED, on: .digital10)
+        add(actuator: yellowDigitalLED, on: .digital11)
+        add(actuator: yellowDigitalOtherLED, on: .digital12)
+        add(actuator: redDigitalLED, on: .digital13)
+        add(actuator: ledMatrix, on: .digital7)
+        add(actuator: quadDisplay, on: .digital8)
     }
 }

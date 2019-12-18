@@ -48,20 +48,12 @@ open class TetraInterface {
         }
     }
 
-    public func install(actuators: [IOPort: Actuator]) {
-        for (port, actuator) in actuators {
-            if let actuator = actuator as? LimitedAnalogActuator {
-                actuator.changedListener = { self.arduinoBoard.sendRawActuatorValue(portId: port.tetraId, rawValue: actuator.rawValue) }
-            } else if let actuator = actuator as? BooleanDigitalActuator {
-                actuator.changedListener = {
-                    self.arduinoBoard.sendRawActuatorValue(portId: port.tetraId, rawValue: actuator.rawValue)
-                }
-            } else if let actuator = actuator as? QuadNumericDisplayActuator {
-                actuator.changedListener = { self.arduinoBoard.showOnQuadDisplay(portId: port.tetraId, value: actuator.value) }
-            } else if let actuator = actuator as? LEDMatrixActuator {
-                actuator.changedListener = {
-                    self.arduinoBoard.showOnLEDMatrix(portId: port.tetraId, brightness: 0.01, character: actuator.value)
-                }
+    public func add<ActuatorType: Actuator>(actuator: ActuatorType, on port: IOPort) {
+        actuator.changedListener = { value in
+            do {
+                try self.arduinoBoard.send(value: value, to: port)
+            } catch {
+                self.log(message: "Error sending actuator value to port \(port): \(error)")
             }
         }
     }

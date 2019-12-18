@@ -143,7 +143,35 @@ class TetraBoard: ArduinoBoard {
 
     // MARK: - Sending
 
-    func showOnQuadDisplay(portId: UInt8, value: String) {
+    func send<ValueType>(value: ValueType, to port: TetraSwift.IOPort) throws {
+        if let value = value as? UInt {
+            try send(value: value, to: port)
+        } else if let value = value as? String {
+            try send(value: value, to: port)
+        } else if let value = value as? Character {
+            try send(value: value, to: port)
+        } else {
+            throw ArduinoBoardError.notSupported
+        }
+    }
+
+    func send(value: UInt, to port: TetraSwift.IOPort) throws {
+        let portId = port.tetraId
+        let isDigitalInput = configuration.digitalInputs.contains { $0.id == portId }
+        let isAnalogInput = configuration.analogInputs.contains { $0.id == portId }
+        guard isDigitalInput || isAnalogInput else { return handleError("Can't send value to other than input") }
+
+        let rawValue = min(255, value)
+        let data: [UInt8] =
+            [ Packet.Command.singleActuator.rawValue ] +
+            [ portId, UInt8(rawValue & 0b11111111) ]
+        self.send(data: data)
+        log(message: "Sent actuator \(portId)")
+    }
+
+    // TODO: Currently this is specific to quad display. It must be more generic
+    func send(value: String, to port: TetraSwift.IOPort) throws {
+        let portId = port.tetraId
         let isDigitalInput = configuration.digitalInputs.contains { $0.id == portId }
         let isAnalogInput = configuration.analogInputs.contains { $0.id == portId }
         guard isDigitalInput || isAnalogInput else { return handleError("Can't send value to other than input") }
@@ -168,32 +196,24 @@ class TetraBoard: ArduinoBoard {
             }
         }
         self.send(data: Array(bytes.prefix(6)))
-        log(message: "Sent to quad display \(portId): \(value)")
+        log(message: "Sent string value to \(portId): \(value)")
     }
 
+    // TODO: Currently this is specific to LED array. It must be more generic
     // Brightness can be from 0 to 1, character — ASCII from 0 to 0x7f
-    func showOnLEDMatrix(portId: UInt8, brightness: Double, character: Character) {
+    func send(value: Character, to port: TetraSwift.IOPort) throws {
+        let brightness: Double = 0.05 // TODO: Make a protocol that can manage this value
+
+        let portId = port.tetraId
         let isDigitalInput = configuration.digitalInputs.contains { $0.id == portId }
         let isAnalogInput = configuration.analogInputs.contains { $0.id == portId }
         guard isDigitalInput || isAnalogInput else { return handleError("Can't send value to other than input") }
 
-        let bytes: [UInt8] = [ Packet.Command.ledMatrix.rawValue, portId, LEDMatrixHelper.brightness(value: brightness) ] +
-            LEDMatrixHelper.data(for: character)
+        let bytes: [UInt8] =
+            [ Packet.Command.ledMatrix.rawValue, portId, LEDMatrixHelper.brightness(value: brightness) ] +
+            LEDMatrixHelper.data(for: value)
         self.send(data: bytes)
-        log(message: "Sent data to LED Matrix \(portId)")
-    }
-
-    func sendRawActuatorValue(portId: UInt8, rawValue: UInt) {
-        let isDigitalInput = configuration.digitalInputs.contains { $0.id == portId }
-        let isAnalogInput = configuration.analogInputs.contains { $0.id == portId }
-        guard isDigitalInput || isAnalogInput else { return handleError("Can't send value to other than input") }
-
-        let rawValue = min(255, rawValue)
-        let data: [UInt8] =
-            [ Packet.Command.singleActuator.rawValue ] +
-            [ portId, UInt8(rawValue & 0b11111111) ]
-        self.send(data: data)
-        log(message: "Sent actuator \(portId)")
+        log(message: "Sent character value \"\(value)\" to \(portId)")
     }
 
     private func send(data: [UInt8], completion: @escaping () -> Void = {}) {

@@ -7,14 +7,14 @@
 
 import Foundation
 
-public class LEDMatrixActuator: CharacterActuator {
+public class LEDMatrixActuator: Actuator {
     public private(set) var rawValue: UInt = 0
-    public var changedListener: () -> Void = {}
     public var value: Character = " " { // Make this custom matrix
         didSet {
-            changedListener()
+            changedListener(value)
         }
     }
+    public var changedListener: (Character) -> Void = { _ in }
 
     public init() {}
 }

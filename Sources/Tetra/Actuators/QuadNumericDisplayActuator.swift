@@ -7,14 +7,14 @@
 
 import Foundation
 
-public class QuadNumericDisplayActuator: StringActuator {
+public class QuadNumericDisplayActuator: Actuator {
     public private(set) var rawValue: UInt = 0
-    public var changedListener: () -> Void = {}
     public var value: String = "" {
         didSet {
-            changedListener()
+            changedListener(value)
         }
     }
+    public var changedListener: (String) -> Void = { _ in }
 
     public init() {}
 }

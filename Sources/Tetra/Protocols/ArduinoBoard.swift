@@ -8,6 +8,10 @@
 
 import Foundation
 
+enum ArduinoBoardError: Error {
+    case notSupported
+}
+
 protocol ArduinoBoard: class {
     init(
         serialPort: SerialPort,
@@ -18,8 +22,5 @@ protocol ArduinoBoard: class {
     func start(completion: @escaping () -> Void)
     func stop()
 
-    func showOnQuadDisplay(portId: UInt8, value: String)
-    func showOnLEDMatrix(portId: UInt8, brightness: Double, character: Character)
-
-    func sendRawActuatorValue(portId: UInt8, rawValue: UInt)
+    func send<ValueType>(value: ValueType, to port: IOPort) throws
 }

@@ -50,5 +50,5 @@ Tetra(serialPort: serialPort).run {
     tetra.temperatureSensor.whenValueChanged { value in
         tetra.quadDisplay.value = String(format: "%.1f˚", value)
     }
-    tetra.ledMatrix.value = "@"
+    tetra.ledMatrix.value = "."
 }

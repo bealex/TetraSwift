@@ -9,24 +9,8 @@
 import Foundation
 
 public protocol Actuator: class {
-    // TODO: Generify Actuator by this value type. It can differ (generic - quadDisplay - ledMatrix, for example, and more)
-    var rawValue: UInt { get }
+    associatedtype ValueType
 
-    var changedListener: () -> Void { get set }
-}
-
-public protocol AnalogActuator: Actuator {
-    var value: Double { get set }
-}
-
-public protocol DigitalActuator: Actuator {
-    var value: Bool { get set }
-}
-
-public protocol CharacterActuator: Actuator {
-    var value: Character { get set }
-}
-
-public protocol StringActuator: Actuator {
-    var value: String { get set }
+    var value: ValueType { get set }
+    var changedListener: (ValueType) -> Void { get set }
 }

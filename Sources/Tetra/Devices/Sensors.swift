@@ -27,7 +27,7 @@ public class Potentiometer: AnalogSensorWithFiltering {
 
 public class TemperatureSensor: AnalogSensorWithFiltering {
     public init() {
-        super.init(samplesCount: 32, tolerance: 0.08) { rawAverage in
+        super.init(samplesCount: 128, tolerance: 0.08) { rawAverage in
             // https://github.com/amperka/TroykaThermometer/blob/master/src/TroykaThermometer.cpp ‾\_(ツ)_/‾
             let sensorVoltage = rawAverage * (5.0 / 1023.0) // 5 — voltage, 1024 — maxValue
             let temperatureCelsius = (sensorVoltage - 0.5) * 100.0

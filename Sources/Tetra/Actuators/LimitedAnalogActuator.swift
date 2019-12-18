@@ -7,21 +7,20 @@
 
 import Foundation
 
-public class LimitedAnalogActuator: AnalogActuator {
-    public var changedListener: () -> Void = {}
+public class LimitedAnalogActuator: Actuator {
     public internal(set) var rawValue: UInt = 0
-
-    let maxValue: UInt
-
     public var value: Double = 0 {
         didSet {
             let newRawValue = UInt(Double(maxValue) * value)
             if newRawValue != rawValue {
                 rawValue = newRawValue
-                changedListener()
+                changedListener(value)
             }
         }
     }
+    public var changedListener: (Double) -> Void = { _ in }
+
+    let maxValue: UInt
 
     public init(maxValue: UInt) {
         self.maxValue = maxValue

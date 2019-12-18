@@ -16,6 +16,7 @@ enum SerialPortError: Error {
     case deviceNotConnected
 }
 
+// TODO: Generify this more, it must not be only Serial Port
 protocol SerialPort {
     var isOpened: Bool { get }
 

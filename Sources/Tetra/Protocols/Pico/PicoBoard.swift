@@ -86,15 +86,23 @@ class PicoBoard: ArduinoBoard {
 
     private var lastActuatorRawValues: [UInt8: (portId: UInt8, value: UInt)] = [:]
 
-    func showOnQuadDisplay(portId: UInt8, value: String) {
+    func send<ValueType>(value: ValueType, to port: IOPort) throws {
+        guard let value = value as? UInt else { throw ArduinoBoardError.notSupported }
+        guard started else { return }
+
+        lastActuatorRawValues[port.tetraId] = (port.tetraId, value)
+        send(encode(id: port.tetraId, value: value))
+    }
+
+    private func sendStringValue(portId: UInt8, value: String) {
         handleError("Quad Display is not implemented")
     }
 
-    func showOnLEDMatrix(portId: UInt8, brightness: Double, character: Character) {
+    private func sendCharacterValue(portId: UInt8, brightness: Double, value: Character) {
         handleError("LED Matrix is not implemented")
     }
 
-    func sendRawActuatorValue(portId: UInt8, rawValue: UInt) {
+    private func sendRawActuatorValue(portId: UInt8, rawValue: UInt) {
         guard started else { return }
 
         lastActuatorRawValues[portId] = (portId, rawValue)

@@ -7,20 +7,21 @@
 
 import Foundation
 
-public class BooleanDigitalActuator: DigitalActuator {
+public class BooleanDigitalActuator: Actuator {
     public private(set) var rawValue: UInt
-    private let onValue: UInt
-    private let offValue: UInt
-    public var changedListener: () -> Void = {}
     public var value: Bool = false {
         didSet {
             let newRawValue: UInt = value ? onValue : offValue
             if newRawValue != rawValue {
                 rawValue = newRawValue
-                changedListener()
+                changedListener(value)
             }
         }
     }
+    public var changedListener: (Bool) -> Void = { _ in }
+
+    private let onValue: UInt
+    private let offValue: UInt
 
     public func on() {
         value = true

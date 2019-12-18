@@ -144,6 +144,7 @@ class TetraBoard: ArduinoBoard {
     // MARK: - Sending
 
     func send<ValueType>(value: ValueType, to port: TetraSwift.IOPort) throws {
+        // TODO: Must eliminate this if-else code
         if let value = value as? UInt {
             try send(value: value, to: port)
         } else if let value = value as? String {
@@ -155,7 +156,7 @@ class TetraBoard: ArduinoBoard {
         }
     }
 
-    func send(value: UInt, to port: TetraSwift.IOPort) throws {
+    private func send(value: UInt, to port: TetraSwift.IOPort) throws {
         let portId = port.tetraId
         let isDigitalInput = configuration.digitalInputs.contains { $0.id == portId }
         let isAnalogInput = configuration.analogInputs.contains { $0.id == portId }
@@ -170,7 +171,7 @@ class TetraBoard: ArduinoBoard {
     }
 
     // TODO: Currently this is specific to quad display. It must be more generic
-    func send(value: String, to port: TetraSwift.IOPort) throws {
+    private func send(value: String, to port: TetraSwift.IOPort) throws {
         let portId = port.tetraId
         let isDigitalInput = configuration.digitalInputs.contains { $0.id == portId }
         let isAnalogInput = configuration.analogInputs.contains { $0.id == portId }
@@ -201,7 +202,7 @@ class TetraBoard: ArduinoBoard {
 
     // TODO: Currently this is specific to LED array. It must be more generic
     // Brightness can be from 0 to 1, character — ASCII from 0 to 0x7f
-    func send(value: Character, to port: TetraSwift.IOPort) throws {
+    private func send(value: Character, to port: TetraSwift.IOPort) throws {
         let brightness: Double = 0.05 // TODO: Make a protocol that can manage this value
 
         let portId = port.tetraId

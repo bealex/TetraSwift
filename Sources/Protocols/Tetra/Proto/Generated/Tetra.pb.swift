@@ -33,6 +33,20 @@ struct IntegerData {
   init() {}
 }
 
+struct ByteArrayData {
+  // SwiftProtobuf.Message conformance is added in an extension below. See the
+  // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
+  // methods supported on all messages.
+
+  var parameter: Int32 = 0
+
+  var value: Data = SwiftProtobuf.Internal.emptyData
+
+  var unknownFields = SwiftProtobuf.UnknownStorage()
+
+  init() {}
+}
+
 struct CharacterData {
   // SwiftProtobuf.Message conformance is added in an extension below. See the
   // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
@@ -108,6 +122,8 @@ struct ClientCommand {
     // SwiftProtobuf.Message conformance is added in an extension below. See the
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
+
+    var version: Int32 = 0
 
     var unknownFields = SwiftProtobuf.UnknownStorage()
 
@@ -187,7 +203,43 @@ struct ArduinoCommand {
   // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
   // methods supported on all messages.
 
+  var data: OneOf_Data? {
+    get {return _storage._data}
+    set {_uniqueStorage()._data = newValue}
+  }
+
+  var configuration: ArduinoCommand.Configuration {
+    get {
+      if case .configuration(let v)? = _storage._data {return v}
+      return ArduinoCommand.Configuration()
+    }
+    set {_uniqueStorage()._data = .configuration(newValue)}
+  }
+
+  var sensors: ArduinoCommand.Sensors {
+    get {
+      if case .sensors(let v)? = _storage._data {return v}
+      return ArduinoCommand.Sensors()
+    }
+    set {_uniqueStorage()._data = .sensors(newValue)}
+  }
+
   var unknownFields = SwiftProtobuf.UnknownStorage()
+
+  enum OneOf_Data: Equatable {
+    case configuration(ArduinoCommand.Configuration)
+    case sensors(ArduinoCommand.Sensors)
+
+  #if !swift(>=4.1)
+    static func ==(lhs: ArduinoCommand.OneOf_Data, rhs: ArduinoCommand.OneOf_Data) -> Bool {
+      switch (lhs, rhs) {
+      case (.configuration(let l), .configuration(let r)): return l == r
+      case (.sensors(let l), .sensors(let r)): return l == r
+      default: return false
+      }
+    }
+  #endif
+  }
 
   struct Configuration {
     // SwiftProtobuf.Message conformance is added in an extension below. See the
@@ -328,6 +380,8 @@ struct ArduinoCommand {
   }
 
   init() {}
+
+  fileprivate var _storage = _StorageClass.defaultInstance
 }
 
 // MARK: - Code below here is support for the SwiftProtobuf runtime.
@@ -360,6 +414,41 @@ extension IntegerData: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementati
   }
 
   static func ==(lhs: IntegerData, rhs: IntegerData) -> Bool {
+    if lhs.parameter != rhs.parameter {return false}
+    if lhs.value != rhs.value {return false}
+    if lhs.unknownFields != rhs.unknownFields {return false}
+    return true
+  }
+}
+
+extension ByteArrayData: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  static let protoMessageName: String = "ByteArrayData"
+  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+    1: .same(proto: "parameter"),
+    2: .same(proto: "value"),
+  ]
+
+  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+    while let fieldNumber = try decoder.nextFieldNumber() {
+      switch fieldNumber {
+      case 1: try decoder.decodeSingularInt32Field(value: &self.parameter)
+      case 2: try decoder.decodeSingularBytesField(value: &self.value)
+      default: break
+      }
+    }
+  }
+
+  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    if self.parameter != 0 {
+      try visitor.visitSingularInt32Field(value: self.parameter, fieldNumber: 1)
+    }
+    if !self.value.isEmpty {
+      try visitor.visitSingularBytesField(value: self.value, fieldNumber: 2)
+    }
+    try unknownFields.traverse(visitor: &visitor)
+  }
+
+  static func ==(lhs: ByteArrayData, rhs: ByteArrayData) -> Bool {
     if lhs.parameter != rhs.parameter {return false}
     if lhs.value != rhs.value {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
@@ -520,18 +609,28 @@ extension ClientCommand: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementa
 
 extension ClientCommand.Handshake: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = ClientCommand.protoMessageName + ".Handshake"
-  static let _protobuf_nameMap = SwiftProtobuf._NameMap()
+  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+    1: .same(proto: "version"),
+  ]
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
-    while let _ = try decoder.nextFieldNumber() {
+    while let fieldNumber = try decoder.nextFieldNumber() {
+      switch fieldNumber {
+      case 1: try decoder.decodeSingularInt32Field(value: &self.version)
+      default: break
+      }
     }
   }
 
   func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    if self.version != 0 {
+      try visitor.visitSingularInt32Field(value: self.version, fieldNumber: 1)
+    }
     try unknownFields.traverse(visitor: &visitor)
   }
 
   static func ==(lhs: ClientCommand.Handshake, rhs: ClientCommand.Handshake) -> Bool {
+    if lhs.version != rhs.version {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
     return true
   }
@@ -639,18 +738,80 @@ extension ClientCommand.Actuator: SwiftProtobuf.Message, SwiftProtobuf._MessageI
 
 extension ArduinoCommand: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = "ArduinoCommand"
-  static let _protobuf_nameMap = SwiftProtobuf._NameMap()
+  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+    1: .same(proto: "configuration"),
+    2: .same(proto: "sensors"),
+  ]
+
+  fileprivate class _StorageClass {
+    var _data: ArduinoCommand.OneOf_Data?
+
+    static let defaultInstance = _StorageClass()
+
+    private init() {}
+
+    init(copying source: _StorageClass) {
+      _data = source._data
+    }
+  }
+
+  fileprivate mutating func _uniqueStorage() -> _StorageClass {
+    if !isKnownUniquelyReferenced(&_storage) {
+      _storage = _StorageClass(copying: _storage)
+    }
+    return _storage
+  }
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
-    while let _ = try decoder.nextFieldNumber() {
+    _ = _uniqueStorage()
+    try withExtendedLifetime(_storage) { (_storage: _StorageClass) in
+      while let fieldNumber = try decoder.nextFieldNumber() {
+        switch fieldNumber {
+        case 1:
+          var v: ArduinoCommand.Configuration?
+          if let current = _storage._data {
+            try decoder.handleConflictingOneOf()
+            if case .configuration(let m) = current {v = m}
+          }
+          try decoder.decodeSingularMessageField(value: &v)
+          if let v = v {_storage._data = .configuration(v)}
+        case 2:
+          var v: ArduinoCommand.Sensors?
+          if let current = _storage._data {
+            try decoder.handleConflictingOneOf()
+            if case .sensors(let m) = current {v = m}
+          }
+          try decoder.decodeSingularMessageField(value: &v)
+          if let v = v {_storage._data = .sensors(v)}
+        default: break
+        }
+      }
     }
   }
 
   func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    try withExtendedLifetime(_storage) { (_storage: _StorageClass) in
+      switch _storage._data {
+      case .configuration(let v)?:
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 1)
+      case .sensors(let v)?:
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 2)
+      case nil: break
+      }
+    }
     try unknownFields.traverse(visitor: &visitor)
   }
 
   static func ==(lhs: ArduinoCommand, rhs: ArduinoCommand) -> Bool {
+    if lhs._storage !== rhs._storage {
+      let storagesAreEqual: Bool = withExtendedLifetime((lhs._storage, rhs._storage)) { (_args: (_StorageClass, _StorageClass)) in
+        let _storage = _args.0
+        let rhs_storage = _args.1
+        if _storage._data != rhs_storage._data {return false}
+        return true
+      }
+      if !storagesAreEqual {return false}
+    }
     if lhs.unknownFields != rhs.unknownFields {return false}
     return true
   }

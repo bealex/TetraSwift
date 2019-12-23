@@ -46,7 +46,7 @@ import Foundation
             — digital values (1 bit per value)
     byte1: 101
  */
-class TetraBoard: ArduinoBoard {
+class TetraProtocol: ArduinoProtocol {
     private struct Configuration {
         var analogInputs: [IOPort]
         var analogOutputs: [IOPort]
@@ -87,13 +87,13 @@ class TetraBoard: ArduinoBoard {
     private let debug: Bool = true
 
     private let serialPort: SerialPort
-    private let handleSensorData: (_ portId: UInt8, _ value: Any) -> Void
     private let handleError: (String) -> Void
+    private let handleSensorData: (_ portId: TetraSwift.IOPort, _ parameter: Int32, _ value: Any) -> Void
 
     required init(
         serialPort: SerialPort,
         errorHandler: @escaping (String) -> Void,
-        sensorDataHandler: @escaping (_ portId: UInt8, _ value: Any) -> Void
+        sensorDataHandler: @escaping (_ portId: TetraSwift.IOPort, _ parameter: Int32, _ value: Any) -> Void
     ) {
         self.serialPort = serialPort
         self.handleSensorData = sensorDataHandler
@@ -121,7 +121,7 @@ class TetraBoard: ArduinoBoard {
     }
 
     private func handshake() {
-        send(data: [ Packet.Command.handshake.rawValue, TetraBoard.version ]) {
+        send(data: [ Packet.Command.handshake.rawValue, TetraProtocol.version ]) {
             self.state = .awaitingConfiguration
         }
     }
@@ -143,7 +143,7 @@ class TetraBoard: ArduinoBoard {
 
     // MARK: - Sending
 
-    func send<ValueType>(value: ValueType, to port: TetraSwift.IOPort) throws {
+    func send<ValueType>(parameter: Int32, value: ValueType, to port: TetraSwift.IOPort) throws {
         // TODO: Must eliminate this if-else code
         if let value = value as? UInt {
             try send(value: value, to: port)
@@ -152,7 +152,7 @@ class TetraBoard: ArduinoBoard {
         } else if let value = value as? Character {
             try send(value: value, to: port)
         } else {
-            throw ArduinoBoardError.notSupported
+            throw ArduinoProtocolError.notSupported
         }
     }
 
@@ -265,7 +265,7 @@ class TetraBoard: ArduinoBoard {
      */
     private func processConfigurationPayload() {
         guard buffer.count >= 3 /* code, version, count */ else { return }
-        guard buffer[1] == TetraBoard.version else { fatalError("Got wrong version (\(buffer[1])), need: \(TetraBoard.version)") }
+        guard buffer[1] == TetraProtocol.version else { fatalError("Got wrong version (\(buffer[1])), need: \(TetraProtocol.version)") }
 
         let portsCount = Int(buffer[2])
         if portsCount != 0 {
@@ -304,20 +304,18 @@ class TetraBoard: ArduinoBoard {
             .filter { _, port in
                 configuration.analogOutputs.contains { $0.id == port.id }
             }
-            .map { index, port in
-                (portId: port.id, value: (UInt(buffer[1 + index * 2]) << 8) | UInt(buffer[1 + index * 2 + 1]))
+            .forEach {
+                handleSensorData(TetraSwift.IOPort(sensorTetraId: $1.id), 0, (UInt(buffer[1 + $0 * 2]) << 8) | UInt(buffer[1 + $0 * 2 + 1]))
             }
-            .forEach(handleSensorData)
 
         configuration.digitalOutputs
             .enumerated()
             .filter { _, port in
                 configuration.digitalOutputs.contains { $0.id == port.id }
             }
-            .map { index, port in
-                (portId: port.id, value: UInt(buffer[digitalFirstIndex + index] > 0 ? 1023 : 0))
+            .forEach {
+                handleSensorData(TetraSwift.IOPort(sensorTetraId: $1.id), 0, UInt(buffer[digitalFirstIndex + $0] > 0 ? 1023 : 0))
             }
-            .forEach(handleSensorData)
 
         buffer = Array(buffer.dropFirst(fullPayloadSize))
     }

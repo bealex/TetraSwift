@@ -10,8 +10,10 @@ import Foundation
 
 class Tetra: TetraInterface {
     let button2 = Button()
+
     let button3 = Button()
 
+    // Some comment
     let lightSensor = LightSensor()
     let magneticSensor = MagneticSensor()
     let temperatureSensor = TemperatureSensor()

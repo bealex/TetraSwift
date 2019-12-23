@@ -8,19 +8,21 @@
 
 import Foundation
 
-enum ArduinoBoardError: Error {
+enum ArduinoProtocolError: Error {
     case notSupported
+    case communication
+    case decoding
 }
 
-protocol ArduinoBoard: class {
+protocol ArduinoProtocol: class {
     init(
         serialPort: SerialPort,
         errorHandler: @escaping (String) -> Void,
-        sensorDataHandler: @escaping (_ portId: UInt8, _ value: Any) -> Void
+        sensorDataHandler: @escaping (_ portId: IOPort, _ parameter: Int32, _ value: Any) -> Void
     )
 
     func start(completion: @escaping () -> Void)
     func stop()
 
-    func send<ValueType>(value: ValueType, to port: IOPort) throws
+    func send<ValueType>(parameter: Int32, value: ValueType, to port: IOPort) throws
 }

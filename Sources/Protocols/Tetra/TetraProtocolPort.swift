@@ -8,7 +8,7 @@
 
 import Foundation
 
-extension TetraBoard {
+extension TetraProtocol {
     struct IOPort {
         enum Kind {
             case analogInput

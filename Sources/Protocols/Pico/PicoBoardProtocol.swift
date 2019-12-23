@@ -36,15 +36,15 @@ import Foundation
  */
 
 // This is PicoBoard protocol, essentially all of it :-)
-class PicoBoard: ArduinoBoard {
+class PicoBoardProtocol: ArduinoProtocol {
     private let serialPort: SerialPort
-    private let handleSensorData: (_ portId: UInt8, _ value: Any) -> Void
     private let handleError: (String) -> Void
+    private let handleSensorData: (_ portId: IOPort, _ parameter: Int32, _ value: Any) -> Void
 
     required init(
         serialPort: SerialPort,
         errorHandler: @escaping (String) -> Void,
-        sensorDataHandler: @escaping (_ portId: UInt8, _ value: Any) -> Void
+        sensorDataHandler: @escaping (_ portId: IOPort, _ parameter: Int32, _ value: Any) -> Void
     ) {
         self.serialPort = serialPort
         self.handleSensorData = sensorDataHandler
@@ -86,8 +86,8 @@ class PicoBoard: ArduinoBoard {
 
     private var lastActuatorRawValues: [UInt8: (portId: UInt8, value: UInt)] = [:]
 
-    func send<ValueType>(value: ValueType, to port: IOPort) throws {
-        guard let value = value as? UInt else { throw ArduinoBoardError.notSupported }
+    func send<ValueType>(parameter: Int32, value: ValueType, to port: IOPort) throws {
+        guard let value = value as? UInt else { throw ArduinoProtocolError.notSupported }
         guard started else { return }
 
         lastActuatorRawValues[port.tetraId] = (port.tetraId, value)
@@ -134,7 +134,7 @@ class PicoBoard: ArduinoBoard {
         do {
             let bytes = try self.serialPort.readBytes(exact: 2)
             let decoded = self.decode(from: bytes)
-            self.handleSensorData(decoded.portId, decoded.value)
+            self.handleSensorData(IOPort(sensorTetraId: decoded.portId), 0, decoded.value)
         } catch {
             self.handleError("Error reading: \(error)")
             self.stop()

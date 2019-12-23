@@ -16,21 +16,19 @@ open class TetraInterface {
 
     private var debug: Bool = true // TODO: Expose somehow
 
-    private var arduinoBoard: ArduinoBoard!
+    private var arduinoBoard: ArduinoProtocol!
     private var sensorHandlers: [IOPort: (_ value: Any) -> Void] = [:]
 
     public init(serialPort: SerialPort, useTetraProtocol: Bool, eventQueue: DispatchQueue = DispatchQueue.global()) {
         self.eventQueue = eventQueue
         self.serialPort = serialPort
 
-        let sensorDataHandler: (UInt8, Any) -> Void = { id, value in
-            guard let port = IOPort(sensorTetraId: id) else { return }
-
+        let sensorDataHandler: (IOPort, Int32, Any) -> Void = { port, parameter, value in
             self.sensorHandlers[port]?(value)
         }
         arduinoBoard = useTetraProtocol
-            ? TetraBoard(serialPort: serialPort, errorHandler: log, sensorDataHandler: sensorDataHandler)
-            : PicoBoard(serialPort: serialPort, errorHandler: log, sensorDataHandler: sensorDataHandler)
+            ? TetraProtocol(serialPort: serialPort, errorHandler: log, sensorDataHandler: sensorDataHandler)
+            : PicoBoardProtocol(serialPort: serialPort, errorHandler: log, sensorDataHandler: sensorDataHandler)
     }
 
     public func add<SensorType: Sensor>(sensor: SensorType, on port: IOPort) {
@@ -46,7 +44,7 @@ open class TetraInterface {
     public func add<ActuatorType: Actuator>(actuator: ActuatorType, on port: IOPort) {
         actuator.changedListener = { value in
             do {
-                try self.arduinoBoard.send(value: value, to: port)
+                try self.arduinoBoard.send(parameter: 0, value: value, to: port)
             } catch {
                 self.log(message: "Error sending actuator value to port \(port): \(error)")
             }

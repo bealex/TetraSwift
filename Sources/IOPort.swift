@@ -28,7 +28,7 @@ public enum IOPort: Hashable {
     case digital12
     case digital13
 
-    init?(sensorTetraId: UInt8) {
+    init(sensorTetraId: UInt8) {
         switch sensorTetraId {
             case 0: self = .analog0
             case 1: self = .analog1

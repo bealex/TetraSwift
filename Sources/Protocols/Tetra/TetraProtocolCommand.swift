@@ -8,7 +8,7 @@
 
 import Foundation
 
-extension TetraBoard {
+extension TetraProtocol {
     struct Packet {
         enum Command: UInt8, Equatable {
             case handshake = 0

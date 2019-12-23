@@ -5,6 +5,12 @@ message IntegerData {
     int32 value = 2;
 }
 
+message ByteArrayData {
+    int32 parameter = 1;
+    bytes value = 2;
+    int32 size = 3;
+}
+
 message CharacterData {
     int32 parameter = 1;
     int32 value = 2;
@@ -16,7 +22,9 @@ message StringData {
 }
 
 message ClientCommand {
-    message Handshake {}
+    message Handshake {
+        int32 version = 1;
+    }
 
     message Actuator {
         int32 port = 1;
@@ -25,6 +33,7 @@ message ClientCommand {
             IntegerData integer = 2;
             CharacterData character = 3;
             StringData string = 4;
+            ByteArrayData bytes = 5;
         }
     }
 
@@ -60,9 +69,15 @@ message ArduinoCommand {
                 IntegerData integer = 2;
                 CharacterData character = 3;
                 StringData string = 4;
+                ByteArrayData bytes = 5;
             }
         }
 
         repeated Sensor data = 1;
+    }
+
+    oneof data {
+        Configuration configuration = 1;
+        Sensors sensors = 2;
     }
 }

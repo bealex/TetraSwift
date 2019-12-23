@@ -7,18 +7,19 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2DBA1D0C0F05CC56B0BCBFE8 /* ProTetraProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA1E803204D9C48BA456F0 /* ProTetraProtocol.swift */; };
 		FA0FBCB923AAC512004D0666 /* TetraInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0FBC8E23AAC512004D0666 /* TetraInterface.swift */; };
 		FA0FBCBA23AAC512004D0666 /* IOPort.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0FBC8F23AAC512004D0666 /* IOPort.swift */; };
 		FA0FBCBB23AAC512004D0666 /* List.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0FBC9123AAC512004D0666 /* List.swift */; };
-		FA0FBCBC23AAC512004D0666 /* PicoBoard.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0FBC9423AAC512004D0666 /* PicoBoard.swift */; };
+		FA0FBCBC23AAC512004D0666 /* PicoBoardProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0FBC9423AAC512004D0666 /* PicoBoardProtocol.swift */; };
 		FA0FBCBD23AAC512004D0666 /* LEDMatrixHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0FBC9723AAC512004D0666 /* LEDMatrixHelper.swift */; };
 		FA0FBCBE23AAC512004D0666 /* QuadDisplayHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0FBC9823AAC512004D0666 /* QuadDisplayHelper.swift */; };
 		FA0FBCBF23AAC512004D0666 /* TetraProtocolPort.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0FBC9923AAC512004D0666 /* TetraProtocolPort.swift */; };
 		FA0FBCC023AAC512004D0666 /* Tetra.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0FBC9C23AAC512004D0666 /* Tetra.pb.swift */; };
 		FA0FBCC123AAC512004D0666 /* Tetra.proto in Sources */ = {isa = PBXBuildFile; fileRef = FA0FBC9D23AAC512004D0666 /* Tetra.proto */; };
-		FA0FBCC223AAC512004D0666 /* TetraBoard.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0FBC9E23AAC512004D0666 /* TetraBoard.swift */; };
+		FA0FBCC223AAC512004D0666 /* TetraProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0FBC9E23AAC512004D0666 /* TetraProtocol.swift */; };
 		FA0FBCC323AAC512004D0666 /* TetraProtocolCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0FBC9F23AAC512004D0666 /* TetraProtocolCommand.swift */; };
-		FA0FBCC423AAC512004D0666 /* ArduinoBoard.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0FBCA023AAC512004D0666 /* ArduinoBoard.swift */; };
+		FA0FBCC423AAC512004D0666 /* ArduinoProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0FBCA023AAC512004D0666 /* ArduinoProtocol.swift */; };
 		FA0FBCC523AAC512004D0666 /* SerialPort.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0FBCA223AAC512004D0666 /* SerialPort.swift */; };
 		FA0FBCC623AAC512004D0666 /* MockSerialPort.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0FBCA323AAC512004D0666 /* MockSerialPort.swift */; };
 		FA0FBCC723AAC512004D0666 /* HardwareSerialPort.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0FBCA423AAC512004D0666 /* HardwareSerialPort.swift */; };
@@ -147,38 +148,39 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = "SwiftProtobuf::SwiftProtobuf";
+			remoteGlobalIDString = SwiftProtobuf::SwiftProtobuf;
 			remoteInfo = SwiftProtobuf;
 		};
 		FA0FBC8B23AAC4F9004D0666 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = "TetraSwift::TetraSwift";
+			remoteGlobalIDString = TetraSwift::TetraSwift;
 			remoteInfo = TetraSwift;
 		};
 		FA0FBC8C23AAC4F9004D0666 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = "SwiftProtobuf::SwiftProtobuf";
+			remoteGlobalIDString = SwiftProtobuf::SwiftProtobuf;
 			remoteInfo = SwiftProtobuf;
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		2DBA1E803204D9C48BA456F0 /* ProTetraProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProTetraProtocol.swift; sourceTree = "<group>"; };
 		FA0FBC8E23AAC512004D0666 /* TetraInterface.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TetraInterface.swift; sourceTree = "<group>"; };
 		FA0FBC8F23AAC512004D0666 /* IOPort.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IOPort.swift; sourceTree = "<group>"; };
 		FA0FBC9123AAC512004D0666 /* List.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = List.swift; sourceTree = "<group>"; };
-		FA0FBC9423AAC512004D0666 /* PicoBoard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PicoBoard.swift; sourceTree = "<group>"; };
+		FA0FBC9423AAC512004D0666 /* PicoBoardProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PicoBoardProtocol.swift; sourceTree = "<group>"; };
 		FA0FBC9723AAC512004D0666 /* LEDMatrixHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LEDMatrixHelper.swift; sourceTree = "<group>"; };
 		FA0FBC9823AAC512004D0666 /* QuadDisplayHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuadDisplayHelper.swift; sourceTree = "<group>"; };
 		FA0FBC9923AAC512004D0666 /* TetraProtocolPort.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TetraProtocolPort.swift; sourceTree = "<group>"; };
 		FA0FBC9C23AAC512004D0666 /* Tetra.pb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tetra.pb.swift; sourceTree = "<group>"; };
 		FA0FBC9D23AAC512004D0666 /* Tetra.proto */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.protobuf; path = Tetra.proto; sourceTree = "<group>"; };
-		FA0FBC9E23AAC512004D0666 /* TetraBoard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TetraBoard.swift; sourceTree = "<group>"; };
+		FA0FBC9E23AAC512004D0666 /* TetraProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TetraProtocol.swift; sourceTree = "<group>"; };
 		FA0FBC9F23AAC512004D0666 /* TetraProtocolCommand.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TetraProtocolCommand.swift; sourceTree = "<group>"; };
-		FA0FBCA023AAC512004D0666 /* ArduinoBoard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArduinoBoard.swift; sourceTree = "<group>"; };
+		FA0FBCA023AAC512004D0666 /* ArduinoProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArduinoProtocol.swift; sourceTree = "<group>"; };
 		FA0FBCA223AAC512004D0666 /* SerialPort.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SerialPort.swift; sourceTree = "<group>"; };
 		FA0FBCA323AAC512004D0666 /* MockSerialPort.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockSerialPort.swift; sourceTree = "<group>"; };
 		FA0FBCA423AAC512004D0666 /* HardwareSerialPort.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HardwareSerialPort.swift; sourceTree = "<group>"; };
@@ -317,6 +319,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2DBA1D68EA87C380B46A6D6D /* ProTetra */ = {
+			isa = PBXGroup;
+			children = (
+				2DBA1E803204D9C48BA456F0 /* ProTetraProtocol.swift */,
+			);
+			path = ProTetra;
+			sourceTree = "<group>";
+		};
 		FA0FBC8D23AAC512004D0666 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
@@ -343,7 +353,8 @@
 			children = (
 				FA0FBC9323AAC512004D0666 /* Pico */,
 				FA0FBC9523AAC512004D0666 /* Tetra */,
-				FA0FBCA023AAC512004D0666 /* ArduinoBoard.swift */,
+				FA0FBCA023AAC512004D0666 /* ArduinoProtocol.swift */,
+				2DBA1D68EA87C380B46A6D6D /* ProTetra */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -351,7 +362,7 @@
 		FA0FBC9323AAC512004D0666 /* Pico */ = {
 			isa = PBXGroup;
 			children = (
-				FA0FBC9423AAC512004D0666 /* PicoBoard.swift */,
+				FA0FBC9423AAC512004D0666 /* PicoBoardProtocol.swift */,
 			);
 			path = Pico;
 			sourceTree = "<group>";
@@ -362,7 +373,7 @@
 				FA0FBC9623AAC512004D0666 /* DeviceHelpers */,
 				FA0FBC9923AAC512004D0666 /* TetraProtocolPort.swift */,
 				FA0FBC9A23AAC512004D0666 /* Proto */,
-				FA0FBC9E23AAC512004D0666 /* TetraBoard.swift */,
+				FA0FBC9E23AAC512004D0666 /* TetraProtocol.swift */,
 				FA0FBC9F23AAC512004D0666 /* TetraProtocolCommand.swift */,
 			);
 			path = Tetra;
@@ -842,7 +853,7 @@
 				FA0FBCD323AAC512004D0666 /* LimitedAnalogActuator.swift in Sources */,
 				FA0FBCC023AAC512004D0666 /* Tetra.pb.swift in Sources */,
 				FA0FBCCF23AAC512004D0666 /* AnalogSensorWithFiltering.swift in Sources */,
-				FA0FBCBC23AAC512004D0666 /* PicoBoard.swift in Sources */,
+				FA0FBCBC23AAC512004D0666 /* PicoBoardProtocol.swift in Sources */,
 				FA0FBCCD23AAC512004D0666 /* Analog10bitDecoder.swift in Sources */,
 				FA0FBCC723AAC512004D0666 /* HardwareSerialPort.swift in Sources */,
 				FA0FBCD423AAC512004D0666 /* QuadNumericDisplayActuator.swift in Sources */,
@@ -854,10 +865,10 @@
 				FA0FBCD623AAC512004D0666 /* Actuator.swift in Sources */,
 				FA0FBCBB23AAC512004D0666 /* List.swift in Sources */,
 				FA0FBCBF23AAC512004D0666 /* TetraProtocolPort.swift in Sources */,
-				FA0FBCC423AAC512004D0666 /* ArduinoBoard.swift in Sources */,
+				FA0FBCC423AAC512004D0666 /* ArduinoProtocol.swift in Sources */,
 				FA0FBCD523AAC512004D0666 /* BooleanDigitalActuator.swift in Sources */,
 				FA0FBCD123AAC512004D0666 /* Sensors.swift in Sources */,
-				FA0FBCC223AAC512004D0666 /* TetraBoard.swift in Sources */,
+				FA0FBCC223AAC512004D0666 /* TetraProtocol.swift in Sources */,
 				FA0FBCBE23AAC512004D0666 /* QuadDisplayHelper.swift in Sources */,
 				FA0FBCD023AAC512004D0666 /* Actuators.swift in Sources */,
 				FA0FBCC523AAC512004D0666 /* SerialPort.swift in Sources */,
@@ -867,6 +878,7 @@
 				FA0FBCC123AAC512004D0666 /* Tetra.proto in Sources */,
 				FA0FBCC323AAC512004D0666 /* TetraProtocolCommand.swift in Sources */,
 				FA0FBCCA23AAC512004D0666 /* SensorValue.swift in Sources */,
+				2DBA1D0C0F05CC56B0BCBFE8 /* ProTetraProtocol.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

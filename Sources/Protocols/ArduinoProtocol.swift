@@ -16,7 +16,7 @@ enum ArduinoProtocolError: Error {
 
 protocol ArduinoProtocol: class {
     init(
-        serialPort: SerialPort,
+        serialPort: DevicePort,
         errorHandler: @escaping (String) -> Void,
         sensorDataHandler: @escaping (_ portId: IOPort, _ parameter: Int32, _ value: Any) -> Void
     )

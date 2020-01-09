@@ -1,5 +1,5 @@
 //
-// MockSerialPort
+// MockDevicePort
 // TetraSwift
 //
 // Created by Alex Babaev on 17 December 2019.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-class MockSerialPort: SerialPort {
+class MockDevicePort: DevicePort {
     private(set) var isOpened: Bool = false
 
     func open() throws {
@@ -23,21 +23,20 @@ class MockSerialPort: SerialPort {
     ]
 
     func readBytes(exact count: Int) throws -> [UInt8] {
-        guard isOpened else { throw SerialPortError.read(nil) }
+        guard isOpened else { throw DevicePortError.read(nil) }
 
         return []
     }
 
     func readBytes(upTo count: Int) throws -> [UInt8] {
         // TODO: get random bytes up to size from cyclic buffer
-        guard isOpened else { throw SerialPortError.write(nil) }
+        guard isOpened else { throw DevicePortError.write(nil) }
 
         return []
     }
 
     func writeBytes(_ data: [UInt8]) throws {
-        guard isOpened else { throw SerialPortError.write(nil) }
-
+        guard isOpened else { throw DevicePortError.write(nil) }
 
     }
 }

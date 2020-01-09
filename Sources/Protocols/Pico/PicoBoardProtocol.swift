@@ -37,12 +37,12 @@ import Foundation
 
 // This is PicoBoard protocol, essentially all of it :-)
 class PicoBoardProtocol: ArduinoProtocol {
-    private let serialPort: SerialPort
+    private let serialPort: DevicePort
     private let handleError: (String) -> Void
     private let handleSensorData: (_ portId: IOPort, _ parameter: Int32, _ value: Any) -> Void
 
     required init(
-        serialPort: SerialPort,
+        serialPort: DevicePort,
         errorHandler: @escaping (String) -> Void,
         sensorDataHandler: @escaping (_ portId: IOPort, _ parameter: Int32, _ value: Any) -> Void
     ) {

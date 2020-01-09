@@ -86,12 +86,12 @@ class TetraProtocol: ArduinoProtocol {
 
     private let debug: Bool = true
 
-    private let serialPort: SerialPort
+    private let serialPort: DevicePort
     private let handleError: (String) -> Void
     private let handleSensorData: (_ portId: TetraSwift.IOPort, _ parameter: Int32, _ value: Any) -> Void
 
     required init(
-        serialPort: SerialPort,
+        serialPort: DevicePort,
         errorHandler: @escaping (String) -> Void,
         sensorDataHandler: @escaping (_ portId: TetraSwift.IOPort, _ parameter: Int32, _ value: Any) -> Void
     ) {
@@ -147,6 +147,10 @@ class TetraProtocol: ArduinoProtocol {
         // TODO: Must eliminate this if-else code
         if let value = value as? UInt {
             try send(value: value, to: port)
+        } else if let value = value as? Double {
+            try send(value: UInt(value * 255), to: port)
+        } else if let value = value as? Bool {
+            try send(value: UInt(value ? 1023 : 0), to: port)
         } else if let value = value as? String {
             try send(value: value, to: port)
         } else if let value = value as? Character {

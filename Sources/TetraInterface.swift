@@ -9,18 +9,15 @@
 import Foundation
 
 open class TetraInterface {
-    private let serialPort: SerialPort
+    private let serialPort: DevicePort
     private var opened = false
-
-    private let eventQueue: DispatchQueue
 
     private var debug: Bool = true // TODO: Expose somehow
 
     private var arduinoBoard: ArduinoProtocol!
     private var sensorHandlers: [IOPort: (_ value: Any) -> Void] = [:]
 
-    public init(serialPort: SerialPort, useTetraProtocol: Bool, eventQueue: DispatchQueue = DispatchQueue.global()) {
-        self.eventQueue = eventQueue
+    public init(serialPort: DevicePort, useTetraProtocol: Bool) {
         self.serialPort = serialPort
 
         let sensorDataHandler: (IOPort, Int32, Any) -> Void = { port, parameter, value in

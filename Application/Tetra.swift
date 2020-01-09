@@ -34,7 +34,7 @@ class Tetra: TetraInterface {
     let greenDigitalLED = DigitalLED()
 
     init(pathToSerialPort: String) {
-        let serialPort = HardwareSerialPort(path: pathToSerialPort, rate: .baud115200)
+        let serialPort = SerialPort(path: pathToSerialPort, rate: .baud115200)
         super.init(serialPort: serialPort, useTetraProtocol: true)
         add(sensor: lightSensor, on: .analog0)
         add(sensor: potentiometer, on: .analog1)

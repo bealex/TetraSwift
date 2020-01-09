@@ -19,7 +19,7 @@ let package = Package(
     targets: [
         .target(
             name: "TetraSwift",
-            dependencies: [ "SwiftProtobuf" ],
+            dependencies: [],
             path: "Sources"
         ),
         .target(

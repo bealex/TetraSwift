@@ -7,672 +7,285 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		2DBA1D0C0F05CC56B0BCBFE8 /* ProTetraProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA1E803204D9C48BA456F0 /* ProTetraProtocol.swift */; };
-		FA0FBCB923AAC512004D0666 /* TetraInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0FBC8E23AAC512004D0666 /* TetraInterface.swift */; };
-		FA0FBCBA23AAC512004D0666 /* IOPort.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0FBC8F23AAC512004D0666 /* IOPort.swift */; };
-		FA0FBCBB23AAC512004D0666 /* List.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0FBC9123AAC512004D0666 /* List.swift */; };
-		FA0FBCBC23AAC512004D0666 /* PicoBoardProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0FBC9423AAC512004D0666 /* PicoBoardProtocol.swift */; };
-		FA0FBCBD23AAC512004D0666 /* LEDMatrixHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0FBC9723AAC512004D0666 /* LEDMatrixHelper.swift */; };
-		FA0FBCBE23AAC512004D0666 /* QuadDisplayHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0FBC9823AAC512004D0666 /* QuadDisplayHelper.swift */; };
-		FA0FBCBF23AAC512004D0666 /* TetraProtocolPort.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0FBC9923AAC512004D0666 /* TetraProtocolPort.swift */; };
-		FA0FBCC023AAC512004D0666 /* Tetra.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0FBC9C23AAC512004D0666 /* Tetra.pb.swift */; };
-		FA0FBCC123AAC512004D0666 /* Tetra.proto in Sources */ = {isa = PBXBuildFile; fileRef = FA0FBC9D23AAC512004D0666 /* Tetra.proto */; };
-		FA0FBCC223AAC512004D0666 /* TetraProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0FBC9E23AAC512004D0666 /* TetraProtocol.swift */; };
-		FA0FBCC323AAC512004D0666 /* TetraProtocolCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0FBC9F23AAC512004D0666 /* TetraProtocolCommand.swift */; };
-		FA0FBCC423AAC512004D0666 /* ArduinoProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0FBCA023AAC512004D0666 /* ArduinoProtocol.swift */; };
-		FA0FBCC523AAC512004D0666 /* SerialPort.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0FBCA223AAC512004D0666 /* SerialPort.swift */; };
-		FA0FBCC623AAC512004D0666 /* MockSerialPort.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0FBCA323AAC512004D0666 /* MockSerialPort.swift */; };
-		FA0FBCC723AAC512004D0666 /* HardwareSerialPort.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0FBCA423AAC512004D0666 /* HardwareSerialPort.swift */; };
-		FA0FBCC823AAC512004D0666 /* TetraArduinoProtocolImplementation.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0FBCA623AAC512004D0666 /* TetraArduinoProtocolImplementation.swift */; };
-		FA0FBCC923AAC512004D0666 /* Sensor.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0FBCA923AAC512004D0666 /* Sensor.swift */; };
-		FA0FBCCA23AAC512004D0666 /* SensorValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0FBCAA23AAC512004D0666 /* SensorValue.swift */; };
-		FA0FBCCB23AAC512004D0666 /* BooleanDigitalSensor.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0FBCAB23AAC512004D0666 /* BooleanDigitalSensor.swift */; };
-		FA0FBCCC23AAC512004D0666 /* Digital10bitDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0FBCAD23AAC512004D0666 /* Digital10bitDecoder.swift */; };
-		FA0FBCCD23AAC512004D0666 /* Analog10bitDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0FBCAE23AAC512004D0666 /* Analog10bitDecoder.swift */; };
-		FA0FBCCE23AAC512004D0666 /* RawValueDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0FBCAF23AAC512004D0666 /* RawValueDecoder.swift */; };
-		FA0FBCCF23AAC512004D0666 /* AnalogSensorWithFiltering.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0FBCB023AAC512004D0666 /* AnalogSensorWithFiltering.swift */; };
-		FA0FBCD023AAC512004D0666 /* Actuators.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0FBCB123AAC512004D0666 /* Actuators.swift */; };
-		FA0FBCD123AAC512004D0666 /* Sensors.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0FBCB223AAC512004D0666 /* Sensors.swift */; };
-		FA0FBCD223AAC512004D0666 /* LEDMatrixActuator.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0FBCB423AAC512004D0666 /* LEDMatrixActuator.swift */; };
-		FA0FBCD323AAC512004D0666 /* LimitedAnalogActuator.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0FBCB523AAC512004D0666 /* LimitedAnalogActuator.swift */; };
-		FA0FBCD423AAC512004D0666 /* QuadNumericDisplayActuator.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0FBCB623AAC512004D0666 /* QuadNumericDisplayActuator.swift */; };
-		FA0FBCD523AAC512004D0666 /* BooleanDigitalActuator.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0FBCB723AAC512004D0666 /* BooleanDigitalActuator.swift */; };
-		FA0FBCD623AAC512004D0666 /* Actuator.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0FBCB823AAC512004D0666 /* Actuator.swift */; };
-		FA0FBCDA23AAC51C004D0666 /* Tetra.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0FBCD823AAC51C004D0666 /* Tetra.swift */; };
-		FA0FBCDB23AAC51C004D0666 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0FBCD923AAC51C004D0666 /* main.swift */; };
-		OBJ_156 /* AnyMessageStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_59 /* AnyMessageStorage.swift */; };
-		OBJ_157 /* AnyUnpackError.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_60 /* AnyUnpackError.swift */; };
-		OBJ_158 /* BinaryDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_61 /* BinaryDecoder.swift */; };
-		OBJ_159 /* BinaryDecodingError.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_62 /* BinaryDecodingError.swift */; };
-		OBJ_160 /* BinaryDecodingOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_63 /* BinaryDecodingOptions.swift */; };
-		OBJ_161 /* BinaryDelimited.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_64 /* BinaryDelimited.swift */; };
-		OBJ_162 /* BinaryEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_65 /* BinaryEncoder.swift */; };
-		OBJ_163 /* BinaryEncodingError.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_66 /* BinaryEncodingError.swift */; };
-		OBJ_164 /* BinaryEncodingSizeVisitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_67 /* BinaryEncodingSizeVisitor.swift */; };
-		OBJ_165 /* BinaryEncodingVisitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_68 /* BinaryEncodingVisitor.swift */; };
-		OBJ_166 /* CustomJSONCodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_69 /* CustomJSONCodable.swift */; };
-		OBJ_167 /* Data+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_70 /* Data+Extensions.swift */; };
-		OBJ_168 /* Decoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_71 /* Decoder.swift */; };
-		OBJ_169 /* DoubleParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_72 /* DoubleParser.swift */; };
-		OBJ_170 /* Enum.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_73 /* Enum.swift */; };
-		OBJ_171 /* ExtensibleMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_74 /* ExtensibleMessage.swift */; };
-		OBJ_172 /* ExtensionFieldValueSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_75 /* ExtensionFieldValueSet.swift */; };
-		OBJ_173 /* ExtensionFields.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_76 /* ExtensionFields.swift */; };
-		OBJ_174 /* ExtensionMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_77 /* ExtensionMap.swift */; };
-		OBJ_175 /* FieldTag.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_78 /* FieldTag.swift */; };
-		OBJ_176 /* FieldTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_79 /* FieldTypes.swift */; };
-		OBJ_177 /* Google_Protobuf_Any+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_80 /* Google_Protobuf_Any+Extensions.swift */; };
-		OBJ_178 /* Google_Protobuf_Any+Registry.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_81 /* Google_Protobuf_Any+Registry.swift */; };
-		OBJ_179 /* Google_Protobuf_Duration+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_82 /* Google_Protobuf_Duration+Extensions.swift */; };
-		OBJ_180 /* Google_Protobuf_FieldMask+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_83 /* Google_Protobuf_FieldMask+Extensions.swift */; };
-		OBJ_181 /* Google_Protobuf_ListValue+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_84 /* Google_Protobuf_ListValue+Extensions.swift */; };
-		OBJ_182 /* Google_Protobuf_Struct+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_85 /* Google_Protobuf_Struct+Extensions.swift */; };
-		OBJ_183 /* Google_Protobuf_Timestamp+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_86 /* Google_Protobuf_Timestamp+Extensions.swift */; };
-		OBJ_184 /* Google_Protobuf_Value+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_87 /* Google_Protobuf_Value+Extensions.swift */; };
-		OBJ_185 /* Google_Protobuf_Wrappers+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_88 /* Google_Protobuf_Wrappers+Extensions.swift */; };
-		OBJ_186 /* HashVisitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_89 /* HashVisitor.swift */; };
-		OBJ_187 /* Internal.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_90 /* Internal.swift */; };
-		OBJ_188 /* JSONDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_91 /* JSONDecoder.swift */; };
-		OBJ_189 /* JSONDecodingError.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_92 /* JSONDecodingError.swift */; };
-		OBJ_190 /* JSONDecodingOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_93 /* JSONDecodingOptions.swift */; };
-		OBJ_191 /* JSONEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_94 /* JSONEncoder.swift */; };
-		OBJ_192 /* JSONEncodingError.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_95 /* JSONEncodingError.swift */; };
-		OBJ_193 /* JSONEncodingOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_96 /* JSONEncodingOptions.swift */; };
-		OBJ_194 /* JSONEncodingVisitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_97 /* JSONEncodingVisitor.swift */; };
-		OBJ_195 /* JSONMapEncodingVisitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_98 /* JSONMapEncodingVisitor.swift */; };
-		OBJ_196 /* JSONScanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_99 /* JSONScanner.swift */; };
-		OBJ_197 /* MathUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_100 /* MathUtils.swift */; };
-		OBJ_198 /* Message+AnyAdditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_101 /* Message+AnyAdditions.swift */; };
-		OBJ_199 /* Message+BinaryAdditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_102 /* Message+BinaryAdditions.swift */; };
-		OBJ_200 /* Message+JSONAdditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_103 /* Message+JSONAdditions.swift */; };
-		OBJ_201 /* Message+JSONArrayAdditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_104 /* Message+JSONArrayAdditions.swift */; };
-		OBJ_202 /* Message+TextFormatAdditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_105 /* Message+TextFormatAdditions.swift */; };
-		OBJ_203 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_106 /* Message.swift */; };
-		OBJ_204 /* MessageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_107 /* MessageExtension.swift */; };
-		OBJ_205 /* NameMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_108 /* NameMap.swift */; };
-		OBJ_206 /* ProtoNameProviding.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_109 /* ProtoNameProviding.swift */; };
-		OBJ_207 /* ProtobufAPIVersionCheck.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_110 /* ProtobufAPIVersionCheck.swift */; };
-		OBJ_208 /* ProtobufMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_111 /* ProtobufMap.swift */; };
-		OBJ_209 /* SelectiveVisitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_112 /* SelectiveVisitor.swift */; };
-		OBJ_210 /* SimpleExtensionMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_113 /* SimpleExtensionMap.swift */; };
-		OBJ_211 /* StringUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_114 /* StringUtils.swift */; };
-		OBJ_212 /* TextFormatDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_115 /* TextFormatDecoder.swift */; };
-		OBJ_213 /* TextFormatDecodingError.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_116 /* TextFormatDecodingError.swift */; };
-		OBJ_214 /* TextFormatEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_117 /* TextFormatEncoder.swift */; };
-		OBJ_215 /* TextFormatEncodingOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_118 /* TextFormatEncodingOptions.swift */; };
-		OBJ_216 /* TextFormatEncodingVisitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_119 /* TextFormatEncodingVisitor.swift */; };
-		OBJ_217 /* TextFormatScanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_120 /* TextFormatScanner.swift */; };
-		OBJ_218 /* TimeUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_121 /* TimeUtils.swift */; };
-		OBJ_219 /* UnknownStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_122 /* UnknownStorage.swift */; };
-		OBJ_220 /* Varint.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_123 /* Varint.swift */; };
-		OBJ_221 /* Version.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_124 /* Version.swift */; };
-		OBJ_222 /* Visitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_125 /* Visitor.swift */; };
-		OBJ_223 /* WireFormat.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_126 /* WireFormat.swift */; };
-		OBJ_224 /* ZigZag.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_127 /* ZigZag.swift */; };
-		OBJ_225 /* any.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_128 /* any.pb.swift */; };
-		OBJ_226 /* api.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_129 /* api.pb.swift */; };
-		OBJ_227 /* descriptor.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_130 /* descriptor.pb.swift */; };
-		OBJ_228 /* duration.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_131 /* duration.pb.swift */; };
-		OBJ_229 /* empty.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_132 /* empty.pb.swift */; };
-		OBJ_230 /* field_mask.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_133 /* field_mask.pb.swift */; };
-		OBJ_231 /* source_context.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_134 /* source_context.pb.swift */; };
-		OBJ_232 /* struct.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_135 /* struct.pb.swift */; };
-		OBJ_233 /* timestamp.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_136 /* timestamp.pb.swift */; };
-		OBJ_234 /* type.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_137 /* type.pb.swift */; };
-		OBJ_235 /* wrappers.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_138 /* wrappers.pb.swift */; };
-		OBJ_242 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_141 /* Package.swift */; };
-		OBJ_278 /* SwiftProtobuf.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "SwiftProtobuf::SwiftProtobuf::Product" /* SwiftProtobuf.framework */; };
-		OBJ_285 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_6 /* Package.swift */; };
-		OBJ_294 /* TetraSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "TetraSwift::TetraSwift::Product" /* TetraSwift.framework */; };
-		OBJ_295 /* SwiftProtobuf.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "SwiftProtobuf::SwiftProtobuf::Product" /* SwiftProtobuf.framework */; };
+		OBJ_104 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_6 /* Package.swift */; };
+		OBJ_110 /* Tetra.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_51 /* Tetra.swift */; };
+		OBJ_111 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_52 /* main.swift */; };
+		OBJ_113 /* TetraSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "TetraSwift::TetraSwift::Product" /* TetraSwift.framework */; };
+		OBJ_69 /* Actuators.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_10 /* Actuators.swift */; };
+		OBJ_70 /* Actuator.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_12 /* Actuator.swift */; };
+		OBJ_71 /* BooleanDigitalActuator.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_13 /* BooleanDigitalActuator.swift */; };
+		OBJ_72 /* LEDMatrixActuator.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_14 /* LEDMatrixActuator.swift */; };
+		OBJ_73 /* LimitedAnalogActuator.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_15 /* LimitedAnalogActuator.swift */; };
+		OBJ_74 /* QuadNumericDisplayActuator.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_16 /* QuadNumericDisplayActuator.swift */; };
+		OBJ_75 /* Sensors.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_17 /* Sensors.swift */; };
+		OBJ_76 /* AnalogSensorWithFiltering.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_19 /* AnalogSensorWithFiltering.swift */; };
+		OBJ_77 /* BooleanDigitalSensor.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_20 /* BooleanDigitalSensor.swift */; };
+		OBJ_78 /* Analog10bitDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_22 /* Analog10bitDecoder.swift */; };
+		OBJ_79 /* Digital10bitDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_23 /* Digital10bitDecoder.swift */; };
+		OBJ_80 /* RawValueDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_24 /* RawValueDecoder.swift */; };
+		OBJ_81 /* Sensor.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_25 /* Sensor.swift */; };
+		OBJ_82 /* SensorValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_26 /* SensorValue.swift */; };
+		OBJ_83 /* IOPort.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_27 /* IOPort.swift */; };
+		OBJ_84 /* ArduinoProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_29 /* ArduinoProtocol.swift */; };
+		OBJ_85 /* PicoBoardProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_31 /* PicoBoardProtocol.swift */; };
+		OBJ_87 /* LEDMatrixHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_36 /* LEDMatrixHelper.swift */; };
+		OBJ_88 /* QuadDisplayHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_37 /* QuadDisplayHelper.swift */; };
+		OBJ_89 /* TetraProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_38 /* TetraProtocol.swift */; };
+		OBJ_90 /* TetraProtocolCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_39 /* TetraProtocolCommand.swift */; };
+		OBJ_91 /* TetraProtocolPort.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_40 /* TetraProtocolPort.swift */; };
+		OBJ_92 /* TetraArduinoProtocolImplementation.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_43 /* TetraArduinoProtocolImplementation.swift */; };
+		OBJ_93 /* DevicePort.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_44 /* DevicePort.swift */; };
+		OBJ_94 /* MockDevicePort.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_45 /* MockDevicePort.swift */; };
+		OBJ_95 /* SerialPort.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_46 /* SerialPort.swift */; };
+		OBJ_96 /* TetraInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_47 /* TetraInterface.swift */; };
+		OBJ_97 /* List.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_49 /* List.swift */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXBuildRule section */
-		FA0FBCDC23AAC54F004D0666 /* PBXBuildRule */ = {
-			isa = PBXBuildRule;
-			compilerSpec = com.apple.compilers.proxy.script;
-			filePatterns = "*.proto";
-			fileType = pattern.proxy;
-			inputFiles = (
-			);
-			isEditable = 1;
-			outputFiles = (
-				"$(DERIVED_FILE_DIR)/noOutputFile",
-			);
-			script = "# Type a script or drag a script file from your workspace to insert its path.\n";
-		};
-/* End PBXBuildRule section */
-
 /* Begin PBXContainerItemProxy section */
-		FA0FBC8A23AAC4F9004D0666 /* PBXContainerItemProxy */ = {
+		FA7916FF23C74DDA00298363 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = SwiftProtobuf::SwiftProtobuf;
-			remoteInfo = SwiftProtobuf;
-		};
-		FA0FBC8B23AAC4F9004D0666 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = OBJ_1 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = TetraSwift::TetraSwift;
+			remoteGlobalIDString = "TetraSwift::TetraSwift";
 			remoteInfo = TetraSwift;
-		};
-		FA0FBC8C23AAC4F9004D0666 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = OBJ_1 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = SwiftProtobuf::SwiftProtobuf;
-			remoteInfo = SwiftProtobuf;
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		2DBA1E803204D9C48BA456F0 /* ProTetraProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProTetraProtocol.swift; sourceTree = "<group>"; };
-		FA0FBC8E23AAC512004D0666 /* TetraInterface.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TetraInterface.swift; sourceTree = "<group>"; };
-		FA0FBC8F23AAC512004D0666 /* IOPort.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IOPort.swift; sourceTree = "<group>"; };
-		FA0FBC9123AAC512004D0666 /* List.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = List.swift; sourceTree = "<group>"; };
-		FA0FBC9423AAC512004D0666 /* PicoBoardProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PicoBoardProtocol.swift; sourceTree = "<group>"; };
-		FA0FBC9723AAC512004D0666 /* LEDMatrixHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LEDMatrixHelper.swift; sourceTree = "<group>"; };
-		FA0FBC9823AAC512004D0666 /* QuadDisplayHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuadDisplayHelper.swift; sourceTree = "<group>"; };
-		FA0FBC9923AAC512004D0666 /* TetraProtocolPort.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TetraProtocolPort.swift; sourceTree = "<group>"; };
-		FA0FBC9C23AAC512004D0666 /* Tetra.pb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tetra.pb.swift; sourceTree = "<group>"; };
-		FA0FBC9D23AAC512004D0666 /* Tetra.proto */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.protobuf; path = Tetra.proto; sourceTree = "<group>"; };
-		FA0FBC9E23AAC512004D0666 /* TetraProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TetraProtocol.swift; sourceTree = "<group>"; };
-		FA0FBC9F23AAC512004D0666 /* TetraProtocolCommand.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TetraProtocolCommand.swift; sourceTree = "<group>"; };
-		FA0FBCA023AAC512004D0666 /* ArduinoProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArduinoProtocol.swift; sourceTree = "<group>"; };
-		FA0FBCA223AAC512004D0666 /* SerialPort.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SerialPort.swift; sourceTree = "<group>"; };
-		FA0FBCA323AAC512004D0666 /* MockSerialPort.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockSerialPort.swift; sourceTree = "<group>"; };
-		FA0FBCA423AAC512004D0666 /* HardwareSerialPort.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HardwareSerialPort.swift; sourceTree = "<group>"; };
-		FA0FBCA623AAC512004D0666 /* TetraArduinoProtocolImplementation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TetraArduinoProtocolImplementation.swift; sourceTree = "<group>"; };
-		FA0FBCA923AAC512004D0666 /* Sensor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Sensor.swift; sourceTree = "<group>"; };
-		FA0FBCAA23AAC512004D0666 /* SensorValue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SensorValue.swift; sourceTree = "<group>"; };
-		FA0FBCAB23AAC512004D0666 /* BooleanDigitalSensor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BooleanDigitalSensor.swift; sourceTree = "<group>"; };
-		FA0FBCAD23AAC512004D0666 /* Digital10bitDecoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Digital10bitDecoder.swift; sourceTree = "<group>"; };
-		FA0FBCAE23AAC512004D0666 /* Analog10bitDecoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Analog10bitDecoder.swift; sourceTree = "<group>"; };
-		FA0FBCAF23AAC512004D0666 /* RawValueDecoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RawValueDecoder.swift; sourceTree = "<group>"; };
-		FA0FBCB023AAC512004D0666 /* AnalogSensorWithFiltering.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnalogSensorWithFiltering.swift; sourceTree = "<group>"; };
-		FA0FBCB123AAC512004D0666 /* Actuators.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Actuators.swift; sourceTree = "<group>"; };
-		FA0FBCB223AAC512004D0666 /* Sensors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Sensors.swift; sourceTree = "<group>"; };
-		FA0FBCB423AAC512004D0666 /* LEDMatrixActuator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LEDMatrixActuator.swift; sourceTree = "<group>"; };
-		FA0FBCB523AAC512004D0666 /* LimitedAnalogActuator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LimitedAnalogActuator.swift; sourceTree = "<group>"; };
-		FA0FBCB623AAC512004D0666 /* QuadNumericDisplayActuator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuadNumericDisplayActuator.swift; sourceTree = "<group>"; };
-		FA0FBCB723AAC512004D0666 /* BooleanDigitalActuator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BooleanDigitalActuator.swift; sourceTree = "<group>"; };
-		FA0FBCB823AAC512004D0666 /* Actuator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Actuator.swift; sourceTree = "<group>"; };
-		FA0FBCD823AAC51C004D0666 /* Tetra.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tetra.swift; sourceTree = "<group>"; };
-		FA0FBCD923AAC51C004D0666 /* main.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
-		OBJ_100 /* MathUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MathUtils.swift; sourceTree = "<group>"; };
-		OBJ_101 /* Message+AnyAdditions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Message+AnyAdditions.swift"; sourceTree = "<group>"; };
-		OBJ_102 /* Message+BinaryAdditions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Message+BinaryAdditions.swift"; sourceTree = "<group>"; };
-		OBJ_103 /* Message+JSONAdditions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Message+JSONAdditions.swift"; sourceTree = "<group>"; };
-		OBJ_104 /* Message+JSONArrayAdditions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Message+JSONArrayAdditions.swift"; sourceTree = "<group>"; };
-		OBJ_105 /* Message+TextFormatAdditions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Message+TextFormatAdditions.swift"; sourceTree = "<group>"; };
-		OBJ_106 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
-		OBJ_107 /* MessageExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageExtension.swift; sourceTree = "<group>"; };
-		OBJ_108 /* NameMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NameMap.swift; sourceTree = "<group>"; };
-		OBJ_109 /* ProtoNameProviding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProtoNameProviding.swift; sourceTree = "<group>"; };
-		OBJ_110 /* ProtobufAPIVersionCheck.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProtobufAPIVersionCheck.swift; sourceTree = "<group>"; };
-		OBJ_111 /* ProtobufMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProtobufMap.swift; sourceTree = "<group>"; };
-		OBJ_112 /* SelectiveVisitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectiveVisitor.swift; sourceTree = "<group>"; };
-		OBJ_113 /* SimpleExtensionMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleExtensionMap.swift; sourceTree = "<group>"; };
-		OBJ_114 /* StringUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringUtils.swift; sourceTree = "<group>"; };
-		OBJ_115 /* TextFormatDecoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFormatDecoder.swift; sourceTree = "<group>"; };
-		OBJ_116 /* TextFormatDecodingError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFormatDecodingError.swift; sourceTree = "<group>"; };
-		OBJ_117 /* TextFormatEncoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFormatEncoder.swift; sourceTree = "<group>"; };
-		OBJ_118 /* TextFormatEncodingOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFormatEncodingOptions.swift; sourceTree = "<group>"; };
-		OBJ_119 /* TextFormatEncodingVisitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFormatEncodingVisitor.swift; sourceTree = "<group>"; };
-		OBJ_120 /* TextFormatScanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFormatScanner.swift; sourceTree = "<group>"; };
-		OBJ_121 /* TimeUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeUtils.swift; sourceTree = "<group>"; };
-		OBJ_122 /* UnknownStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnknownStorage.swift; sourceTree = "<group>"; };
-		OBJ_123 /* Varint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Varint.swift; sourceTree = "<group>"; };
-		OBJ_124 /* Version.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Version.swift; sourceTree = "<group>"; };
-		OBJ_125 /* Visitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Visitor.swift; sourceTree = "<group>"; };
-		OBJ_126 /* WireFormat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WireFormat.swift; sourceTree = "<group>"; };
-		OBJ_127 /* ZigZag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZigZag.swift; sourceTree = "<group>"; };
-		OBJ_128 /* any.pb.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = any.pb.swift; sourceTree = "<group>"; };
-		OBJ_129 /* api.pb.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = api.pb.swift; sourceTree = "<group>"; };
-		OBJ_130 /* descriptor.pb.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = descriptor.pb.swift; sourceTree = "<group>"; };
-		OBJ_131 /* duration.pb.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = duration.pb.swift; sourceTree = "<group>"; };
-		OBJ_132 /* empty.pb.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = empty.pb.swift; sourceTree = "<group>"; };
-		OBJ_133 /* field_mask.pb.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = field_mask.pb.swift; sourceTree = "<group>"; };
-		OBJ_134 /* source_context.pb.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = source_context.pb.swift; sourceTree = "<group>"; };
-		OBJ_135 /* struct.pb.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = struct.pb.swift; sourceTree = "<group>"; };
-		OBJ_136 /* timestamp.pb.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = timestamp.pb.swift; sourceTree = "<group>"; };
-		OBJ_137 /* type.pb.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = type.pb.swift; sourceTree = "<group>"; };
-		OBJ_138 /* wrappers.pb.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = wrappers.pb.swift; sourceTree = "<group>"; };
-		OBJ_141 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = Package.swift; path = "/Users/alex/Programming/LonelyBytes/TetraSwift/.build/checkouts/swift-protobuf/Package.swift"; sourceTree = "<group>"; };
-		OBJ_148 /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
-		OBJ_149 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
-		OBJ_150 /* generate.protobuf.command */ = {isa = PBXFileReference; lastKnownFileType = text; path = generate.protobuf.command; sourceTree = "<group>"; };
-		OBJ_59 /* AnyMessageStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyMessageStorage.swift; sourceTree = "<group>"; };
+		OBJ_10 /* Actuators.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Actuators.swift; sourceTree = "<group>"; };
+		OBJ_12 /* Actuator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Actuator.swift; sourceTree = "<group>"; };
+		OBJ_13 /* BooleanDigitalActuator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BooleanDigitalActuator.swift; sourceTree = "<group>"; };
+		OBJ_14 /* LEDMatrixActuator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LEDMatrixActuator.swift; sourceTree = "<group>"; };
+		OBJ_15 /* LimitedAnalogActuator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LimitedAnalogActuator.swift; sourceTree = "<group>"; };
+		OBJ_16 /* QuadNumericDisplayActuator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuadNumericDisplayActuator.swift; sourceTree = "<group>"; };
+		OBJ_17 /* Sensors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sensors.swift; sourceTree = "<group>"; };
+		OBJ_19 /* AnalogSensorWithFiltering.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalogSensorWithFiltering.swift; sourceTree = "<group>"; };
+		OBJ_20 /* BooleanDigitalSensor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BooleanDigitalSensor.swift; sourceTree = "<group>"; };
+		OBJ_22 /* Analog10bitDecoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Analog10bitDecoder.swift; sourceTree = "<group>"; };
+		OBJ_23 /* Digital10bitDecoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Digital10bitDecoder.swift; sourceTree = "<group>"; };
+		OBJ_24 /* RawValueDecoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RawValueDecoder.swift; sourceTree = "<group>"; };
+		OBJ_25 /* Sensor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sensor.swift; sourceTree = "<group>"; };
+		OBJ_26 /* SensorValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SensorValue.swift; sourceTree = "<group>"; };
+		OBJ_27 /* IOPort.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IOPort.swift; sourceTree = "<group>"; };
+		OBJ_29 /* ArduinoProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArduinoProtocol.swift; sourceTree = "<group>"; };
+		OBJ_31 /* PicoBoardProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PicoBoardProtocol.swift; sourceTree = "<group>"; };
+		OBJ_36 /* LEDMatrixHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LEDMatrixHelper.swift; sourceTree = "<group>"; };
+		OBJ_37 /* QuadDisplayHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuadDisplayHelper.swift; sourceTree = "<group>"; };
+		OBJ_38 /* TetraProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TetraProtocol.swift; sourceTree = "<group>"; };
+		OBJ_39 /* TetraProtocolCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TetraProtocolCommand.swift; sourceTree = "<group>"; };
+		OBJ_40 /* TetraProtocolPort.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TetraProtocolPort.swift; sourceTree = "<group>"; };
+		OBJ_43 /* TetraArduinoProtocolImplementation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TetraArduinoProtocolImplementation.swift; sourceTree = "<group>"; };
+		OBJ_44 /* DevicePort.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DevicePort.swift; sourceTree = "<group>"; };
+		OBJ_45 /* MockDevicePort.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockDevicePort.swift; sourceTree = "<group>"; };
+		OBJ_46 /* SerialPort.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SerialPort.swift; sourceTree = "<group>"; };
+		OBJ_47 /* TetraInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TetraInterface.swift; sourceTree = "<group>"; };
+		OBJ_49 /* List.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = List.swift; sourceTree = "<group>"; };
+		OBJ_51 /* Tetra.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tetra.swift; sourceTree = "<group>"; };
+		OBJ_52 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		OBJ_58 /* Arduino */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Arduino; sourceTree = SOURCE_ROOT; };
+		OBJ_59 /* Tetra Specs */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "Tetra Specs"; sourceTree = SOURCE_ROOT; };
 		OBJ_6 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
-		OBJ_60 /* AnyUnpackError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyUnpackError.swift; sourceTree = "<group>"; };
-		OBJ_61 /* BinaryDecoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BinaryDecoder.swift; sourceTree = "<group>"; };
-		OBJ_62 /* BinaryDecodingError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BinaryDecodingError.swift; sourceTree = "<group>"; };
-		OBJ_63 /* BinaryDecodingOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BinaryDecodingOptions.swift; sourceTree = "<group>"; };
-		OBJ_64 /* BinaryDelimited.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BinaryDelimited.swift; sourceTree = "<group>"; };
-		OBJ_65 /* BinaryEncoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BinaryEncoder.swift; sourceTree = "<group>"; };
-		OBJ_66 /* BinaryEncodingError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BinaryEncodingError.swift; sourceTree = "<group>"; };
-		OBJ_67 /* BinaryEncodingSizeVisitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BinaryEncodingSizeVisitor.swift; sourceTree = "<group>"; };
-		OBJ_68 /* BinaryEncodingVisitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BinaryEncodingVisitor.swift; sourceTree = "<group>"; };
-		OBJ_69 /* CustomJSONCodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomJSONCodable.swift; sourceTree = "<group>"; };
-		OBJ_70 /* Data+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+Extensions.swift"; sourceTree = "<group>"; };
-		OBJ_71 /* Decoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Decoder.swift; sourceTree = "<group>"; };
-		OBJ_72 /* DoubleParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoubleParser.swift; sourceTree = "<group>"; };
-		OBJ_73 /* Enum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enum.swift; sourceTree = "<group>"; };
-		OBJ_74 /* ExtensibleMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensibleMessage.swift; sourceTree = "<group>"; };
-		OBJ_75 /* ExtensionFieldValueSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionFieldValueSet.swift; sourceTree = "<group>"; };
-		OBJ_76 /* ExtensionFields.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionFields.swift; sourceTree = "<group>"; };
-		OBJ_77 /* ExtensionMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionMap.swift; sourceTree = "<group>"; };
-		OBJ_78 /* FieldTag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FieldTag.swift; sourceTree = "<group>"; };
-		OBJ_79 /* FieldTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FieldTypes.swift; sourceTree = "<group>"; };
-		OBJ_80 /* Google_Protobuf_Any+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Google_Protobuf_Any+Extensions.swift"; sourceTree = "<group>"; };
-		OBJ_81 /* Google_Protobuf_Any+Registry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Google_Protobuf_Any+Registry.swift"; sourceTree = "<group>"; };
-		OBJ_82 /* Google_Protobuf_Duration+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Google_Protobuf_Duration+Extensions.swift"; sourceTree = "<group>"; };
-		OBJ_83 /* Google_Protobuf_FieldMask+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Google_Protobuf_FieldMask+Extensions.swift"; sourceTree = "<group>"; };
-		OBJ_84 /* Google_Protobuf_ListValue+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Google_Protobuf_ListValue+Extensions.swift"; sourceTree = "<group>"; };
-		OBJ_85 /* Google_Protobuf_Struct+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Google_Protobuf_Struct+Extensions.swift"; sourceTree = "<group>"; };
-		OBJ_86 /* Google_Protobuf_Timestamp+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Google_Protobuf_Timestamp+Extensions.swift"; sourceTree = "<group>"; };
-		OBJ_87 /* Google_Protobuf_Value+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Google_Protobuf_Value+Extensions.swift"; sourceTree = "<group>"; };
-		OBJ_88 /* Google_Protobuf_Wrappers+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Google_Protobuf_Wrappers+Extensions.swift"; sourceTree = "<group>"; };
-		OBJ_89 /* HashVisitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HashVisitor.swift; sourceTree = "<group>"; };
-		OBJ_90 /* Internal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Internal.swift; sourceTree = "<group>"; };
-		OBJ_91 /* JSONDecoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONDecoder.swift; sourceTree = "<group>"; };
-		OBJ_92 /* JSONDecodingError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONDecodingError.swift; sourceTree = "<group>"; };
-		OBJ_93 /* JSONDecodingOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONDecodingOptions.swift; sourceTree = "<group>"; };
-		OBJ_94 /* JSONEncoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONEncoder.swift; sourceTree = "<group>"; };
-		OBJ_95 /* JSONEncodingError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONEncodingError.swift; sourceTree = "<group>"; };
-		OBJ_96 /* JSONEncodingOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONEncodingOptions.swift; sourceTree = "<group>"; };
-		OBJ_97 /* JSONEncodingVisitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONEncodingVisitor.swift; sourceTree = "<group>"; };
-		OBJ_98 /* JSONMapEncodingVisitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONMapEncodingVisitor.swift; sourceTree = "<group>"; };
-		OBJ_99 /* JSONScanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONScanner.swift; sourceTree = "<group>"; };
-		"SwiftProtobuf::SwiftProtobuf::Product" /* SwiftProtobuf.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SwiftProtobuf.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		OBJ_60 /* ArduinoSketches */ = {isa = PBXFileReference; lastKnownFileType = folder; path = ArduinoSketches; sourceTree = SOURCE_ROOT; };
+		OBJ_61 /* Application */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Application; sourceTree = SOURCE_ROOT; };
+		OBJ_62 /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		OBJ_63 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		"TetraSwift::TetraSwift::Product" /* TetraSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = TetraSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		"TetraSwift::tetra::Product" /* tetra */ = {isa = PBXFileReference; lastKnownFileType = text; path = tetra; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		OBJ_236 /* Frameworks */ = {
+		OBJ_112 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 0;
 			files = (
+				OBJ_113 /* TetraSwift.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		OBJ_277 /* Frameworks */ = {
+		OBJ_98 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 0;
 			files = (
-				OBJ_278 /* SwiftProtobuf.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		OBJ_293 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 0;
-			files = (
-				OBJ_294 /* TetraSwift.framework in Frameworks */,
-				OBJ_295 /* SwiftProtobuf.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		2DBA1D68EA87C380B46A6D6D /* ProTetra */ = {
+		OBJ_11 /* Actuators */ = {
 			isa = PBXGroup;
 			children = (
-				2DBA1E803204D9C48BA456F0 /* ProTetraProtocol.swift */,
-			);
-			path = ProTetra;
-			sourceTree = "<group>";
-		};
-		FA0FBC8D23AAC512004D0666 /* Sources */ = {
-			isa = PBXGroup;
-			children = (
-				FA0FBC9023AAC512004D0666 /* Utils */,
-				FA0FBC9223AAC512004D0666 /* Protocols */,
-				FA0FBCA123AAC512004D0666 /* Serial */,
-				FA0FBCA723AAC512004D0666 /* Devices */,
-				FA0FBC8E23AAC512004D0666 /* TetraInterface.swift */,
-				FA0FBC8F23AAC512004D0666 /* IOPort.swift */,
-			);
-			path = Sources;
-			sourceTree = "<group>";
-		};
-		FA0FBC9023AAC512004D0666 /* Utils */ = {
-			isa = PBXGroup;
-			children = (
-				FA0FBC9123AAC512004D0666 /* List.swift */,
-			);
-			path = Utils;
-			sourceTree = "<group>";
-		};
-		FA0FBC9223AAC512004D0666 /* Protocols */ = {
-			isa = PBXGroup;
-			children = (
-				FA0FBC9323AAC512004D0666 /* Pico */,
-				FA0FBC9523AAC512004D0666 /* Tetra */,
-				FA0FBCA023AAC512004D0666 /* ArduinoProtocol.swift */,
-				2DBA1D68EA87C380B46A6D6D /* ProTetra */,
-			);
-			path = Protocols;
-			sourceTree = "<group>";
-		};
-		FA0FBC9323AAC512004D0666 /* Pico */ = {
-			isa = PBXGroup;
-			children = (
-				FA0FBC9423AAC512004D0666 /* PicoBoardProtocol.swift */,
-			);
-			path = Pico;
-			sourceTree = "<group>";
-		};
-		FA0FBC9523AAC512004D0666 /* Tetra */ = {
-			isa = PBXGroup;
-			children = (
-				FA0FBC9623AAC512004D0666 /* DeviceHelpers */,
-				FA0FBC9923AAC512004D0666 /* TetraProtocolPort.swift */,
-				FA0FBC9A23AAC512004D0666 /* Proto */,
-				FA0FBC9E23AAC512004D0666 /* TetraProtocol.swift */,
-				FA0FBC9F23AAC512004D0666 /* TetraProtocolCommand.swift */,
-			);
-			path = Tetra;
-			sourceTree = "<group>";
-		};
-		FA0FBC9623AAC512004D0666 /* DeviceHelpers */ = {
-			isa = PBXGroup;
-			children = (
-				FA0FBC9723AAC512004D0666 /* LEDMatrixHelper.swift */,
-				FA0FBC9823AAC512004D0666 /* QuadDisplayHelper.swift */,
-			);
-			path = DeviceHelpers;
-			sourceTree = "<group>";
-		};
-		FA0FBC9A23AAC512004D0666 /* Proto */ = {
-			isa = PBXGroup;
-			children = (
-				FA0FBC9B23AAC512004D0666 /* Generated */,
-				FA0FBC9D23AAC512004D0666 /* Tetra.proto */,
-			);
-			path = Proto;
-			sourceTree = "<group>";
-		};
-		FA0FBC9B23AAC512004D0666 /* Generated */ = {
-			isa = PBXGroup;
-			children = (
-				FA0FBC9C23AAC512004D0666 /* Tetra.pb.swift */,
-			);
-			path = Generated;
-			sourceTree = "<group>";
-		};
-		FA0FBCA123AAC512004D0666 /* Serial */ = {
-			isa = PBXGroup;
-			children = (
-				FA0FBCA223AAC512004D0666 /* SerialPort.swift */,
-				FA0FBCA323AAC512004D0666 /* MockSerialPort.swift */,
-				FA0FBCA423AAC512004D0666 /* HardwareSerialPort.swift */,
-				FA0FBCA523AAC512004D0666 /* ArduinoMockImplementation */,
-			);
-			path = Serial;
-			sourceTree = "<group>";
-		};
-		FA0FBCA523AAC512004D0666 /* ArduinoMockImplementation */ = {
-			isa = PBXGroup;
-			children = (
-				FA0FBCA623AAC512004D0666 /* TetraArduinoProtocolImplementation.swift */,
-			);
-			path = ArduinoMockImplementation;
-			sourceTree = "<group>";
-		};
-		FA0FBCA723AAC512004D0666 /* Devices */ = {
-			isa = PBXGroup;
-			children = (
-				FA0FBCA823AAC512004D0666 /* Sensors */,
-				FA0FBCB123AAC512004D0666 /* Actuators.swift */,
-				FA0FBCB223AAC512004D0666 /* Sensors.swift */,
-				FA0FBCB323AAC512004D0666 /* Actuators */,
-			);
-			path = Devices;
-			sourceTree = "<group>";
-		};
-		FA0FBCA823AAC512004D0666 /* Sensors */ = {
-			isa = PBXGroup;
-			children = (
-				FA0FBCA923AAC512004D0666 /* Sensor.swift */,
-				FA0FBCAA23AAC512004D0666 /* SensorValue.swift */,
-				FA0FBCAB23AAC512004D0666 /* BooleanDigitalSensor.swift */,
-				FA0FBCAC23AAC512004D0666 /* Decoders */,
-				FA0FBCB023AAC512004D0666 /* AnalogSensorWithFiltering.swift */,
-			);
-			path = Sensors;
-			sourceTree = "<group>";
-		};
-		FA0FBCAC23AAC512004D0666 /* Decoders */ = {
-			isa = PBXGroup;
-			children = (
-				FA0FBCAD23AAC512004D0666 /* Digital10bitDecoder.swift */,
-				FA0FBCAE23AAC512004D0666 /* Analog10bitDecoder.swift */,
-				FA0FBCAF23AAC512004D0666 /* RawValueDecoder.swift */,
-			);
-			path = Decoders;
-			sourceTree = "<group>";
-		};
-		FA0FBCB323AAC512004D0666 /* Actuators */ = {
-			isa = PBXGroup;
-			children = (
-				FA0FBCB423AAC512004D0666 /* LEDMatrixActuator.swift */,
-				FA0FBCB523AAC512004D0666 /* LimitedAnalogActuator.swift */,
-				FA0FBCB623AAC512004D0666 /* QuadNumericDisplayActuator.swift */,
-				FA0FBCB723AAC512004D0666 /* BooleanDigitalActuator.swift */,
-				FA0FBCB823AAC512004D0666 /* Actuator.swift */,
+				OBJ_12 /* Actuator.swift */,
+				OBJ_13 /* BooleanDigitalActuator.swift */,
+				OBJ_14 /* LEDMatrixActuator.swift */,
+				OBJ_15 /* LimitedAnalogActuator.swift */,
+				OBJ_16 /* QuadNumericDisplayActuator.swift */,
 			);
 			path = Actuators;
 			sourceTree = "<group>";
 		};
-		FA0FBCD723AAC51C004D0666 /* Application */ = {
+		OBJ_18 /* Sensors */ = {
 			isa = PBXGroup;
 			children = (
-				FA0FBCD823AAC51C004D0666 /* Tetra.swift */,
-				FA0FBCD923AAC51C004D0666 /* main.swift */,
+				OBJ_19 /* AnalogSensorWithFiltering.swift */,
+				OBJ_20 /* BooleanDigitalSensor.swift */,
+				OBJ_21 /* Decoders */,
+				OBJ_25 /* Sensor.swift */,
+				OBJ_26 /* SensorValue.swift */,
 			);
-			path = Application;
+			path = Sensors;
 			sourceTree = "<group>";
 		};
-		OBJ_139 /* SwiftProtobufPluginLibrary */ = {
+		OBJ_21 /* Decoders */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_22 /* Analog10bitDecoder.swift */,
+				OBJ_23 /* Digital10bitDecoder.swift */,
+				OBJ_24 /* RawValueDecoder.swift */,
+			);
+			path = Decoders;
+			sourceTree = "<group>";
+		};
+		OBJ_28 /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_29 /* ArduinoProtocol.swift */,
+				OBJ_30 /* Pico */,
+				OBJ_34 /* Tetra */,
+			);
+			path = Protocols;
+			sourceTree = "<group>";
+		};
+		OBJ_30 /* Pico */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_31 /* PicoBoardProtocol.swift */,
+			);
+			path = Pico;
+			sourceTree = "<group>";
+		};
+		OBJ_34 /* Tetra */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_35 /* DeviceHelpers */,
+				OBJ_38 /* TetraProtocol.swift */,
+				OBJ_39 /* TetraProtocolCommand.swift */,
+				OBJ_40 /* TetraProtocolPort.swift */,
+			);
+			path = Tetra;
+			sourceTree = "<group>";
+		};
+		OBJ_35 /* DeviceHelpers */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_36 /* LEDMatrixHelper.swift */,
+				OBJ_37 /* QuadDisplayHelper.swift */,
+			);
+			path = DeviceHelpers;
+			sourceTree = "<group>";
+		};
+		OBJ_41 /* Serial */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_42 /* ArduinoMockImplementation */,
+				OBJ_44 /* DevicePort.swift */,
+				OBJ_45 /* MockDevicePort.swift */,
+				OBJ_46 /* SerialPort.swift */,
+			);
+			path = Serial;
+			sourceTree = "<group>";
+		};
+		OBJ_42 /* ArduinoMockImplementation */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_43 /* TetraArduinoProtocolImplementation.swift */,
+			);
+			path = ArduinoMockImplementation;
+			sourceTree = "<group>";
+		};
+		OBJ_48 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_49 /* List.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		OBJ_5 = {
+			isa = PBXGroup;
+			children = (
+				OBJ_6 /* Package.swift */,
+				OBJ_50 /* tetra */,
+				OBJ_7 /* Sources */,
+				OBJ_53 /* Tests */,
+				OBJ_55 /* Products */,
+				OBJ_58 /* Arduino */,
+				OBJ_59 /* Tetra Specs */,
+				OBJ_60 /* ArduinoSketches */,
+				OBJ_61 /* Application */,
+				OBJ_62 /* LICENSE */,
+				OBJ_63 /* README.md */,
+			);
+			sourceTree = "<group>";
+		};
+		OBJ_50 /* tetra */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_51 /* Tetra.swift */,
+				OBJ_52 /* main.swift */,
+			);
+			name = tetra;
+			path = Application;
+			sourceTree = SOURCE_ROOT;
+		};
+		OBJ_53 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
 			);
-			name = SwiftProtobufPluginLibrary;
-			path = ".build/checkouts/swift-protobuf/Sources/SwiftProtobufPluginLibrary";
+			name = Tests;
 			sourceTree = SOURCE_ROOT;
 		};
-		OBJ_140 /* protoc-gen-swift */ = {
+		OBJ_55 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-			);
-			name = "protoc-gen-swift";
-			path = ".build/checkouts/swift-protobuf/Sources/protoc-gen-swift";
-			sourceTree = SOURCE_ROOT;
-		};
-		OBJ_142 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				"TetraSwift::tetra::Product" /* tetra */,
 				"TetraSwift::TetraSwift::Product" /* TetraSwift.framework */,
-				"SwiftProtobuf::SwiftProtobuf::Product" /* SwiftProtobuf.framework */,
+				"TetraSwift::tetra::Product" /* tetra */,
 			);
 			name = Products;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		OBJ_5 /*  */ = {
+		OBJ_7 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				FA0FBCD723AAC51C004D0666 /* Application */,
-				FA0FBC8D23AAC512004D0666 /* Sources */,
-				OBJ_55 /* Dependencies */,
-				OBJ_142 /* Products */,
-				OBJ_148 /* LICENSE */,
-				OBJ_149 /* README.md */,
-				OBJ_6 /* Package.swift */,
-				OBJ_150 /* generate.protobuf.command */,
+				OBJ_9 /* Devices */,
+				OBJ_48 /* Utils */,
+				OBJ_28 /* Protocols */,
+				OBJ_41 /* Serial */,
+				OBJ_27 /* IOPort.swift */,
+				OBJ_47 /* TetraInterface.swift */,
 			);
-			name = "";
+			path = Sources;
+			sourceTree = SOURCE_ROOT;
+		};
+		OBJ_9 /* Devices */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_10 /* Actuators.swift */,
+				OBJ_11 /* Actuators */,
+				OBJ_17 /* Sensors.swift */,
+				OBJ_18 /* Sensors */,
+			);
+			path = Devices;
 			sourceTree = "<group>";
-		};
-		OBJ_55 /* Dependencies */ = {
-			isa = PBXGroup;
-			children = (
-				OBJ_56 /* SwiftProtobuf 1.7.0 */,
-			);
-			name = Dependencies;
-			sourceTree = "<group>";
-		};
-		OBJ_56 /* SwiftProtobuf 1.7.0 */ = {
-			isa = PBXGroup;
-			children = (
-				OBJ_57 /* Conformance */,
-				OBJ_58 /* SwiftProtobuf */,
-				OBJ_139 /* SwiftProtobufPluginLibrary */,
-				OBJ_140 /* protoc-gen-swift */,
-				OBJ_141 /* Package.swift */,
-			);
-			name = "SwiftProtobuf 1.7.0";
-			sourceTree = SOURCE_ROOT;
-		};
-		OBJ_57 /* Conformance */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Conformance;
-			path = ".build/checkouts/swift-protobuf/Sources/Conformance";
-			sourceTree = SOURCE_ROOT;
-		};
-		OBJ_58 /* SwiftProtobuf */ = {
-			isa = PBXGroup;
-			children = (
-				OBJ_59 /* AnyMessageStorage.swift */,
-				OBJ_60 /* AnyUnpackError.swift */,
-				OBJ_61 /* BinaryDecoder.swift */,
-				OBJ_62 /* BinaryDecodingError.swift */,
-				OBJ_63 /* BinaryDecodingOptions.swift */,
-				OBJ_64 /* BinaryDelimited.swift */,
-				OBJ_65 /* BinaryEncoder.swift */,
-				OBJ_66 /* BinaryEncodingError.swift */,
-				OBJ_67 /* BinaryEncodingSizeVisitor.swift */,
-				OBJ_68 /* BinaryEncodingVisitor.swift */,
-				OBJ_69 /* CustomJSONCodable.swift */,
-				OBJ_70 /* Data+Extensions.swift */,
-				OBJ_71 /* Decoder.swift */,
-				OBJ_72 /* DoubleParser.swift */,
-				OBJ_73 /* Enum.swift */,
-				OBJ_74 /* ExtensibleMessage.swift */,
-				OBJ_75 /* ExtensionFieldValueSet.swift */,
-				OBJ_76 /* ExtensionFields.swift */,
-				OBJ_77 /* ExtensionMap.swift */,
-				OBJ_78 /* FieldTag.swift */,
-				OBJ_79 /* FieldTypes.swift */,
-				OBJ_80 /* Google_Protobuf_Any+Extensions.swift */,
-				OBJ_81 /* Google_Protobuf_Any+Registry.swift */,
-				OBJ_82 /* Google_Protobuf_Duration+Extensions.swift */,
-				OBJ_83 /* Google_Protobuf_FieldMask+Extensions.swift */,
-				OBJ_84 /* Google_Protobuf_ListValue+Extensions.swift */,
-				OBJ_85 /* Google_Protobuf_Struct+Extensions.swift */,
-				OBJ_86 /* Google_Protobuf_Timestamp+Extensions.swift */,
-				OBJ_87 /* Google_Protobuf_Value+Extensions.swift */,
-				OBJ_88 /* Google_Protobuf_Wrappers+Extensions.swift */,
-				OBJ_89 /* HashVisitor.swift */,
-				OBJ_90 /* Internal.swift */,
-				OBJ_91 /* JSONDecoder.swift */,
-				OBJ_92 /* JSONDecodingError.swift */,
-				OBJ_93 /* JSONDecodingOptions.swift */,
-				OBJ_94 /* JSONEncoder.swift */,
-				OBJ_95 /* JSONEncodingError.swift */,
-				OBJ_96 /* JSONEncodingOptions.swift */,
-				OBJ_97 /* JSONEncodingVisitor.swift */,
-				OBJ_98 /* JSONMapEncodingVisitor.swift */,
-				OBJ_99 /* JSONScanner.swift */,
-				OBJ_100 /* MathUtils.swift */,
-				OBJ_101 /* Message+AnyAdditions.swift */,
-				OBJ_102 /* Message+BinaryAdditions.swift */,
-				OBJ_103 /* Message+JSONAdditions.swift */,
-				OBJ_104 /* Message+JSONArrayAdditions.swift */,
-				OBJ_105 /* Message+TextFormatAdditions.swift */,
-				OBJ_106 /* Message.swift */,
-				OBJ_107 /* MessageExtension.swift */,
-				OBJ_108 /* NameMap.swift */,
-				OBJ_109 /* ProtoNameProviding.swift */,
-				OBJ_110 /* ProtobufAPIVersionCheck.swift */,
-				OBJ_111 /* ProtobufMap.swift */,
-				OBJ_112 /* SelectiveVisitor.swift */,
-				OBJ_113 /* SimpleExtensionMap.swift */,
-				OBJ_114 /* StringUtils.swift */,
-				OBJ_115 /* TextFormatDecoder.swift */,
-				OBJ_116 /* TextFormatDecodingError.swift */,
-				OBJ_117 /* TextFormatEncoder.swift */,
-				OBJ_118 /* TextFormatEncodingOptions.swift */,
-				OBJ_119 /* TextFormatEncodingVisitor.swift */,
-				OBJ_120 /* TextFormatScanner.swift */,
-				OBJ_121 /* TimeUtils.swift */,
-				OBJ_122 /* UnknownStorage.swift */,
-				OBJ_123 /* Varint.swift */,
-				OBJ_124 /* Version.swift */,
-				OBJ_125 /* Visitor.swift */,
-				OBJ_126 /* WireFormat.swift */,
-				OBJ_127 /* ZigZag.swift */,
-				OBJ_128 /* any.pb.swift */,
-				OBJ_129 /* api.pb.swift */,
-				OBJ_130 /* descriptor.pb.swift */,
-				OBJ_131 /* duration.pb.swift */,
-				OBJ_132 /* empty.pb.swift */,
-				OBJ_133 /* field_mask.pb.swift */,
-				OBJ_134 /* source_context.pb.swift */,
-				OBJ_135 /* struct.pb.swift */,
-				OBJ_136 /* timestamp.pb.swift */,
-				OBJ_137 /* type.pb.swift */,
-				OBJ_138 /* wrappers.pb.swift */,
-			);
-			name = SwiftProtobuf;
-			path = ".build/checkouts/swift-protobuf/Sources/SwiftProtobuf";
-			sourceTree = SOURCE_ROOT;
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		"SwiftProtobuf::SwiftPMPackageDescription" /* SwiftProtobufPackageDescription */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = OBJ_238 /* Build configuration list for PBXNativeTarget "SwiftProtobufPackageDescription" */;
-			buildPhases = (
-				OBJ_241 /* Sources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = SwiftProtobufPackageDescription;
-			productName = SwiftProtobufPackageDescription;
-			productType = "com.apple.product-type.framework";
-		};
-		"SwiftProtobuf::SwiftProtobuf" /* SwiftProtobuf */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = OBJ_152 /* Build configuration list for PBXNativeTarget "SwiftProtobuf" */;
-			buildPhases = (
-				OBJ_155 /* Sources */,
-				OBJ_236 /* Frameworks */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = SwiftProtobuf;
-			productName = SwiftProtobuf;
-			productReference = "SwiftProtobuf::SwiftProtobuf::Product" /* SwiftProtobuf.framework */;
-			productType = "com.apple.product-type.framework";
-		};
 		"TetraSwift::SwiftPMPackageDescription" /* TetraSwiftPackageDescription */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = OBJ_281 /* Build configuration list for PBXNativeTarget "TetraSwiftPackageDescription" */;
+			buildConfigurationList = OBJ_100 /* Build configuration list for PBXNativeTarget "TetraSwiftPackageDescription" */;
 			buildPhases = (
-				OBJ_284 /* Sources */,
+				OBJ_103 /* Sources */,
 			);
 			buildRules = (
 			);
@@ -684,16 +297,14 @@
 		};
 		"TetraSwift::TetraSwift" /* TetraSwift */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = OBJ_244 /* Build configuration list for PBXNativeTarget "TetraSwift" */;
+			buildConfigurationList = OBJ_65 /* Build configuration list for PBXNativeTarget "TetraSwift" */;
 			buildPhases = (
-				OBJ_247 /* Sources */,
-				OBJ_277 /* Frameworks */,
+				OBJ_68 /* Sources */,
+				OBJ_98 /* Frameworks */,
 			);
 			buildRules = (
-				FA0FBCDC23AAC54F004D0666 /* PBXBuildRule */,
 			);
 			dependencies = (
-				OBJ_279 /* PBXTargetDependency */,
 			);
 			name = TetraSwift;
 			productName = TetraSwift;
@@ -702,16 +313,15 @@
 		};
 		"TetraSwift::tetra" /* tetra */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = OBJ_287 /* Build configuration list for PBXNativeTarget "tetra" */;
+			buildConfigurationList = OBJ_106 /* Build configuration list for PBXNativeTarget "tetra" */;
 			buildPhases = (
-				OBJ_290 /* Sources */,
-				OBJ_293 /* Frameworks */,
+				OBJ_109 /* Sources */,
+				OBJ_112 /* Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				OBJ_296 /* PBXTargetDependency */,
-				OBJ_297 /* PBXTargetDependency */,
+				OBJ_114 /* PBXTargetDependency */,
 			);
 			name = tetra;
 			productName = tetra;
@@ -734,13 +344,11 @@
 			knownRegions = (
 				en,
 			);
-			mainGroup = OBJ_5 /*  */;
-			productRefGroup = OBJ_142 /* Products */;
+			mainGroup = OBJ_5;
+			productRefGroup = OBJ_55 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				"SwiftProtobuf::SwiftProtobuf" /* SwiftProtobuf */,
-				"SwiftProtobuf::SwiftPMPackageDescription" /* SwiftProtobufPackageDescription */,
 				"TetraSwift::TetraSwift" /* TetraSwift */,
 				"TetraSwift::SwiftPMPackageDescription" /* TetraSwiftPackageDescription */,
 				"TetraSwift::tetra" /* tetra */,
@@ -749,302 +357,70 @@
 /* End PBXProject section */
 
 /* Begin PBXSourcesBuildPhase section */
-		OBJ_155 /* Sources */ = {
+		OBJ_103 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 0;
 			files = (
-				OBJ_156 /* AnyMessageStorage.swift in Sources */,
-				OBJ_157 /* AnyUnpackError.swift in Sources */,
-				OBJ_158 /* BinaryDecoder.swift in Sources */,
-				OBJ_159 /* BinaryDecodingError.swift in Sources */,
-				OBJ_160 /* BinaryDecodingOptions.swift in Sources */,
-				OBJ_161 /* BinaryDelimited.swift in Sources */,
-				OBJ_162 /* BinaryEncoder.swift in Sources */,
-				OBJ_163 /* BinaryEncodingError.swift in Sources */,
-				OBJ_164 /* BinaryEncodingSizeVisitor.swift in Sources */,
-				OBJ_165 /* BinaryEncodingVisitor.swift in Sources */,
-				OBJ_166 /* CustomJSONCodable.swift in Sources */,
-				OBJ_167 /* Data+Extensions.swift in Sources */,
-				OBJ_168 /* Decoder.swift in Sources */,
-				OBJ_169 /* DoubleParser.swift in Sources */,
-				OBJ_170 /* Enum.swift in Sources */,
-				OBJ_171 /* ExtensibleMessage.swift in Sources */,
-				OBJ_172 /* ExtensionFieldValueSet.swift in Sources */,
-				OBJ_173 /* ExtensionFields.swift in Sources */,
-				OBJ_174 /* ExtensionMap.swift in Sources */,
-				OBJ_175 /* FieldTag.swift in Sources */,
-				OBJ_176 /* FieldTypes.swift in Sources */,
-				OBJ_177 /* Google_Protobuf_Any+Extensions.swift in Sources */,
-				OBJ_178 /* Google_Protobuf_Any+Registry.swift in Sources */,
-				OBJ_179 /* Google_Protobuf_Duration+Extensions.swift in Sources */,
-				OBJ_180 /* Google_Protobuf_FieldMask+Extensions.swift in Sources */,
-				OBJ_181 /* Google_Protobuf_ListValue+Extensions.swift in Sources */,
-				OBJ_182 /* Google_Protobuf_Struct+Extensions.swift in Sources */,
-				OBJ_183 /* Google_Protobuf_Timestamp+Extensions.swift in Sources */,
-				OBJ_184 /* Google_Protobuf_Value+Extensions.swift in Sources */,
-				OBJ_185 /* Google_Protobuf_Wrappers+Extensions.swift in Sources */,
-				OBJ_186 /* HashVisitor.swift in Sources */,
-				OBJ_187 /* Internal.swift in Sources */,
-				OBJ_188 /* JSONDecoder.swift in Sources */,
-				OBJ_189 /* JSONDecodingError.swift in Sources */,
-				OBJ_190 /* JSONDecodingOptions.swift in Sources */,
-				OBJ_191 /* JSONEncoder.swift in Sources */,
-				OBJ_192 /* JSONEncodingError.swift in Sources */,
-				OBJ_193 /* JSONEncodingOptions.swift in Sources */,
-				OBJ_194 /* JSONEncodingVisitor.swift in Sources */,
-				OBJ_195 /* JSONMapEncodingVisitor.swift in Sources */,
-				OBJ_196 /* JSONScanner.swift in Sources */,
-				OBJ_197 /* MathUtils.swift in Sources */,
-				OBJ_198 /* Message+AnyAdditions.swift in Sources */,
-				OBJ_199 /* Message+BinaryAdditions.swift in Sources */,
-				OBJ_200 /* Message+JSONAdditions.swift in Sources */,
-				OBJ_201 /* Message+JSONArrayAdditions.swift in Sources */,
-				OBJ_202 /* Message+TextFormatAdditions.swift in Sources */,
-				OBJ_203 /* Message.swift in Sources */,
-				OBJ_204 /* MessageExtension.swift in Sources */,
-				OBJ_205 /* NameMap.swift in Sources */,
-				OBJ_206 /* ProtoNameProviding.swift in Sources */,
-				OBJ_207 /* ProtobufAPIVersionCheck.swift in Sources */,
-				OBJ_208 /* ProtobufMap.swift in Sources */,
-				OBJ_209 /* SelectiveVisitor.swift in Sources */,
-				OBJ_210 /* SimpleExtensionMap.swift in Sources */,
-				OBJ_211 /* StringUtils.swift in Sources */,
-				OBJ_212 /* TextFormatDecoder.swift in Sources */,
-				OBJ_213 /* TextFormatDecodingError.swift in Sources */,
-				OBJ_214 /* TextFormatEncoder.swift in Sources */,
-				OBJ_215 /* TextFormatEncodingOptions.swift in Sources */,
-				OBJ_216 /* TextFormatEncodingVisitor.swift in Sources */,
-				OBJ_217 /* TextFormatScanner.swift in Sources */,
-				OBJ_218 /* TimeUtils.swift in Sources */,
-				OBJ_219 /* UnknownStorage.swift in Sources */,
-				OBJ_220 /* Varint.swift in Sources */,
-				OBJ_221 /* Version.swift in Sources */,
-				OBJ_222 /* Visitor.swift in Sources */,
-				OBJ_223 /* WireFormat.swift in Sources */,
-				OBJ_224 /* ZigZag.swift in Sources */,
-				OBJ_225 /* any.pb.swift in Sources */,
-				OBJ_226 /* api.pb.swift in Sources */,
-				OBJ_227 /* descriptor.pb.swift in Sources */,
-				OBJ_228 /* duration.pb.swift in Sources */,
-				OBJ_229 /* empty.pb.swift in Sources */,
-				OBJ_230 /* field_mask.pb.swift in Sources */,
-				OBJ_231 /* source_context.pb.swift in Sources */,
-				OBJ_232 /* struct.pb.swift in Sources */,
-				OBJ_233 /* timestamp.pb.swift in Sources */,
-				OBJ_234 /* type.pb.swift in Sources */,
-				OBJ_235 /* wrappers.pb.swift in Sources */,
+				OBJ_104 /* Package.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		OBJ_241 /* Sources */ = {
+		OBJ_109 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 0;
 			files = (
-				OBJ_242 /* Package.swift in Sources */,
+				OBJ_110 /* Tetra.swift in Sources */,
+				OBJ_111 /* main.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		OBJ_247 /* Sources */ = {
+		OBJ_68 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 0;
 			files = (
-				FA0FBCBA23AAC512004D0666 /* IOPort.swift in Sources */,
-				FA0FBCC923AAC512004D0666 /* Sensor.swift in Sources */,
-				FA0FBCD323AAC512004D0666 /* LimitedAnalogActuator.swift in Sources */,
-				FA0FBCC023AAC512004D0666 /* Tetra.pb.swift in Sources */,
-				FA0FBCCF23AAC512004D0666 /* AnalogSensorWithFiltering.swift in Sources */,
-				FA0FBCBC23AAC512004D0666 /* PicoBoardProtocol.swift in Sources */,
-				FA0FBCCD23AAC512004D0666 /* Analog10bitDecoder.swift in Sources */,
-				FA0FBCC723AAC512004D0666 /* HardwareSerialPort.swift in Sources */,
-				FA0FBCD423AAC512004D0666 /* QuadNumericDisplayActuator.swift in Sources */,
-				FA0FBCBD23AAC512004D0666 /* LEDMatrixHelper.swift in Sources */,
-				FA0FBCC623AAC512004D0666 /* MockSerialPort.swift in Sources */,
-				FA0FBCD223AAC512004D0666 /* LEDMatrixActuator.swift in Sources */,
-				FA0FBCB923AAC512004D0666 /* TetraInterface.swift in Sources */,
-				FA0FBCCE23AAC512004D0666 /* RawValueDecoder.swift in Sources */,
-				FA0FBCD623AAC512004D0666 /* Actuator.swift in Sources */,
-				FA0FBCBB23AAC512004D0666 /* List.swift in Sources */,
-				FA0FBCBF23AAC512004D0666 /* TetraProtocolPort.swift in Sources */,
-				FA0FBCC423AAC512004D0666 /* ArduinoProtocol.swift in Sources */,
-				FA0FBCD523AAC512004D0666 /* BooleanDigitalActuator.swift in Sources */,
-				FA0FBCD123AAC512004D0666 /* Sensors.swift in Sources */,
-				FA0FBCC223AAC512004D0666 /* TetraProtocol.swift in Sources */,
-				FA0FBCBE23AAC512004D0666 /* QuadDisplayHelper.swift in Sources */,
-				FA0FBCD023AAC512004D0666 /* Actuators.swift in Sources */,
-				FA0FBCC523AAC512004D0666 /* SerialPort.swift in Sources */,
-				FA0FBCCB23AAC512004D0666 /* BooleanDigitalSensor.swift in Sources */,
-				FA0FBCC823AAC512004D0666 /* TetraArduinoProtocolImplementation.swift in Sources */,
-				FA0FBCCC23AAC512004D0666 /* Digital10bitDecoder.swift in Sources */,
-				FA0FBCC123AAC512004D0666 /* Tetra.proto in Sources */,
-				FA0FBCC323AAC512004D0666 /* TetraProtocolCommand.swift in Sources */,
-				FA0FBCCA23AAC512004D0666 /* SensorValue.swift in Sources */,
-				2DBA1D0C0F05CC56B0BCBFE8 /* ProTetraProtocol.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		OBJ_284 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 0;
-			files = (
-				OBJ_285 /* Package.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		OBJ_290 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 0;
-			files = (
-				FA0FBCDB23AAC51C004D0666 /* main.swift in Sources */,
-				FA0FBCDA23AAC51C004D0666 /* Tetra.swift in Sources */,
+				OBJ_69 /* Actuators.swift in Sources */,
+				OBJ_70 /* Actuator.swift in Sources */,
+				OBJ_71 /* BooleanDigitalActuator.swift in Sources */,
+				OBJ_72 /* LEDMatrixActuator.swift in Sources */,
+				OBJ_73 /* LimitedAnalogActuator.swift in Sources */,
+				OBJ_74 /* QuadNumericDisplayActuator.swift in Sources */,
+				OBJ_75 /* Sensors.swift in Sources */,
+				OBJ_76 /* AnalogSensorWithFiltering.swift in Sources */,
+				OBJ_77 /* BooleanDigitalSensor.swift in Sources */,
+				OBJ_78 /* Analog10bitDecoder.swift in Sources */,
+				OBJ_79 /* Digital10bitDecoder.swift in Sources */,
+				OBJ_80 /* RawValueDecoder.swift in Sources */,
+				OBJ_81 /* Sensor.swift in Sources */,
+				OBJ_82 /* SensorValue.swift in Sources */,
+				OBJ_83 /* IOPort.swift in Sources */,
+				OBJ_84 /* ArduinoProtocol.swift in Sources */,
+				OBJ_85 /* PicoBoardProtocol.swift in Sources */,
+				OBJ_87 /* LEDMatrixHelper.swift in Sources */,
+				OBJ_88 /* QuadDisplayHelper.swift in Sources */,
+				OBJ_89 /* TetraProtocol.swift in Sources */,
+				OBJ_90 /* TetraProtocolCommand.swift in Sources */,
+				OBJ_91 /* TetraProtocolPort.swift in Sources */,
+				OBJ_92 /* TetraArduinoProtocolImplementation.swift in Sources */,
+				OBJ_93 /* DevicePort.swift in Sources */,
+				OBJ_94 /* MockDevicePort.swift in Sources */,
+				OBJ_95 /* SerialPort.swift in Sources */,
+				OBJ_96 /* TetraInterface.swift in Sources */,
+				OBJ_97 /* List.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		OBJ_279 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = "SwiftProtobuf::SwiftProtobuf" /* SwiftProtobuf */;
-			targetProxy = FA0FBC8A23AAC4F9004D0666 /* PBXContainerItemProxy */;
-		};
-		OBJ_296 /* PBXTargetDependency */ = {
+		OBJ_114 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = "TetraSwift::TetraSwift" /* TetraSwift */;
-			targetProxy = FA0FBC8B23AAC4F9004D0666 /* PBXContainerItemProxy */;
-		};
-		OBJ_297 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = "SwiftProtobuf::SwiftProtobuf" /* SwiftProtobuf */;
-			targetProxy = FA0FBC8C23AAC4F9004D0666 /* PBXContainerItemProxy */;
+			targetProxy = FA7916FF23C74DDA00298363 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		OBJ_153 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ENABLE_TESTABILITY = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
-				);
-				HEADER_SEARCH_PATHS = "$(inherited)";
-				INFOPLIST_FILE = TetraSwift.xcodeproj/SwiftProtobuf_Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) $(TOOLCHAIN_DIR)/usr/lib/swift/macosx";
-				OTHER_CFLAGS = "$(inherited)";
-				OTHER_LDFLAGS = "$(inherited)";
-				OTHER_SWIFT_FLAGS = "$(inherited)";
-				PRODUCT_BUNDLE_IDENTIFIER = SwiftProtobuf;
-				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited)";
-				SWIFT_VERSION = 5.0;
-				TARGET_NAME = SwiftProtobuf;
-			};
-			name = Debug;
-		};
-		OBJ_154 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ENABLE_TESTABILITY = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
-				);
-				HEADER_SEARCH_PATHS = "$(inherited)";
-				INFOPLIST_FILE = TetraSwift.xcodeproj/SwiftProtobuf_Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) $(TOOLCHAIN_DIR)/usr/lib/swift/macosx";
-				OTHER_CFLAGS = "$(inherited)";
-				OTHER_LDFLAGS = "$(inherited)";
-				OTHER_SWIFT_FLAGS = "$(inherited)";
-				PRODUCT_BUNDLE_IDENTIFIER = SwiftProtobuf;
-				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited)";
-				SWIFT_VERSION = 5.0;
-				TARGET_NAME = SwiftProtobuf;
-			};
-			name = Release;
-		};
-		OBJ_239 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				LD = /usr/bin/true;
-				OTHER_SWIFT_FLAGS = "-swift-version 4.2 -I $(TOOLCHAIN_DIR)/usr/lib/swift/pm/4_2 -target x86_64-apple-macosx10.10 -sdk /Applications/Xcode.11.3.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.15.sdk -package-description-version 4.2";
-				SWIFT_VERSION = 4.2;
-			};
-			name = Debug;
-		};
-		OBJ_240 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				LD = /usr/bin/true;
-				OTHER_SWIFT_FLAGS = "-swift-version 4.2 -I $(TOOLCHAIN_DIR)/usr/lib/swift/pm/4_2 -target x86_64-apple-macosx10.10 -sdk /Applications/Xcode.11.3.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.15.sdk -package-description-version 4.2";
-				SWIFT_VERSION = 4.2;
-			};
-			name = Release;
-		};
-		OBJ_245 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ENABLE_TESTABILITY = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
-				);
-				HEADER_SEARCH_PATHS = "$(inherited)";
-				INFOPLIST_FILE = TetraSwift.xcodeproj/TetraSwift_Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) $(TOOLCHAIN_DIR)/usr/lib/swift/macosx";
-				MACH_O_TYPE = staticlib;
-				MACOSX_DEPLOYMENT_TARGET = 10.15;
-				OTHER_CFLAGS = "$(inherited)";
-				OTHER_LDFLAGS = "$(inherited)";
-				OTHER_SWIFT_FLAGS = "$(inherited)";
-				PRODUCT_BUNDLE_IDENTIFIER = TetraSwift;
-				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited)";
-				SWIFT_VERSION = 5.0;
-				TARGET_NAME = TetraSwift;
-				TVOS_DEPLOYMENT_TARGET = 9.0;
-				WATCHOS_DEPLOYMENT_TARGET = 2.0;
-			};
-			name = Debug;
-		};
-		OBJ_246 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ENABLE_TESTABILITY = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
-				);
-				HEADER_SEARCH_PATHS = "$(inherited)";
-				INFOPLIST_FILE = TetraSwift.xcodeproj/TetraSwift_Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) $(TOOLCHAIN_DIR)/usr/lib/swift/macosx";
-				MACH_O_TYPE = staticlib;
-				MACOSX_DEPLOYMENT_TARGET = 10.15;
-				OTHER_CFLAGS = "$(inherited)";
-				OTHER_LDFLAGS = "$(inherited)";
-				OTHER_SWIFT_FLAGS = "$(inherited)";
-				PRODUCT_BUNDLE_IDENTIFIER = TetraSwift;
-				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited)";
-				SWIFT_VERSION = 5.0;
-				TARGET_NAME = TetraSwift;
-				TVOS_DEPLOYMENT_TARGET = 9.0;
-				WATCHOS_DEPLOYMENT_TARGET = 2.0;
-			};
-			name = Release;
-		};
-		OBJ_282 /* Debug */ = {
+		OBJ_101 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				LD = /usr/bin/true;
@@ -1053,7 +429,7 @@
 			};
 			name = Debug;
 		};
-		OBJ_283 /* Release */ = {
+		OBJ_102 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				LD = /usr/bin/true;
@@ -1062,7 +438,7 @@
 			};
 			name = Release;
 		};
-		OBJ_288 /* Debug */ = {
+		OBJ_107 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1087,7 +463,7 @@
 			};
 			name = Debug;
 		};
-		OBJ_289 /* Release */ = {
+		OBJ_108 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1163,14 +539,81 @@
 			};
 			name = Release;
 		};
+		OBJ_66 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
+				);
+				HEADER_SEARCH_PATHS = "$(inherited)";
+				INFOPLIST_FILE = TetraSwift.xcodeproj/TetraSwift_Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) $(TOOLCHAIN_DIR)/usr/lib/swift/macosx";
+				MACH_O_TYPE = staticlib;
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				OTHER_CFLAGS = "$(inherited)";
+				OTHER_LDFLAGS = "$(inherited)";
+				OTHER_SWIFT_FLAGS = "$(inherited)";
+				PRODUCT_BUNDLE_IDENTIFIER = TetraSwift;
+				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited)";
+				SWIFT_VERSION = 5.0;
+				TARGET_NAME = TetraSwift;
+				TVOS_DEPLOYMENT_TARGET = 9.0;
+				WATCHOS_DEPLOYMENT_TARGET = 2.0;
+			};
+			name = Debug;
+		};
+		OBJ_67 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
+				);
+				HEADER_SEARCH_PATHS = "$(inherited)";
+				INFOPLIST_FILE = TetraSwift.xcodeproj/TetraSwift_Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) $(TOOLCHAIN_DIR)/usr/lib/swift/macosx";
+				MACH_O_TYPE = staticlib;
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				OTHER_CFLAGS = "$(inherited)";
+				OTHER_LDFLAGS = "$(inherited)";
+				OTHER_SWIFT_FLAGS = "$(inherited)";
+				PRODUCT_BUNDLE_IDENTIFIER = TetraSwift;
+				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited)";
+				SWIFT_VERSION = 5.0;
+				TARGET_NAME = TetraSwift;
+				TVOS_DEPLOYMENT_TARGET = 9.0;
+				WATCHOS_DEPLOYMENT_TARGET = 2.0;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		OBJ_152 /* Build configuration list for PBXNativeTarget "SwiftProtobuf" */ = {
+		OBJ_100 /* Build configuration list for PBXNativeTarget "TetraSwiftPackageDescription" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				OBJ_153 /* Debug */,
-				OBJ_154 /* Release */,
+				OBJ_101 /* Debug */,
+				OBJ_102 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		OBJ_106 /* Build configuration list for PBXNativeTarget "tetra" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				OBJ_107 /* Debug */,
+				OBJ_108 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -1184,38 +627,11 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		OBJ_238 /* Build configuration list for PBXNativeTarget "SwiftProtobufPackageDescription" */ = {
+		OBJ_65 /* Build configuration list for PBXNativeTarget "TetraSwift" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				OBJ_239 /* Debug */,
-				OBJ_240 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		OBJ_244 /* Build configuration list for PBXNativeTarget "TetraSwift" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				OBJ_245 /* Debug */,
-				OBJ_246 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		OBJ_281 /* Build configuration list for PBXNativeTarget "TetraSwiftPackageDescription" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				OBJ_282 /* Debug */,
-				OBJ_283 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		OBJ_287 /* Build configuration list for PBXNativeTarget "tetra" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				OBJ_288 /* Debug */,
-				OBJ_289 /* Release */,
+				OBJ_66 /* Debug */,
+				OBJ_67 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

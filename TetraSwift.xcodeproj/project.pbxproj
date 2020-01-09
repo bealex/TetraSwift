@@ -38,7 +38,6 @@
 		OBJ_94 /* MockDevicePort.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_45 /* MockDevicePort.swift */; };
 		OBJ_95 /* SerialPort.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_46 /* SerialPort.swift */; };
 		OBJ_96 /* TetraInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_47 /* TetraInterface.swift */; };
-		OBJ_97 /* List.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_49 /* List.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -46,7 +45,7 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = "TetraSwift::TetraSwift";
+			remoteGlobalIDString = TetraSwift::TetraSwift;
 			remoteInfo = TetraSwift;
 		};
 /* End PBXContainerItemProxy section */
@@ -79,7 +78,6 @@
 		OBJ_45 /* MockDevicePort.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockDevicePort.swift; sourceTree = "<group>"; };
 		OBJ_46 /* SerialPort.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SerialPort.swift; sourceTree = "<group>"; };
 		OBJ_47 /* TetraInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TetraInterface.swift; sourceTree = "<group>"; };
-		OBJ_49 /* List.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = List.swift; sourceTree = "<group>"; };
 		OBJ_51 /* Tetra.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tetra.swift; sourceTree = "<group>"; };
 		OBJ_52 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		OBJ_58 /* Arduino */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Arduino; sourceTree = SOURCE_ROOT; };
@@ -203,21 +201,12 @@
 			path = ArduinoMockImplementation;
 			sourceTree = "<group>";
 		};
-		OBJ_48 /* Utils */ = {
-			isa = PBXGroup;
-			children = (
-				OBJ_49 /* List.swift */,
-			);
-			path = Utils;
-			sourceTree = "<group>";
-		};
 		OBJ_5 = {
 			isa = PBXGroup;
 			children = (
 				OBJ_6 /* Package.swift */,
 				OBJ_50 /* tetra */,
 				OBJ_7 /* Sources */,
-				OBJ_53 /* Tests */,
 				OBJ_55 /* Products */,
 				OBJ_58 /* Arduino */,
 				OBJ_59 /* Tetra Specs */,
@@ -238,13 +227,6 @@
 			path = Application;
 			sourceTree = SOURCE_ROOT;
 		};
-		OBJ_53 /* Tests */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Tests;
-			sourceTree = SOURCE_ROOT;
-		};
 		OBJ_55 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -258,7 +240,6 @@
 			isa = PBXGroup;
 			children = (
 				OBJ_9 /* Devices */,
-				OBJ_48 /* Utils */,
 				OBJ_28 /* Protocols */,
 				OBJ_41 /* Serial */,
 				OBJ_27 /* IOPort.swift */,
@@ -405,7 +386,6 @@
 				OBJ_94 /* MockDevicePort.swift in Sources */,
 				OBJ_95 /* SerialPort.swift in Sources */,
 				OBJ_96 /* TetraInterface.swift in Sources */,
-				OBJ_97 /* List.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

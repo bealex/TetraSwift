@@ -9,23 +9,23 @@
 import Foundation
 
 open class TetraInterface {
-    private let serialPort: DevicePort
+    private var debug: Bool = true
+
+    private let devicePort: DevicePort
     private var opened = false
 
-    private var debug: Bool = true // TODO: Expose somehow
-
-    private var arduinoBoard: ArduinoProtocol!
+    private var arduinoProtocol: ArduinoProtocol!
     private var sensorHandlers: [IOPort: (_ value: Any) -> Void] = [:]
 
-    public init(serialPort: DevicePort, useTetraProtocol: Bool) {
-        self.serialPort = serialPort
+    public init(devicePort: DevicePort, useTetraProtocol: Bool) {
+        self.devicePort = devicePort
 
         let sensorDataHandler: (IOPort, Int32, Any) -> Void = { port, parameter, value in
             self.sensorHandlers[port]?(value)
         }
-        arduinoBoard = useTetraProtocol
-            ? TetraProtocol(serialPort: serialPort, errorHandler: log, sensorDataHandler: sensorDataHandler)
-            : PicoBoardProtocol(serialPort: serialPort, errorHandler: log, sensorDataHandler: sensorDataHandler)
+        arduinoProtocol = useTetraProtocol
+            ? TetraProtocol(serialPort: devicePort, errorHandler: log, sensorDataHandler: sensorDataHandler)
+            : PicoBoardProtocol(serialPort: devicePort, errorHandler: log, sensorDataHandler: sensorDataHandler)
     }
 
     public func add<SensorType: Sensor>(sensor: SensorType, on port: IOPort) {
@@ -41,7 +41,7 @@ open class TetraInterface {
     public func add<ActuatorType: Actuator>(actuator: ActuatorType, on port: IOPort) {
         actuator.changedListener = { value in
             do {
-                try self.arduinoBoard.send(parameter: 0, value: value, to: port)
+                try self.arduinoProtocol.send(parameter: 0, value: value, to: port)
             } catch {
                 self.log(message: "Error sending actuator value to port \(port): \(error)")
             }
@@ -55,26 +55,28 @@ open class TetraInterface {
         var started: Bool = false
 
         DispatchQueue.global().async {
-            self.arduinoBoard.start {
+            self.arduinoProtocol.start {
                 self.log(message: "Started")
                 started = true
             }
         }
 
         while !started {
-            if !self.serialPort.isOpened {
-                break
-            }
+            guard devicePort.isOpened else { break }
+
             Thread.sleep(forTimeInterval: 0.1)
         }
+
+        guard devicePort.isOpened else { return stop() }
 
         execute(self)
+
         while true {
-            guard self.serialPort.isOpened else { break }
+            guard self.devicePort.isOpened else { break }
 
             Thread.sleep(forTimeInterval: 0.1)
         }
-        self.stop()
+        stop()
     }
 
     public func sleep(_ time: TimeInterval) {
@@ -84,15 +86,9 @@ open class TetraInterface {
 
     // MARK: - Lifecycle methods
 
-    private func stop() {
-        arduinoBoard.stop()
-        closeSerialPort()
-        log(message: "Stopped")
-    }
-
     private func openSerialPort() {
         do {
-            try serialPort.open()
+            try devicePort.open()
             opened = true
             log(message: "Port opened")
         } catch {
@@ -101,8 +97,14 @@ open class TetraInterface {
     }
 
     private func closeSerialPort() {
-        serialPort.close()
+        devicePort.close()
         opened = false
+    }
+
+    private func stop() {
+        arduinoProtocol.stop()
+        closeSerialPort()
+        log(message: "Stopped")
     }
 
     // MARK: - Utility methods

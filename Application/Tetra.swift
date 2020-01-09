@@ -35,7 +35,7 @@ class Tetra: TetraInterface {
 
     init(pathToSerialPort: String) {
         let serialPort = SerialPort(path: pathToSerialPort, rate: .baud115200)
-        super.init(serialPort: serialPort, useTetraProtocol: true)
+        super.init(devicePort: serialPort, useTetraProtocol: true)
         add(sensor: lightSensor, on: .analog0)
         add(sensor: potentiometer, on: .analog1)
         add(sensor: magneticSensor, on: .analog2)

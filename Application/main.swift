@@ -9,12 +9,13 @@
 import Foundation
 import TetraSwift
 
-guard let serialPort = CommandLine.arguments.dropFirst().first else {
+guard let pathToSerialPort = CommandLine.arguments.dropFirst().first else {
     print("Please specify path to the Tetra serial port as a parameter")
     exit(1)
 }
+let serialPort = SerialPort(path: pathToSerialPort, rate: .baud115200)
 
-Tetra(pathToSerialPort: serialPort).run {
+Tetra(devicePort: serialPort).run {
     guard let tetra = $0 as? Tetra else { return }
 
     tetra.potentiometer.whenValueChanged { value in

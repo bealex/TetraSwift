@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2DBA18C5CB54759602EACD67 /* ArduinoDigitalLED.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA1900A2C4C71A19E5C53D /* ArduinoDigitalLED.swift */; };
+		2DBA1CC911B99D24C8B36D4B /* ArduinoProtocolImplementation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA18913FF5E61BE37805AF /* ArduinoProtocolImplementation.swift */; };
+		2DBA1E8FAA6EE218DBE50556 /* ArduinoAnalogLED.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA1D78B7050B82A2339701 /* ArduinoAnalogLED.swift */; };
 		OBJ_104 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_6 /* Package.swift */; };
 		OBJ_110 /* Tetra.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_51 /* Tetra.swift */; };
 		OBJ_111 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_52 /* main.swift */; };
@@ -51,6 +54,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		2DBA18913FF5E61BE37805AF /* ArduinoProtocolImplementation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArduinoProtocolImplementation.swift; sourceTree = "<group>"; };
+		2DBA1900A2C4C71A19E5C53D /* ArduinoDigitalLED.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArduinoDigitalLED.swift; sourceTree = "<group>"; };
+		2DBA1D78B7050B82A2339701 /* ArduinoAnalogLED.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArduinoAnalogLED.swift; sourceTree = "<group>"; };
 		OBJ_10 /* Actuators.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Actuators.swift; sourceTree = "<group>"; };
 		OBJ_12 /* Actuator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Actuator.swift; sourceTree = "<group>"; };
 		OBJ_13 /* BooleanDigitalActuator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BooleanDigitalActuator.swift; sourceTree = "<group>"; };
@@ -81,9 +87,7 @@
 		OBJ_51 /* Tetra.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tetra.swift; sourceTree = "<group>"; };
 		OBJ_52 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		OBJ_58 /* Arduino */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Arduino; sourceTree = SOURCE_ROOT; };
-		OBJ_59 /* Tetra Specs */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "Tetra Specs"; sourceTree = SOURCE_ROOT; };
 		OBJ_6 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
-		OBJ_60 /* ArduinoSketches */ = {isa = PBXFileReference; lastKnownFileType = folder; path = ArduinoSketches; sourceTree = SOURCE_ROOT; };
 		OBJ_61 /* Application */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Application; sourceTree = SOURCE_ROOT; };
 		OBJ_62 /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		OBJ_63 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
@@ -110,6 +114,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2DBA1D95B2A3971DB6A2E54E /* Devices */ = {
+			isa = PBXGroup;
+			children = (
+				2DBA1900A2C4C71A19E5C53D /* ArduinoDigitalLED.swift */,
+				2DBA1D78B7050B82A2339701 /* ArduinoAnalogLED.swift */,
+			);
+			path = Devices;
+			sourceTree = "<group>";
+		};
 		OBJ_11 /* Actuators */ = {
 			isa = PBXGroup;
 			children = (
@@ -182,7 +195,7 @@
 			path = DeviceHelpers;
 			sourceTree = "<group>";
 		};
-		OBJ_41 /* Serial */ = {
+		OBJ_41 /* IO */ = {
 			isa = PBXGroup;
 			children = (
 				OBJ_42 /* ArduinoMockImplementation */,
@@ -190,13 +203,15 @@
 				OBJ_45 /* MockDevicePort.swift */,
 				OBJ_46 /* SerialPort.swift */,
 			);
-			path = Serial;
+			path = IO;
 			sourceTree = "<group>";
 		};
 		OBJ_42 /* ArduinoMockImplementation */ = {
 			isa = PBXGroup;
 			children = (
 				OBJ_43 /* TetraArduinoProtocolImplementation.swift */,
+				2DBA18913FF5E61BE37805AF /* ArduinoProtocolImplementation.swift */,
+				2DBA1D95B2A3971DB6A2E54E /* Devices */,
 			);
 			path = ArduinoMockImplementation;
 			sourceTree = "<group>";
@@ -209,8 +224,6 @@
 				OBJ_7 /* Sources */,
 				OBJ_55 /* Products */,
 				OBJ_58 /* Arduino */,
-				OBJ_59 /* Tetra Specs */,
-				OBJ_60 /* ArduinoSketches */,
 				OBJ_61 /* Application */,
 				OBJ_62 /* LICENSE */,
 				OBJ_63 /* README.md */,
@@ -241,7 +254,7 @@
 			children = (
 				OBJ_9 /* Devices */,
 				OBJ_28 /* Protocols */,
-				OBJ_41 /* Serial */,
+				OBJ_41 /* IO */,
 				OBJ_27 /* IOPort.swift */,
 				OBJ_47 /* TetraInterface.swift */,
 			);
@@ -386,6 +399,9 @@
 				OBJ_94 /* MockDevicePort.swift in Sources */,
 				OBJ_95 /* SerialPort.swift in Sources */,
 				OBJ_96 /* TetraInterface.swift in Sources */,
+				2DBA1CC911B99D24C8B36D4B /* ArduinoProtocolImplementation.swift in Sources */,
+				2DBA18C5CB54759602EACD67 /* ArduinoDigitalLED.swift in Sources */,
+				2DBA1E8FAA6EE218DBE50556 /* ArduinoAnalogLED.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

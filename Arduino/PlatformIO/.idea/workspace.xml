@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CMakeRunConfigurationManager" shouldGenerate="true" shouldDeleteObsolete="true">
+    <generated>
+      <config projectName="PlatformIO" targetName="Z_DUMMY_TARGET" />
+      <config projectName="PlatformIO" targetName="Production" />
+      <config projectName="PlatformIO" targetName="Debug" />
+    </generated>
+  </component>
+  <component name="CMakeSettings">
+    <configurations>
+      <configuration PROFILE_NAME="wifi_slot" CONFIG_NAME="wifi_slot" />
+    </configurations>
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="bf278d74-4665-4e13-a1be-68b502727b77" name="Default Changelist" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ClangdSettings">
+    <option name="formatViaClangd" value="false" />
+  </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="CMakeBuildProfile:wifi_slot" />
+  <component name="MacroExpansionManager">
+    <option name="directoryName" value="ajhrrvbn" />
+  </component>
+  <component name="ProjectId" id="1aGScmKfC5c6u2u4qxMlm5Xy50E" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="settings.editor.selected.configurable" value="preferences.sourceCode.C/C++" />
+  </component>
+  <component name="RunManager" selected="PlatformIO.PlatformIO Upload">
+    <configuration name="Z_DUMMY_TARGET" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="PlatformIO" TARGET_NAME="Z_DUMMY_TARGET" CONFIG_NAME="wifi_slot" RUN_TARGET_PROJECT_NAME="PlatformIO" RUN_TARGET_NAME="Z_DUMMY_TARGET">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="PlatformIO Debug" type="platformio" factoryName="PlatformIO Debug" PASS_PARENT_ENVS_2="true" PROJECT_NAME="PlatformIO" TARGET_NAME="Debug" CONFIG_NAME="wifi_slot" RUN_TARGET_PROJECT_NAME="PlatformIO" RUN_TARGET_NAME="Debug">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="PlatformIO Upload" type="platformio" factoryName="PlatformIO Upload" PASS_PARENT_ENVS_2="true" PROJECT_NAME="PlatformIO" TARGET_NAME="Production" CONFIG_NAME="wifi_slot" RUN_TARGET_PROJECT_NAME="PlatformIO" RUN_TARGET_NAME="Production">
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="CMake Application.Z_DUMMY_TARGET" />
+      <item itemvalue="PlatformIO.PlatformIO Debug" />
+      <item itemvalue="PlatformIO.PlatformIO Upload" />
+    </list>
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="1406" y="515" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1586361039805">
+      <screen x="39" y="23" width="2969" height="1669" />
+    </state>
+    <state x="1406" y="515" key="#com.intellij.execution.impl.EditConfigurationsDialog/39.23.2969.1669@39.23.2969.1669" timestamp="1586361039805" />
+    <state width="1406" height="360" key="GridCell.Tab.0.bottom" timestamp="1586370465162">
+      <screen x="39" y="23" width="2969" height="1669" />
+    </state>
+    <state width="1406" height="360" key="GridCell.Tab.0.bottom/39.23.2969.1669@39.23.2969.1669" timestamp="1586370465162" />
+    <state width="1406" height="360" key="GridCell.Tab.0.center" timestamp="1586370465161">
+      <screen x="39" y="23" width="2969" height="1669" />
+    </state>
+    <state width="1406" height="360" key="GridCell.Tab.0.center/39.23.2969.1669@39.23.2969.1669" timestamp="1586370465161" />
+    <state width="1406" height="360" key="GridCell.Tab.0.left" timestamp="1586370465161">
+      <screen x="39" y="23" width="2969" height="1669" />
+    </state>
+    <state width="1406" height="360" key="GridCell.Tab.0.left/39.23.2969.1669@39.23.2969.1669" timestamp="1586370465161" />
+    <state width="1406" height="360" key="GridCell.Tab.0.right" timestamp="1586370465162">
+      <screen x="39" y="23" width="2969" height="1669" />
+    </state>
+    <state width="1406" height="360" key="GridCell.Tab.0.right/39.23.2969.1669@39.23.2969.1669" timestamp="1586370465162" />
+    <state x="1747" y="490" key="SettingsEditor" timestamp="1586368605711">
+      <screen x="39" y="23" width="2969" height="1669" />
+    </state>
+    <state x="1747" y="490" key="SettingsEditor/39.23.2969.1669@39.23.2969.1669" timestamp="1586368605711" />
+  </component>
+</project>
